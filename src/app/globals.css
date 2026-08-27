@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #14171a;
+  --color-mist: #f5f4ef;
+  --color-amber: #e2812e;
+  --color-amber-deep: #b5601c;
+  --color-green: #3f5a44;
+  --color-text: #21262b;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-mist: var(--color-mist);
+  --color-amber: var(--color-amber);
+  --color-amber-deep: var(--color-amber-deep);
+  --color-green: var(--color-green);
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-jakarta);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-mist);
+  color: var(--color-text);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-serif {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+/* Signature contour divider — evokes rice-terrace / volcano ridge lines */
+.ridge-divider {
+  position: relative;
+  height: 48px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ridge-divider svg {
+  position: absolute;
+  bottom: -1px;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
