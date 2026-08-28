@@ -1,7 +1,9 @@
 import { Star, Quote } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+import type { Testimonial } from "@prisma/client";
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+  if (testimonials.length === 0) return null;
+
   return (
     <section className="bg-[color:var(--color-ink)] text-white py-20">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -15,9 +17,11 @@ export function Testimonials() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
+          {testimonials.map((t, i) => (
             <div
               key={t.name}
+              data-aos="fade-up"
+              data-aos-delay={i * 100}
               className="rounded-2xl bg-white/5 border border-white/10 p-6 flex flex-col"
             >
               <Quote className="h-6 w-6 text-[color:var(--color-amber)] mb-4" />

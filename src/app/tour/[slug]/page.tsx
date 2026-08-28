@@ -11,12 +11,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getTourBySlug, tours } from "@/data/tours";
+import { prisma } from "@/lib/prisma";
+import { mapTour } from "@/lib/mappers";
 import { formatIDR } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 
-export function generateStaticParams() {
-  return tours.map((tour) => ({ slug: tour.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const tours = await prisma.tourPackage.findMany({
+    where: { published: true },
+    select: { slug: true },
+  });
+  return tours.map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({
@@ -25,7 +32,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const tour = getTourBySlug(slug);
+  const tour = await prisma.tourPackage.findUnique({ where: { slug } });
   if (!tour) return {};
 
   return {
@@ -46,8 +53,9 @@ export default async function TourDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const tour = getTourBySlug(slug);
-  if (!tour) notFound();
+  const raw = await prisma.tourPackage.findUnique({ where: { slug } });
+  if (!raw || !raw.published) notFound();
+  const tour = mapTour(raw);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -83,7 +91,7 @@ export default async function TourDetailPage({
       </nav>
 
       <div className="grid lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2" data-aos="fade-up">
           <Badge variant="default" className="mb-3">
             {tour.categoryLabel}
           </Badge>
@@ -188,7 +196,7 @@ export default async function TourDetailPage({
         </div>
 
         {/* Sticky booking card */}
-        <aside className="lg:col-span-1">
+        <aside className="lg:col-span-1" data-aos="fade-up" data-aos-delay="150">
           <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
             {tour.originalPrice && (
               <p className="text-sm text-black/40 line-through">

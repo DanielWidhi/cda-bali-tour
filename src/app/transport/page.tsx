@@ -3,9 +3,12 @@ import Image from "next/image";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { transportOptions, transportIncludes, transportExcludes } from "@/data/transport";
+import { prisma } from "@/lib/prisma";
+import { transportIncludes, transportExcludes } from "@/data/transport";
 import { formatIDR } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Sewa Mobil + Driver di Bali — Harga Transparan Tanpa DP",
@@ -14,10 +17,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/transport" },
 };
 
-export default function TransportPage() {
+export default async function TransportPage() {
+  const transportOptions = await prisma.transport.findMany({
+    where: { published: true },
+    orderBy: { pricePerDay: "asc" },
+  });
+
   return (
     <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16">
-      <div className="max-w-2xl mb-12">
+      <div className="max-w-2xl mb-12" data-aos="fade-up">
         <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-amber-deep)]">
           Bali Transport Service
         </span>
@@ -32,42 +40,47 @@ export default function TransportPage() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
-        {transportOptions.map((car) => (
-          <Card key={car.slug}>
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={car.image}
-                alt={car.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-            <CardContent className="pt-4 flex-1">
-              <h3 className="font-serif text-lg">{car.name}</h3>
-              <p className="text-sm text-black/50 mt-1">{car.capacity}</p>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-3 border-t border-black/5 pt-4">
-              <div>
-                <p className="font-serif text-xl text-[color:var(--color-amber-deep)]">
-                  {formatIDR(car.pricePerDay)}
-                </p>
-                <p className="text-xs text-black/50">/ {car.hours} jam</p>
+        {transportOptions.map((car, i) => (
+          <div key={car.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
+            <Card>
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={car.image}
+                  alt={car.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover"
+                />
               </div>
-              <Button asChild size="sm" className="w-full">
-                <a
-                  href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
-                    `Halo, saya ingin sewa mobil ${car.name}`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Booking
-                </a>
-              </Button>
-            </CardFooter>
-          </Card>
+              <CardContent className="pt-4 flex-1">
+                <h3 className="font-serif text-lg">{car.name}</h3>
+                <p className="text-sm text-black/50 mt-1">{car.capacity}</p>
+              </CardContent>
+              <CardFooter className="flex-col items-start gap-3 border-t border-black/5 pt-4">
+                <div>
+                  <p className="font-serif text-xl text-[color:var(--color-amber-deep)]">
+                    {formatIDR(car.pricePerDay)}
+                  </p>
+                  <p className="text-xs text-black/50">/ {car.hours} jam</p>
+                </div>
+                <Button asChild size="sm" className="w-full">
+                  <a
+                    href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
+                      `Halo, saya ingin sewa mobil ${car.name}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Booking
+                  </a>
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         ))}
+        {transportOptions.length === 0 && (
+          <p className="col-span-full text-black/50">Belum ada data armada.</p>
+        )}
       </div>
 
       <div className="grid sm:grid-cols-2 gap-8 max-w-3xl">

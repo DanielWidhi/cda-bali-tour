@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { tours } from "@/data/tours";
+import { prisma } from "@/lib/prisma";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -8,9 +10,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
 };
 
-const images = tours.flatMap((t) => t.gallery.map((src) => ({ src, alt: t.title })));
+export default async function GalleryPage() {
+  const tours = await prisma.tourPackage.findMany({
+    where: { published: true },
+    select: { title: true, gallery: true },
+  });
 
-export default function GalleryPage() {
+  const images = tours.flatMap((t) => t.gallery.map((src) => ({ src, alt: t.title })));
+
   return (
     <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16">
       <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-amber-deep)]">
@@ -20,7 +27,12 @@ export default function GalleryPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-10">
         {images.map((img, i) => (
-          <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
+          <div
+            key={i}
+            data-aos="zoom-in"
+            data-aos-delay={(i % 8) * 60}
+            className="relative aspect-square rounded-xl overflow-hidden"
+          >
             <Image
               src={img.src}
               alt={img.alt}
@@ -30,6 +42,9 @@ export default function GalleryPage() {
             />
           </div>
         ))}
+        {images.length === 0 && (
+          <p className="col-span-full text-black/50">Belum ada foto tersedia.</p>
+        )}
       </div>
     </div>
   );

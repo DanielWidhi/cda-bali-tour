@@ -6,9 +6,26 @@ import { Testimonials } from "@/components/sections/testimonials";
 import { FAQSection } from "@/components/sections/faq";
 import { CtaBanner } from "@/components/sections/cta-banner";
 import { Button } from "@/components/ui/button";
-import { tours } from "@/data/tours";
+import { prisma } from "@/lib/prisma";
+import { mapTour } from "@/lib/mappers";
 
-export default function Home() {
+export const revalidate = 60; // ISR: refresh data tiap 60 detik / setelah revalidatePath dari admin
+
+export default async function Home() {
+  const tours = (
+    await prisma.tourPackage.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+    })
+  ).map(mapTour);
+
+  const testimonials = await prisma.testimonial.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
+
   return (
     <>
       <Hero />
@@ -30,13 +47,15 @@ export default function Home() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {tours.map((tour) => (
-            <TourCard key={tour.slug} tour={tour} />
+          {tours.map((tour, i) => (
+            <div key={tour.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
+              <TourCard tour={tour} />
+            </div>
           ))}
         </div>
       </section>
 
-      <Testimonials />
+      <Testimonials testimonials={testimonials} />
       <FAQSection />
       <CtaBanner />
     </>

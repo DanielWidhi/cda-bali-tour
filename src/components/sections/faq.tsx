@@ -30,7 +30,7 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="mx-auto max-w-3xl px-5 lg:px-8 py-20">
+    <section className="mx-auto max-w-3xl px-5 lg:px-8 py-20" data-aos="fade-up">
       <div className="text-center mb-10">
         <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-amber-deep)]">
           FAQ

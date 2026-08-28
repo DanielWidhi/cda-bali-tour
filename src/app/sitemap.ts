@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { tours } from "@/data/tours";
+import { prisma } from "@/lib/prisma";
 import { siteConfig } from "@/config/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     "",
     "/tour",
@@ -17,9 +17,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.8,
   }));
 
+  const tours = await prisma.tourPackage.findMany({
+    where: { published: true },
+    select: { slug: true, updatedAt: true },
+  });
+
   const tourPages = tours.map((tour) => ({
     url: `${siteConfig.url}/tour/${tour.slug}`,
-    lastModified: new Date(),
+    lastModified: tour.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.9,
   }));

@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model TourPackage {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  category         String
+  categoryLabel    String
+  location         String
+  duration         String
+  price            Int
+  originalPrice    Int?
+  rating           Float    @default(5)
+  reviewCount      Int      @default(0)
+  coverImage       String
+  gallery          String[]
+  shortDescription String
+  description      String   @db.Text
+  highlights       String[]
+  itinerary        Json // [{ time: string, activity: string }]
+  includes         String[]
+  excludes         String[]
+  faq              Json // [{ question: string, answer: string }]
+  published        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("tour_packages")
+}
+
+model Transport {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  capacity     String
+  pricePerDay  Int
+  hours        Int
+  image        String
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("transport_options")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  origin    String
+  rating    Int      @default(5)
+  quote     String   @db.Text
+  tourSlug  String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("testimonials")
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  DONE
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  contact   String? // nomor WA / email, opsional
+  message   String        @db.Text
+  source    String // contoh: "contact-form", atau slug tour saat booking
+  status    InquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@map("inquiries")
+}

@@ -29,18 +29,18 @@ export function Hero() {
           <span className="text-sm text-white/70">4.9/5 dari 800+ wisatawan</span>
         </div>
 
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl">
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl" data-aos="fade-up">
           Jelajahi Bali dengan tenang, bersama{" "}
           <span className="italic text-[color:var(--color-amber)]">pengemudi lokal</span>{" "}
           yang mengenal setiap sudutnya.
         </h1>
-        <p className="mt-6 max-w-xl text-white/70 text-base sm:text-lg leading-relaxed">
+        <p className="mt-6 max-w-xl text-white/70 text-base sm:text-lg leading-relaxed" data-aos="fade-up" data-aos-delay="100">
           PT. CDA menghadirkan paket tour privat, sewa mobil dengan driver, dan
           aktivitas wisata di seluruh Bali — harga transparan, tanpa biaya
           tersembunyi, dan bisa dibayar setelah trip selesai.
         </p>
 
-        <div className="mt-9 flex flex-wrap gap-4">
+        <div className="mt-9 flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="200">
           <Button asChild size="lg">
             <Link href="/tour">Lihat Paket Tour</Link>
           </Button>

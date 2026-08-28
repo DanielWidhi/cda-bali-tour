@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { TourCard } from "@/components/sections/tour-card";
-import { getToursByCategory } from "@/data/tours";
+import { prisma } from "@/lib/prisma";
+import { mapTour } from "@/lib/mappers";
 import { cn } from "@/lib/utils";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Paket Tour Bali — Sunrise, Nusa Penida, Day Tour & Adventure",
@@ -20,8 +23,16 @@ const categories = [
   { label: "Adventure", value: "adventure" },
 ];
 
-function TourFilterList({ activeCategory }: { activeCategory: string }) {
-  const filtered = getToursByCategory(activeCategory);
+async function TourFilterList({ activeCategory }: { activeCategory: string }) {
+  const tours = (
+    await prisma.tourPackage.findMany({
+      where: {
+        published: true,
+        ...(activeCategory !== "all" ? { category: activeCategory } : {}),
+      },
+      orderBy: { createdAt: "desc" },
+    })
+  ).map(mapTour);
 
   return (
     <>
@@ -42,12 +53,14 @@ function TourFilterList({ activeCategory }: { activeCategory: string }) {
         ))}
       </div>
 
-      {filtered.length === 0 ? (
+      {tours.length === 0 ? (
         <p className="text-black/60">Belum ada paket untuk kategori ini.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((tour) => (
-            <TourCard key={tour.slug} tour={tour} />
+          {tours.map((tour, i) => (
+            <div key={tour.slug} data-aos="fade-up" data-aos-delay={(i % 3) * 100}>
+              <TourCard tour={tour} />
+            </div>
           ))}
         </div>
       )}

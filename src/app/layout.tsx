@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppFloat } from "@/components/layout/whatsapp-float";
+import { AOSInit } from "@/components/layout/aos-init";
 import { siteConfig } from "@/config/site";
 
 const fraunces = Fraunces({
@@ -96,6 +97,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <WhatsAppFloat />
+        <AOSInit />
       </body>
     </html>
   );

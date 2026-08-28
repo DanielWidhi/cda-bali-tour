@@ -1,83 +1,181 @@
-# CDA Bali Tour — Website (PT. CDA)
+# CDA Bali Tour — Website + CMS (PT. CDA)
 
-Website tour & transport Bali dibangun dengan Next.js 16 (App Router), TypeScript, Tailwind CSS v4, dan komponen ala shadcn/ui.
+Website tour & transport Bali dibangun dengan **Next.js 16** (App Router), **TypeScript**, **Tailwind CSS v4**, komponen ala **shadcn/ui**, database **Supabase (Postgres)** lewat **Prisma ORM**, animasi **AOS**, dan notifikasi **SweetAlert2**. Sudah termasuk **CMS admin** sederhana untuk mengelola tour, transport, testimoni, dan pesan masuk tanpa perlu sentuh kode.
 
-## Menjalankan project di komputer lokal
+---
 
-Pastikan sudah terinstall **Node.js versi 20 ke atas**.
+## 1. Setup Supabase (database)
+
+1. Buka [supabase.com](https://supabase.com) → **New Project**.
+2. Isi nama project (misal `cda-bali-tour`), buat password database yang kuat (**catat password ini**), pilih region terdekat (misal Singapore).
+3. Tunggu project selesai dibuat (±2 menit).
+4. Masuk ke **Project Settings → Database**.
+5. Di bagian **Connection String**, kamu akan melihat dua mode:
+   - **Transaction pooler** (port `6543`) → dipakai untuk `DATABASE_URL`
+   - **Session/Direct connection** (port `5432`) → dipakai untuk `DIRECT_URL` (khusus migrasi)
+6. Salin kedua connection string tersebut, ganti `[YOUR-PASSWORD]` dengan password yang kamu buat di langkah 2.
+
+## 2. Install & konfigurasi project
 
 ```bash
-# 1. Masuk ke folder project
 cd cda-bali-tour
-
-# 2. Install semua dependency
 npm install
+```
 
-# 3. Jalankan development server
+Salin `.env.example` menjadi `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Buka `.env`, isi:
+
+```env
+DATABASE_URL="...connection string pooler (6543) dari Supabase..."
+DIRECT_URL="...connection string direct (5432) dari Supabase..."
+ADMIN_EMAIL="admin@cdabalitour.com"
+ADMIN_PASSWORD_HASH=""
+AUTH_SECRET="isi-string-acak-panjang"
+```
+
+**Generate `AUTH_SECRET`** (jalankan salah satu):
+```bash
+openssl rand -base64 32
+```
+
+**Generate `ADMIN_PASSWORD_HASH`** — jangan isi password polos di `.env`:
+```bash
+npm run hash-password -- "passwordAdminKamu"
+```
+Salin hasil `ADMIN_PASSWORD_HASH="..."` yang muncul ke file `.env`.
+
+## 3. Migrasi & isi database
+
+```bash
+# generate Prisma Client sesuai schema
+npm run db:generate
+
+# buat tabel-tabel di Supabase sesuai schema.prisma
+npm run db:migrate
+
+# isi database dengan data contoh (tour, transport, testimoni)
+npm run db:seed
+```
+
+`npm run db:migrate` akan minta nama migrasi — isi bebas, misal `init`.
+
+## 4. Jalankan project
+
+```bash
 npm run dev
 ```
 
-Buka `http://localhost:3000` di browser.
+- Website: `http://localhost:3000`
+- Admin CMS: `http://localhost:3000/admin/login` (pakai `ADMIN_EMAIL` & password yang kamu hash di langkah 2)
+
+---
 
 ## Struktur project
 
 ```
+prisma/
+  schema.prisma        → definisi tabel database
+  seed.ts               → data awal (opsional, sekali jalan)
+scripts/
+  hash-password.ts      → generate hash password admin
 src/
-  app/                  → routing (setiap folder = 1 halaman/URL)
-    page.tsx            → Homepage
-    tour/page.tsx        → Listing tour
-    tour/[slug]/page.tsx → Detail tour (dynamic route)
-    transport/page.tsx   → Sewa mobil
-    tentang-kami/         → About us
-    kontak/               → Contact
-    gallery/              → Gallery
-    sitemap.ts            → Sitemap otomatis (SEO)
-    robots.ts             → robots.txt otomatis (SEO)
+  middleware.ts          → proteksi semua route /admin/*
+  lib/
+    prisma.ts            → Prisma client singleton
+    auth.ts               → JWT session admin
+    mappers.ts            → konversi tipe Prisma → tipe komponen UI
+    form-parsers.ts       → parsing textarea multi-baris jadi array/objek
+    inquiries.ts           → helper simpan pesan masuk
+  app/
+    page.tsx               → Homepage (fetch dari Prisma)
+    tour/, transport/, gallery/, tentang-kami/, kontak/  → halaman publik
+    admin/
+      login/                → halaman login
+      (protected)/           → semua halaman admin yang butuh login
+        page.tsx               → dashboard
+        tours/                 → CRUD tour package
+        transport/             → CRUD armada
+        testimonials/          → kelola testimoni
+        inquiries/             → lihat & kelola pesan masuk
   components/
-    ui/                  → komponen dasar shadcn-style (Button, Card, dll)
-    layout/              → Navbar, Footer, WhatsApp float, Ridge divider
-    sections/             → Section-section besar (Hero, Testimonials, dll)
-  data/                  → "Database sementara" — array TypeScript berisi tour, transport, testimoni
-  config/site.ts         → Semua info bisnis terpusat (nama, kontak, nav menu)
-  types/                 → TypeScript interfaces
+    ui/                    → komponen dasar (Button, Card, dst — gaya shadcn/ui)
+    layout/                → Navbar, Footer, WhatsApp float
+    sections/               → Hero, Testimonials, TourCard, dll
+    admin/                  → Form & tombol khusus admin
+    aos-init.tsx            → inisialisasi animasi AOS
 ```
 
-## Cara menambah / mengubah tour package
+## Mengelola konten (CMS)
 
-Tidak perlu database dulu — cukup edit **`src/data/tours.ts`**, tambahkan object baru ke array `tours`. Halaman detail (`/tour/[slug]`) akan otomatis ter-generate berdasarkan `slug` yang kamu isi, termasuk masuk ke sitemap.
+Login ke `/admin`, lalu:
+
+- **Tour Packages** → tambah/edit/hapus paket tour. Field array (highlights, includes, excludes, gallery) diisi **satu item per baris**. Itinerary pakai format `05.30 - Aktivitas`, FAQ pakai format `Pertanyaan :: Jawaban`.
+- **Transport** → kelola armada sewa mobil.
+- **Testimonials** → tambah/hapus testimoni yang tampil di homepage.
+- **Inquiries** → lihat semua pesan dari form kontak, ubah status (Baru/Diproses/Selesai).
+
+Tidak perlu edit kode untuk hal-hal di atas — semua perubahan langsung tampil di website (ada revalidasi otomatis).
+
+## AOS (Animate On Scroll)
+
+Sudah aktif secara global lewat `src/components/aos-init.tsx`. Untuk menambah animasi ke elemen baru, tinggal tambahkan atribut:
+
+```tsx
+<div data-aos="fade-up" data-aos-delay="100">...</div>
+```
+
+Efek lain yang tersedia: `fade-up`, `fade-down`, `zoom-in`, `slide-up`, dll — lihat [dokumentasi AOS](https://michalsnik.github.io/aos/).
+
+## SweetAlert2
+
+Dipakai untuk:
+- Notifikasi sukses/gagal saat submit form kontak (`src/components/sections/contact-form.tsx`)
+- Konfirmasi sebelum menghapus data di admin (`src/components/admin/delete-button.tsx`)
+
+Untuk pakai di tempat lain:
+```tsx
+import Swal from "sweetalert2";
+await Swal.fire({ title: "Judul", text: "Pesan", icon: "success" });
+```
 
 ## Mengganti gambar
 
-Semua gambar saat ini pakai placeholder dari Picsum (`picsum.photos`) supaya bisa langsung dilihat hasilnya. Untuk memakai foto asli:
+Saat ini pakai placeholder Picsum. Untuk ganti ke foto asli, edit field `coverImage`/`gallery`/`image` langsung dari halaman admin, isi dengan URL foto asli (bisa upload dulu ke layanan seperti Cloudinary/Supabase Storage, lalu tempel URL-nya).
 
-1. Taruh file foto di folder `public/images/...`
-2. Ganti path di `src/data/tours.ts`, `src/data/transport.ts`, atau komponen terkait dari URL Picsum menjadi path lokal, misalnya `/images/tours/batur-sunrise.jpg`
-3. Kalau nanti pakai CDN gambar (Cloudinary/S3/dst), tambahkan domainnya di `next.config.ts` bagian `images.remotePatterns`
-
-## Mengganti info bisnis (nama, WhatsApp, alamat, dst)
-
-Edit satu file saja: **`src/config/site.ts`**
+Kalau pakai domain gambar baru, tambahkan di `next.config.ts`:
+```ts
+images: {
+  remotePatterns: [
+    { protocol: "https", hostname: "domain-gambar-baru.com" },
+  ],
+},
+```
 
 ## SEO yang sudah disiapkan
 
-- Metadata unik per halaman (`generateMetadata`)
-- `sitemap.xml` & `robots.txt` otomatis (`/sitemap.ts`, `/robots.ts`)
-- JSON-LD structured data: `TravelAgency` (global) dan `TouristTrip` (per halaman tour) — supaya berpotensi muncul rich snippet di Google
-- Static Generation (SSG) untuk semua halaman detail tour → loading cepat
-- Gambar dioptimasi otomatis lewat `next/image`
+- Metadata unik per halaman + per tour (`generateMetadata`)
+- `sitemap.xml` & `robots.txt` otomatis, sitemap ambil data langsung dari database
+- JSON-LD structured data: `TravelAgency` (global) & `TouristTrip` (per tour)
+- ISR (`revalidate = 60`) — halaman selalu segar tanpa perlu rebuild manual
+- Static Generation untuk semua slug tour yang sudah ada saat build
 
-**Yang perlu kamu lakukan setelah live:**
+**Setelah live**, jangan lupa:
 1. Ganti `url` di `src/config/site.ts` ke domain asli
-2. Daftarkan domain ke [Google Search Console](https://search.google.com/search-console) dan submit `https://domainkamu.com/sitemap.xml`
-3. Buat akun Google Business Profile dengan nama & alamat yang sama persis dengan yang ada di website (penting untuk local SEO)
+2. Submit `https://domainkamu.com/sitemap.xml` ke [Google Search Console](https://search.google.com/search-console)
+3. Buat Google Business Profile dengan nama & alamat yang identik dengan website
 
-## Build untuk production
+## Build & deploy
 
 ```bash
 npm run build
 npm start
 ```
 
-## Deploy
+Deploy termudah lewat [Vercel](https://vercel.com): hubungkan repo GitHub, isi environment variables yang sama seperti `.env` di dashboard Vercel, lalu deploy. Vercel akan otomatis menjalankan `prisma generate` lewat script `postinstall`.
 
-Cara termudah: deploy ke [Vercel](https://vercel.com) (pembuat Next.js) — cukup hubungkan repo GitHub, otomatis ter-deploy setiap kali push.
+**Penting**: jalankan `npm run db:migrate` dari komputer lokal (bukan dari Vercel) setiap kali ada perubahan `schema.prisma`, karena migrasi butuh koneksi `DIRECT_URL` yang biasanya tidak dijalankan otomatis saat deploy.

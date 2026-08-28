@@ -27,9 +27,11 @@ export function ValueProps() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8 -mt-14 relative z-10">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map(({ icon: Icon, title, description }) => (
+        {items.map(({ icon: Icon, title, description }, i) => (
           <div
             key={title}
+            data-aos="fade-up"
+            data-aos-delay={i * 100}
             className="rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(20,23,26,0.08)] border border-black/5"
           >
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--color-amber)]/15 text-[color:var(--color-amber-deep)] mb-4">

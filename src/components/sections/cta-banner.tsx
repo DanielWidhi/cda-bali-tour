@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export function CtaBanner() {
   return (
     <section className="mx-auto max-w-7xl px-5 lg:px-8 pb-20">
-      <div className="rounded-3xl bg-[color:var(--color-green)] text-white px-8 py-14 sm:px-14 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div className="rounded-3xl bg-[color:var(--color-green)] text-white px-8 py-14 sm:px-14 flex flex-col lg:flex-row items-center justify-between gap-8" data-aos="fade-up">
         <div className="max-w-xl text-center lg:text-left">
           <h2 className="font-serif text-3xl sm:text-4xl leading-tight">
             Sudah tahu mau ke mana? Mari susun rencana perjalanan Anda.
