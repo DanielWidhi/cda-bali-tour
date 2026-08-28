@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { siteConfig } from "@/config/site";
-import { submitContactAction } from "@/app/kontak/actions";
+import { submitContactAction } from "@/app/(public)/kontak/actions";
 
 export function ContactForm() {
   const [name, setName] = useState("");

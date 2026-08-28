@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { tours } from "../src/data/tours";
 import { transportOptions } from "../src/data/transport";

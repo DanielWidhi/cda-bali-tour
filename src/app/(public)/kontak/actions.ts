@@ -1,14 +1,15 @@
 "use server";
 
-import { saveInquiry } from "@/lib/inquiries";
+import { saveInquiryAction } from "@/app/(public)/actions/inquiry-actions";
 
 export async function submitContactAction(data: {
   name: string;
   message: string;
 }) {
-  await saveInquiry({
+  return await saveInquiryAction({
     name: data.name,
     message: data.message,
     source: "contact-form",
   });
 }
+
