@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { siteConfig } from "@/config/site";
 import { loginAction, type LoginState } from "../actions-auth";
 
 const initialState: LoginState = {};
@@ -46,12 +47,12 @@ export default function AdminLoginPage() {
           <p className="text-xs text-black/35">
             © {new Date().getFullYear()} CDA Bali Tour. Published by{" "}
             <a
-              href=""
+              href={siteConfig.author.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-black/55 hover:text-black font-medium underline underline-offset-2 transition-colors"
             >
-              Daniel Widhi
+              {siteConfig.author.name}
             </a>
           </p>
         </div>

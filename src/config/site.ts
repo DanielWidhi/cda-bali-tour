@@ -15,6 +15,10 @@ export const siteConfig = {
     facebook: "https://facebook.com/cdabalitour",
     tripadvisor: "https://tripadvisor.com",
   },
+  author: {
+    name: "Daniel Widhi",
+    url: "https://github.com/DanielWidhi",
+  },
   nav: [
     {
       label: "Tour Packages",

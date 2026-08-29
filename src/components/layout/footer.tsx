@@ -118,7 +118,17 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {siteConfig.companyLegalName} — {siteConfig.brandName}. All rights reserved.
           </p>
-          <p>Legal Tour Operator in Bali, Indonesia</p>
+          <p>
+            Published by{" "}
+            <a
+              href={siteConfig.author.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/70 hover:text-white underline underline-offset-2 transition-colors font-medium"
+            >
+              {siteConfig.author.name}
+            </a>
+          </p>
         </div>
       </div>
     </footer>
