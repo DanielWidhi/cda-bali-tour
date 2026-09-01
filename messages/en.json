@@ -1,0 +1,171 @@
+{
+  "nav": {
+    "tourPackages": "Tour Packages",
+    "allPackages": "All Packages",
+    "sunriseTour": "Sunrise Tour",
+    "dayTour": "Day Tour",
+    "nusaPenida": "Nusa Penida",
+    "adventure": "Adventure",
+    "transport": "Transport",
+    "gallery": "Gallery",
+    "aboutUs": "About Us",
+    "testimonials": "Testimonials",
+    "contact": "Contact",
+    "bookNow": "Book Now",
+    "bookViaWhatsapp": "Book via WhatsApp"
+  },
+  "footer": {
+    "contact": "Contact",
+    "services": "Services",
+    "carRental": "Car Rental + Driver",
+    "rightsReserved": "All rights reserved.",
+    "publishedBy": "Published by"
+  },
+  "hero": {
+    "trustedByTravelers": "Trusted by travelers from all over the world",
+    "ratingText": "{rating}/5 from {count}+ travelers",
+    "title": "Explore Bali at ease, with <highlight>local drivers</highlight> who know every corner.",
+    "description": "PT. CDA offers private tour packages, car rental with driver, and activities across Bali — transparent pricing, no hidden fees, and pay after your trip is done.",
+    "viewPackages": "View Tour Packages",
+    "rentCar": "Rent a Car + Driver",
+    "legalBadge": "Legal tour operator — 9+ years operating in Bali"
+  },
+  "valueProps": {
+    "privateVehicleTitle": "Private Vehicle",
+    "privateVehicleDesc": "Every trip is exclusive to your group — never shared with other travelers.",
+    "sunriseTitle": "Sunrise Specialist",
+    "sunriseDesc": "We know the best time and spot for Mount Batur sunrise and other locations.",
+    "driverTitle": "Experienced Local Drivers",
+    "driverDesc": "Born and raised in Bali — they know every route, from main roads to shortcuts.",
+    "priceTitle": "Transparent Pricing",
+    "priceDesc": "Book with no deposit, pay after the trip, no hidden fees."
+  },
+  "home": {
+    "popularLabel": "Popular Packages",
+    "popularTitle": "Our most booked tours",
+    "viewAll": "View All Packages"
+  },
+  "testimonialsSection": {
+    "label": "Testimonials",
+    "title": "Stories from travelers who explored with us"
+  },
+  "faq": {
+    "label": "FAQ",
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "Do I need to pay a deposit to book?",
+        "answer": "No. You can book without any credit card or deposit. Payment is made after your trip is completed."
+      },
+      {
+        "question": "Are there any hidden fees?",
+        "answer": "None. The listed price already includes the driver, fuel, and taxes. Entrance tickets and meals are usually separate and explained on each package page."
+      },
+      {
+        "question": "How far in advance should I book?",
+        "answer": "During peak season (July–August, December–January) we recommend booking at least 3-5 days ahead. Outside peak season, booking a day before is usually fine."
+      },
+      {
+        "question": "Can I create my own itinerary?",
+        "answer": "Yes. Besides our set packages, we also offer car rental with driver so you can build your own flexible route."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Already know where you want to go? Let's plan your trip.",
+    "description": "Chat directly with our team on WhatsApp — fast response, no middleman.",
+    "chatWhatsapp": "Chat on WhatsApp",
+    "viewPackages": "View Packages"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "tourListing": {
+    "label": "Tour Packages",
+    "title": "Bali tour packages for every travel style",
+    "description": "All packages already include an English-speaking driver, air-conditioned car, and a customizable itinerary.",
+    "allPackages": "All Packages",
+    "noPackages": "No packages available in this category yet."
+  },
+  "tourDetail": {
+    "home": "Home",
+    "breadcrumb": "Tour",
+    "reviews": "reviews",
+    "description": "Description",
+    "highlights": "Trip Highlights",
+    "itinerary": "Itinerary",
+    "includes": "Included",
+    "excludes": "Not Included",
+    "faq": "Frequently Asked Questions",
+    "perPerson": "per person",
+    "bookWhatsapp": "Book via WhatsApp",
+    "askFirst": "Ask First",
+    "noDeposit": "No deposit required",
+    "payAfter": "Pay after the trip",
+    "freeCancel": "Free cancellation within 24 hours"
+  },
+  "transportPage": {
+    "label": "Bali Transport Service",
+    "title": "Build your own itinerary, explore Bali your way",
+    "description": "Rent an air-conditioned car with an English-speaking driver. Perfect for families, groups, or anyone who wants a flexible route without being tied to a fixed package.",
+    "perHour": "hours",
+    "book": "Book",
+    "includes": "Included",
+    "excludes": "Not Included",
+    "noData": "No vehicles available yet."
+  },
+  "galleryPage": {
+    "label": "Gallery",
+    "title": "Moments from every journey",
+    "hint": "Click a photo to view it in full size.",
+    "empty": "No photos available yet."
+  },
+  "aboutPage": {
+    "label": "About Us",
+    "title": "Years of showing travelers a side of Bali they wouldn't find on their own",
+    "statYears": "9+ years of experience",
+    "statTravelers": "5,000+ travelers served",
+    "statLegal": "Legally licensed operator",
+    "paragraph1": "{company} is an officially licensed tour operator based in Gianyar, Bali. We started as a small car-rental-with-driver service, and have since grown into a provider of tour packages, transport, and activities trusted by thousands of travelers from around the world.",
+    "paragraph2": "We believe the best travel experience comes from transparency: clear pricing from the start, drivers who truly know Bali's culture and terrain, and payment that can be made after your trip is complete — not before you're sure.",
+    "paragraph3": "When needed, we also work with licensed tour guides who have deep knowledge of Bali's history and art, so every story you hear along the way is accurate and meaningful."
+  },
+  "contactPage": {
+    "label": "Contact",
+    "title": "How can we help?",
+    "description": "Fill out the form below and your message will be sent straight to our team, or reach us directly through the contacts below.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your full name",
+    "phoneLabel": "Phone / WhatsApp Number",
+    "phoneHint": "Required so our team can follow up on your question.",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us about your trip plans — dates, number of people, destinations you're interested in...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "successTitle": "Message sent!",
+    "successText": "Our team will contact you shortly via the phone number provided. You'll also be redirected to WhatsApp to chat directly.",
+    "successButton": "Continue to WhatsApp",
+    "errorTitle": "Failed to send",
+    "errorText": "Something went wrong. Please try again or contact us directly via WhatsApp."
+  },
+  "testimoniPage": {
+    "label": "Testimonials",
+    "title": "How was your experience with us?",
+    "description": "Thank you for exploring Bali with CDA. Your story will really help other travelers make their decision.",
+    "nameLabel": "Name",
+    "originLabel": "Origin (Country / City)",
+    "originPlaceholder": "Australia / Jakarta",
+    "phoneLabel": "Phone / WhatsApp Number",
+    "tourLabel": "Related Tour (optional)",
+    "tourPlaceholder": "— Select a tour (optional) —",
+    "ratingLabel": "Rating",
+    "quoteLabel": "Tell us about your experience",
+    "quotePlaceholder": "How was your tour/car rental experience with us?",
+    "send": "Submit Testimonial",
+    "sending": "Sending...",
+    "successTitle": "Thank you! 🙏",
+    "successText": "We've received your testimonial and it will appear on the website once reviewed by our team.",
+    "errorTitle": "Failed to send",
+    "errorDefault": "Something went wrong, please try again."
+  }
+}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
-import { AOSInit } from "@/components/layout/aos-init";
 import { siteConfig } from "@/config/site";
 
 const fraunces = Fraunces({
@@ -61,9 +61,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -82,15 +84,12 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="id">
-      <body
-        className={`${fraunces.variable} ${jakarta.variable} antialiased`}
-      >
+    <html lang={locale}>
+      <body className={`${fraunces.variable} ${jakarta.variable} antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <AOSInit />
         {children}
       </body>
     </html>

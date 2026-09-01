@@ -15,9 +15,10 @@ export const siteConfig = {
     facebook: "https://facebook.com/cdabalitour",
     tripadvisor: "https://tripadvisor.com",
   },
-  author: {
+  // Kredit developer di footer — ganti "url" ke link yang kamu mau (portofolio, LinkedIn, dll)
+  developer: {
     name: "Daniel Widhi",
-    url: "https://github.com/DanielWidhi",
+    url: "https://daniel.gdpartstudio.my.id",
   },
   nav: [
     {
@@ -34,6 +35,7 @@ export const siteConfig = {
     { label: "Transport", href: "/transport" },
     { label: "Gallery", href: "/gallery" },
     { label: "Tentang Kami", href: "/tentang-kami" },
+    { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
   ],
 };

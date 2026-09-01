@@ -51,7 +51,7 @@ npm run db:seed         # isi data contoh (tour, transport, testimoni)
 Login CMS **tidak** pakai tabel database biasa, tapi sistem **Supabase Auth** bawaan. Buat akun admin pertama lewat script:
 
 ```bash
-npm run create-admin -- "admin@cdabalitour.com" "passwordKuat123"
+npm run create-admin -- "admin@cdabalitour.com" "passwordKuat123" "Nama Kamu"
 ```
 
 Setelah ini, akun tersebut akan muncul di Supabase Dashboard pada **Authentication → Users** (bukan di Table Editor — Supabase Auth memang menyimpan user di schema `auth` yang terpisah dan hanya tampil di tab Authentication, bukan sebagai tabel biasa).
@@ -73,44 +73,87 @@ npm run dev
 
 ```
 prisma/
-  schema.prisma           → definisi tabel database (tour, transport, testimoni, inquiry)
+  schema.prisma           → definisi tabel database (tour, transport, testimoni, inquiry, gallery, profile/role)
   seed.ts                  → data awal (opsional, sekali jalan)
 scripts/
-  create-admin.ts           → bikin user admin di Supabase Auth
+  create-admin.ts           → bikin akun Superadmin pertama di Supabase Auth
+messages/
+  id.json, en.json           → semua teks UI publik (Bahasa Indonesia & English)
 src/
-  middleware.ts              → proteksi semua route /admin/* via Supabase session
+  middleware.ts              → gabungan: proteksi /admin (Supabase session) + routing locale (next-intl)
+  i18n/
+    routing.ts                 → konfigurasi locale (id default, en opsional, prefix "as-needed")
+    navigation.ts               → Link/useRouter/redirect locale-aware (pengganti next/link)
+    request.ts                   → loader file messages/{locale}.json
   lib/
     prisma.ts                 → Prisma client singleton
+    current-profile.ts         → ambil profil (nama, role) admin yang login
     supabase/
       client.ts                 → Supabase client untuk browser
       server.ts                 → Supabase client untuk Server Component/Action
       middleware.ts              → refresh session di middleware
+      admin.ts                   → Supabase client service-role (storage upload, kelola user admin)
     mappers.ts                  → konversi tipe Prisma → tipe komponen UI
     form-parsers.ts              → parsing textarea multi-baris jadi array/objek
-    inquiries.ts                  → helper simpan pesan masuk
   app/
-    page.tsx                    → Homepage (fetch dari Prisma)
-    tour/, transport/, gallery/, tentang-kami/, kontak/  → halaman publik
-    admin/
+    layout.tsx                 → root layout MINIMAL (html/body/font saja — tidak ada Navbar/Footer!)
+    [locale]/                   → SEMUA halaman publik (otomatis dapat prefix /en untuk bahasa Inggris)
+      layout.tsx                  → Navbar, Footer, WhatsApp float, AOS, NextIntlClientProvider
+      page.tsx                     → Homepage (fetch dari Prisma)
+      tour/, transport/, gallery/, tentang-kami/, testimoni/, kontak/
+    actions/
+      inquiry-actions.ts          → Server Action simpan pesan (dipakai form kontak)
+    api/admin/upload/route.ts   → endpoint upload gambar ke Supabase Storage (khusus admin login)
+    admin/                       → TIDAK di-i18n-kan, tetap Bahasa Indonesia, di luar folder [locale]
       login/                       → halaman login
       actions-auth.ts               → Server Action login/logout (Supabase Auth)
       (protected)/                   → semua halaman admin yang butuh login
         page.tsx                       → dashboard
-        tours/                          → CRUD tour package
-        transport/                      → CRUD armada
-        testimonials/                    → kelola testimoni
+        tours/                          → CRUD tour package (dengan upload gambar)
+        transport/                      → CRUD armada (dengan upload gambar)
+        gallery/                        → upload & kelola foto gallery publik
+        testimonials/                    → approve/reject testimoni dari user + tambah manual
         inquiries/                        → lihat & kelola pesan masuk
+        users/                            → CRUD akun admin (khusus role Superadmin)
   components/
     ui/                        → komponen dasar (Button, Card, dst — gaya shadcn/ui)
-    layout/                     → Navbar, Footer, WhatsApp float
-    sections/                    → Hero, Testimonials, TourCard, dll
-    admin/                        → Form & tombol khusus admin
-    aos-init.tsx                  → inisialisasi animasi AOS
+    layout/                     → Navbar, Footer, WhatsApp float, LanguageSwitcher, AOSInit
+    sections/                    → Hero, Testimonials, TourCard, form kontak/testimoni, dll
+    admin/                        → AdminShell (header+sidebar+footer), form, upload gambar, dll
 ```
+
+## Multi-bahasa (i18n)
+
+Website publik mendukung **Bahasa Indonesia** (default, tanpa prefix URL, misal `/tour`) dan **English** (prefix `/en`, misal `/en/tour`). Pengunjung bisa ganti bahasa lewat tombol **ID/EN** di navbar.
+
+**Yang sudah diterjemahkan otomatis:** seluruh teks UI tetap (navbar, footer, judul halaman, label form, tombol, FAQ).
+
+**Yang TIDAK ikut diterjemahkan** (dan ini keputusan desain yang disengaja): konten yang diinput admin lewat CMS — judul/deskripsi tour, nama armada, isi testimoni, dll — karena itu data dinamis yang admin isi sendiri dalam satu bahasa. Kalau ke depannya kamu butuh tour package dengan judul/deskripsi berbeda per bahasa, itu perlu penambahan struktur database (field terpisah per locale) — kabari saya kalau butuh ini.
+
+**Menambah/ubah teks terjemahan:** edit `messages/id.json` dan `messages/en.json`, pastikan strukturnya sama persis di kedua file.
+
+**Halaman admin sengaja tidak di-i18n-kan** — tetap Bahasa Indonesia saja, karena biasanya dioperasikan oleh tim lokal.
 
 ## Kenapa login admin tidak ada di Table Editor Supabase?
 
 Supabase Auth menyimpan data user di schema database khusus bernama `auth` (tabel `auth.users`), terpisah dari schema `public` yang biasa kamu lihat di **Table Editor**. Ini standar keamanan Supabase — supaya data kredensial tidak tercampur dengan data aplikasi biasa. Untuk melihat/mengelola user admin, buka tab **Authentication → Users** di dashboard, bukan Table Editor.
+
+## Role Admin: Superadmin vs Admin
+
+- **Superadmin**: akses penuh, termasuk halaman **Users** — bisa tambah, edit, dan hapus akun admin lain.
+- **Admin**: bisa mengelola semua konten (tour, transport, gallery, testimonial, inquiry), tapi halaman **Users** read-only — tidak bisa tambah/edit/hapus akun siapa pun (termasuk dirinya sendiri).
+
+Akun pertama yang dibuat lewat `npm run create-admin` otomatis jadi **Superadmin**. Admin berikutnya ditambahkan lewat halaman `/admin/users` (bukan script lagi).
+
+## Upload Gambar
+
+Tour Package, Transport, dan Gallery admin punya **upload area drag-and-drop** (bukan input URL manual) — mendukung PNG, JPG, WEBP, GIF, maksimal 5MB per file. File tersimpan di **Supabase Storage**.
+
+**Wajib disiapkan sebelum upload berfungsi**: buat bucket storage bernama `cda-images` di Supabase Dashboard → **Storage** → New bucket, centang **Public bucket** (supaya gambar bisa diakses publik oleh pengunjung website).
+
+## Testimoni dari User
+
+Halaman `/testimoni` memungkinkan wisatawan submit testimoni sendiri (Nama, Asal, No. Telp, Rating, Tour Terkait, Isi Testimoni). Testimoni ini **tidak langsung tayang** — berstatus "menunggu approval" sampai admin menyetujuinya lewat halaman `/admin/testimonials`. Testimoni yang admin input manual dari CMS langsung tayang tanpa approval.
 
 ## Mengelola konten (CMS)
 

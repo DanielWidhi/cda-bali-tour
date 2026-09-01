@@ -55,13 +55,40 @@ model Testimonial {
   id        String   @id @default(cuid())
   name      String
   origin    String
+  phone     String?
   rating    Int      @default(5)
   quote     String   @db.Text
   tourSlug  String?
-  published Boolean  @default(true)
+  published Boolean  @default(false) // testimoni publik butuh approval admin dulu
   createdAt DateTime @default(now())
 
   @@map("testimonials")
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+
+  @@map("gallery_images")
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
+}
+
+// Data profil admin, terhubung 1:1 dengan user di Supabase Auth (auth.users.id)
+model Profile {
+  id        String    @id // sama dengan Supabase auth user id
+  email     String    @unique
+  name      String
+  role      AdminRole @default(ADMIN)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("profiles")
 }
 
 enum InquiryStatus {

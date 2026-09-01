@@ -1,6 +1,10 @@
-import Link from "next/link";
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -20,28 +24,30 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-const footerColumns = [
-  {
-    title: "Tour Packages",
-    links: [
-      { label: "Sunrise Tour", href: "/tour?category=sunrise" },
-      { label: "Day Tour", href: "/tour?category=day-tour" },
-      { label: "Nusa Penida", href: "/tour?category=nusa-penida" },
-      { label: "Adventure", href: "/tour?category=adventure" },
-    ],
-  },
-  {
-    title: "Layanan",
-    links: [
-      { label: "Sewa Mobil + Driver", href: "/transport" },
-      { label: "Gallery", href: "/gallery" },
-      { label: "Tentang Kami", href: "/tentang-kami" },
-      { label: "Kontak", href: "/kontak" },
-    ],
-  },
-];
-
 export function Footer() {
+  const t = useTranslations();
+
+  const footerColumns = [
+    {
+      title: t("nav.tourPackages"),
+      links: [
+        { label: t("nav.sunriseTour"), href: "/tour?category=sunrise" },
+        { label: t("nav.dayTour"), href: "/tour?category=day-tour" },
+        { label: t("nav.nusaPenida"), href: "/tour?category=nusa-penida" },
+        { label: t("nav.adventure"), href: "/tour?category=adventure" },
+      ],
+    },
+    {
+      title: t("footer.services"),
+      links: [
+        { label: t("footer.carRental"), href: "/transport" },
+        { label: t("nav.gallery"), href: "/gallery" },
+        { label: t("nav.aboutUs"), href: "/tentang-kami" },
+        { label: t("nav.contact"), href: "/kontak" },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-[color:var(--color-ink)] text-white/80">
       <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -95,8 +101,8 @@ export function Footer() {
         ))}
 
         <div>
-          <h4 className="font-serif text-base text-white mb-4">Kontak</h4>
-          <ul className="flex flex-col gap-3 text-sm text-white/60">
+          <h4 className="font-serif text-base text-white mb-4">{t("footer.contact")}</h4>
+          <ul className="flex flex-col gap-3 text-sm text-white/60 mb-5">
             <li className="flex gap-2.5">
               <MapPin className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{siteConfig.address}</span>
@@ -110,23 +116,25 @@ export function Footer() {
               <span>{siteConfig.email}</span>
             </li>
           </ul>
+          <LanguageSwitcher className="[&_svg]:text-white/40 [&_button]:text-white/60" />
         </div>
       </div>
 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-5 lg:px-8 py-5 flex flex-col sm:flex-row gap-2 items-center justify-between text-xs text-white/40">
           <p>
-            © {new Date().getFullYear()} {siteConfig.companyLegalName} — {siteConfig.brandName}. All rights reserved.
+            © {new Date().getFullYear()} {siteConfig.companyLegalName} — {siteConfig.brandName}.{" "}
+            {t("footer.rightsReserved")}
           </p>
           <p>
-            Published by{" "}
+            {t("footer.publishedBy")}{" "}
             <a
-              href={siteConfig.author.url}
+              href={siteConfig.developer.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/70 hover:text-white underline underline-offset-2 transition-colors font-medium"
+              className="text-white/60 hover:text-white transition-colors underline underline-offset-2"
             >
-              {siteConfig.author.name}
+              {siteConfig.developer.name}
             </a>
           </p>
         </div>

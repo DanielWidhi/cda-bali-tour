@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { SingleImageUpload, MultiImageUpload } from "@/components/admin/image-upload";
 import {
   arrayToLines,
   itineraryToText,
@@ -133,19 +134,21 @@ export function TourForm({
       </div>
 
       <div>
-        <Label htmlFor="coverImage">URL Gambar Cover</Label>
-        <Input
-          id="coverImage"
+        <Label htmlFor="coverImage">Gambar Cover</Label>
+        <SingleImageUpload
           name="coverImage"
-          required
-          placeholder="https://... atau /images/tours/nama.jpg"
+          folder="tours"
           defaultValue={defaultValues?.coverImage}
         />
       </div>
 
       <div>
-        <Label htmlFor="gallery">Galeri (1 URL per baris)</Label>
-        <Textarea id="gallery" name="gallery" defaultValue={arrayToLines(defaultValues?.gallery ?? [])} />
+        <Label htmlFor="gallery">Galeri</Label>
+        <MultiImageUpload
+          name="gallery"
+          folder="tours"
+          defaultValue={defaultValues?.gallery ?? []}
+        />
       </div>
 
       <div>

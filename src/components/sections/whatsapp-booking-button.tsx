@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import Swal from "sweetalert2";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { saveInquiryAction } from "@/app/(public)/actions/inquiry-actions";
+import { saveInquiryAction } from "@/app/actions/inquiry-actions";
 import { cn } from "@/lib/utils";
 
 export function WhatsAppBookingButton({

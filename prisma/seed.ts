@@ -61,8 +61,18 @@ async function main() {
         rating: t.rating,
         quote: t.quote,
         tourSlug: t.tourSlug,
+        published: true, // testimoni contoh langsung tampil di homepage
       },
     });
+  }
+
+  console.log("Seeding gallery images...");
+  for (const tour of tours) {
+    for (const url of tour.gallery) {
+      await prisma.galleryImage.create({
+        data: { url, caption: tour.title },
+      });
+    }
   }
 
   console.log("Seed selesai ✅");

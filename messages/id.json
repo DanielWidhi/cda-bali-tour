@@ -1,0 +1,171 @@
+{
+  "nav": {
+    "tourPackages": "Tour Packages",
+    "allPackages": "Semua Paket",
+    "sunriseTour": "Sunrise Tour",
+    "dayTour": "Day Tour",
+    "nusaPenida": "Nusa Penida",
+    "adventure": "Adventure",
+    "transport": "Transport",
+    "gallery": "Gallery",
+    "aboutUs": "Tentang Kami",
+    "testimonials": "Testimoni",
+    "contact": "Kontak",
+    "bookNow": "Book Now",
+    "bookViaWhatsapp": "Book via WhatsApp"
+  },
+  "footer": {
+    "contact": "Kontak",
+    "services": "Layanan",
+    "carRental": "Sewa Mobil + Driver",
+    "rightsReserved": "All rights reserved.",
+    "publishedBy": "Published by"
+  },
+  "hero": {
+    "trustedByTravelers": "Dipercaya wisatawan dari berbagai negara",
+    "ratingText": "{rating}/5 dari {count}+ wisatawan",
+    "title": "Jelajahi Bali dengan tenang, bersama <highlight>pengemudi lokal</highlight> yang mengenal setiap sudutnya.",
+    "description": "PT. CDA menghadirkan paket tour privat, sewa mobil dengan driver, dan aktivitas wisata di seluruh Bali — harga transparan, tanpa biaya tersembunyi, dan bisa dibayar setelah trip selesai.",
+    "viewPackages": "Lihat Paket Tour",
+    "rentCar": "Sewa Mobil + Driver",
+    "legalBadge": "Legal tour operator — beroperasi lebih dari 9 tahun di Bali"
+  },
+  "valueProps": {
+    "privateVehicleTitle": "Kendaraan Pribadi",
+    "privateVehicleDesc": "Setiap trip eksklusif untuk grup Anda — tidak digabung wisatawan lain.",
+    "sunriseTitle": "Spesialis Sunrise",
+    "sunriseDesc": "Kami tahu jam & titik terbaik untuk sunrise Gunung Batur dan lokasi lainnya.",
+    "driverTitle": "Driver Lokal Berpengalaman",
+    "driverDesc": "Lahir & besar di Bali — hafal setiap jalur, dari jalan utama hingga pintasan.",
+    "priceTitle": "Harga Transparan",
+    "priceDesc": "Booking tanpa DP, bayar setelah trip, tanpa biaya tersembunyi."
+  },
+  "home": {
+    "popularLabel": "Paket Favorit",
+    "popularTitle": "Tour yang paling banyak dipesan",
+    "viewAll": "Lihat Semua Paket"
+  },
+  "testimonialsSection": {
+    "label": "Testimoni",
+    "title": "Cerita dari wisatawan yang sudah menjelajah bersama kami"
+  },
+  "faq": {
+    "label": "FAQ",
+    "title": "Pertanyaan yang sering diajukan",
+    "items": [
+      {
+        "question": "Apakah harus booking dengan DP terlebih dahulu?",
+        "answer": "Tidak. Anda bisa booking tanpa kartu kredit atau deposit apa pun. Pembayaran dilakukan setelah trip selesai."
+      },
+      {
+        "question": "Apakah ada biaya tersembunyi?",
+        "answer": "Tidak ada. Harga yang tertera sudah termasuk driver, BBM, dan pajak. Biaya tiket masuk objek wisata dan makan biasanya terpisah dan dijelaskan di setiap halaman paket."
+      },
+      {
+        "question": "Berapa lama sebelumnya harus booking?",
+        "answer": "Untuk musim ramai (Juli–Agustus, Desember–Januari) disarankan booking minimal 3-5 hari sebelumnya. Di luar musim ramai, H-1 biasanya masih bisa."
+      },
+      {
+        "question": "Apakah bisa membuat itinerary sendiri?",
+        "answer": "Bisa. Selain paket yang sudah ada, kami juga menyediakan layanan sewa mobil dengan driver agar Anda bisa membuat rute sendiri secara fleksibel."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Sudah tahu mau ke mana? Mari susun rencana perjalanan Anda.",
+    "description": "Chat langsung dengan tim kami di WhatsApp — respon cepat, tanpa perantara.",
+    "chatWhatsapp": "Chat WhatsApp",
+    "viewPackages": "Lihat Paket"
+  },
+  "language": {
+    "label": "Bahasa"
+  },
+  "tourListing": {
+    "label": "Tour Packages",
+    "title": "Paket tour Bali untuk setiap gaya perjalanan",
+    "description": "Semua paket sudah termasuk driver berbahasa Inggris, mobil ber-AC, dan bisa disesuaikan itinerarinya.",
+    "allPackages": "Semua Paket",
+    "noPackages": "Belum ada paket untuk kategori ini."
+  },
+  "tourDetail": {
+    "home": "Beranda",
+    "breadcrumb": "Tour",
+    "reviews": "ulasan",
+    "description": "Deskripsi",
+    "highlights": "Highlight Perjalanan",
+    "itinerary": "Itinerary",
+    "includes": "Termasuk",
+    "excludes": "Tidak Termasuk",
+    "faq": "Pertanyaan Umum",
+    "perPerson": "per orang",
+    "bookWhatsapp": "Booking via WhatsApp",
+    "askFirst": "Tanya Dulu",
+    "noDeposit": "Booking tanpa DP",
+    "payAfter": "Bayar setelah trip",
+    "freeCancel": "Pembatalan gratis 24 jam"
+  },
+  "transportPage": {
+    "label": "Bali Transport Service",
+    "title": "Susun itinerary sendiri, jelajahi Bali sesuka Anda",
+    "description": "Sewa mobil ber-AC dengan driver berbahasa Inggris. Cocok untuk keluarga, rombongan, atau siapa pun yang ingin rute bebas tanpa terikat paket tur.",
+    "perHour": "jam",
+    "book": "Booking",
+    "includes": "Termasuk",
+    "excludes": "Tidak Termasuk",
+    "noData": "Belum ada data armada."
+  },
+  "galleryPage": {
+    "label": "Gallery",
+    "title": "Momen dari setiap perjalanan",
+    "hint": "Klik foto untuk melihat ukuran penuh.",
+    "empty": "Belum ada foto tersedia."
+  },
+  "aboutPage": {
+    "label": "Tentang Kami",
+    "title": "Bertahun-tahun mengantar wisatawan melihat Bali dari sisi yang jarang ditemukan sendiri",
+    "statYears": "9+ tahun pengalaman",
+    "statTravelers": "5.000+ wisatawan terlayani",
+    "statLegal": "Legal & berizin resmi",
+    "paragraph1": "{company} adalah operator tour resmi yang berbasis di Gianyar, Bali. Kami memulai dari layanan sewa mobil dengan driver kecil-kecilan, dan kini telah berkembang menjadi penyedia paket tour, transport, dan aktivitas wisata yang dipercaya ribuan wisatawan dari berbagai negara.",
+    "paragraph2": "Kami percaya bahwa pengalaman berlibur terbaik datang dari keterbukaan: harga yang jelas sejak awal, driver yang benar-benar mengenal budaya dan medan Bali, serta layanan yang bisa dibayar setelah perjalanan selesai — bukan sebelum Anda yakin.",
+    "paragraph3": "Ketika diperlukan, kami juga bekerja sama dengan pemandu wisata berlisensi yang memiliki pengetahuan mendalam tentang sejarah dan seni Bali, sehingga setiap cerita yang Anda dengar sepanjang perjalanan benar-benar akurat dan berarti."
+  },
+  "contactPage": {
+    "label": "Kontak",
+    "title": "Ada yang bisa kami bantu?",
+    "description": "Isi form di bawah dan pesan Anda akan langsung terkirim ke tim kami, atau hubungi kontak berikut secara langsung.",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Nama lengkap Anda",
+    "phoneLabel": "No. Telp / WhatsApp",
+    "phoneHint": "Wajib diisi agar tim kami bisa follow up pertanyaan Anda.",
+    "messageLabel": "Pesan",
+    "messagePlaceholder": "Ceritakan rencana perjalanan Anda — tanggal, jumlah orang, tujuan yang diminati...",
+    "send": "Kirim Pesan",
+    "sending": "Mengirim...",
+    "successTitle": "Pesan terkirim!",
+    "successText": "Tim kami akan segera menghubungi Anda lewat No. Telp yang diisi. Anda juga akan diarahkan ke WhatsApp untuk chat langsung.",
+    "successButton": "Lanjut ke WhatsApp",
+    "errorTitle": "Gagal mengirim",
+    "errorText": "Terjadi kesalahan. Silakan coba lagi atau hubungi kami langsung via WhatsApp."
+  },
+  "testimoniPage": {
+    "label": "Testimoni",
+    "title": "Bagaimana pengalaman kamu bersama kami?",
+    "description": "Terima kasih sudah menjelajah Bali bersama CDA. Ceritanya bakal sangat membantu wisatawan lain menentukan pilihan mereka.",
+    "nameLabel": "Nama",
+    "originLabel": "Asal (Negara / Kota)",
+    "originPlaceholder": "Australia / Jakarta",
+    "phoneLabel": "No. Telp / WhatsApp",
+    "tourLabel": "Tour Terkait (opsional)",
+    "tourPlaceholder": "— Pilih tour (opsional) —",
+    "ratingLabel": "Rating",
+    "quoteLabel": "Ceritakan pengalaman kamu",
+    "quotePlaceholder": "Bagaimana pengalaman tour/sewa mobil kamu bersama kami?",
+    "send": "Kirim Testimoni",
+    "sending": "Mengirim...",
+    "successTitle": "Terima kasih! 🙏",
+    "successText": "Testimoni kamu sudah kami terima dan akan tampil di website setelah ditinjau tim kami.",
+    "errorTitle": "Gagal mengirim",
+    "errorDefault": "Terjadi kesalahan, silakan coba lagi."
+  }
+}

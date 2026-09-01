@@ -24,8 +24,8 @@ export default async function AdminTransportPage() {
         </Button>
       </div>
 
-      <div className="rounded-2xl bg-white border border-black/5 overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="rounded-2xl bg-white border border-black/5 overflow-x-auto">
+        <table className="w-full min-w-[520px] text-sm">
           <thead>
             <tr className="border-b border-black/5 text-left text-black/50">
               <th className="px-5 py-3 font-medium">Nama</th>

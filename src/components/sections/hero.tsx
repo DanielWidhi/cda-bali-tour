@@ -1,10 +1,19 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Star, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RidgeDivider } from "@/components/layout/ridge-divider";
 
-export function Hero() {
+export function Hero({
+  averageRating,
+  reviewCount,
+}: {
+  averageRating: number;
+  reviewCount: number;
+}) {
+  const t = useTranslations("hero");
+
   return (
     <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden">
       <div className="absolute inset-0">
@@ -26,32 +35,43 @@ export function Hero() {
               <Star key={i} className="h-4 w-4 fill-current" />
             ))}
           </div>
-          <span className="text-sm text-white/70">4.9/5 dari 800+ wisatawan</span>
+          <span className="text-sm text-white/70">
+            {reviewCount > 0
+              ? t("ratingText", { rating: averageRating.toFixed(1), count: reviewCount })
+              : t("trustedByTravelers")}
+          </span>
         </div>
 
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl" data-aos="fade-up">
-          Jelajahi Bali dengan tenang, bersama{" "}
-          <span className="italic text-[color:var(--color-amber)]">pengemudi lokal</span>{" "}
-          yang mengenal setiap sudutnya.
+        <h1
+          className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl"
+          data-aos="fade-up"
+        >
+          {t.rich("title", {
+            highlight: (chunks) => (
+              <span className="italic text-[color:var(--color-amber)]">{chunks}</span>
+            ),
+          })}
         </h1>
-        <p className="mt-6 max-w-xl text-white/70 text-base sm:text-lg leading-relaxed" data-aos="fade-up" data-aos-delay="100">
-          PT. CDA menghadirkan paket tour privat, sewa mobil dengan driver, dan
-          aktivitas wisata di seluruh Bali — harga transparan, tanpa biaya
-          tersembunyi, dan bisa dibayar setelah trip selesai.
+        <p
+          className="mt-6 max-w-xl text-white/70 text-base sm:text-lg leading-relaxed"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          {t("description")}
         </p>
 
         <div className="mt-9 flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="200">
           <Button asChild size="lg">
-            <Link href="/tour">Lihat Paket Tour</Link>
+            <Link href="/tour">{t("viewPackages")}</Link>
           </Button>
           <Button asChild size="lg" variant="inverse">
-            <Link href="/transport">Sewa Mobil + Driver</Link>
+            <Link href="/transport">{t("rentCar")}</Link>
           </Button>
         </div>
 
         <div className="mt-12 flex items-center gap-2 text-sm text-white/60">
           <ShieldCheck className="h-4 w-4 text-[color:var(--color-amber)]" />
-          Legal tour operator — beroperasi lebih dari 9 tahun di Bali
+          {t("legalBadge")}
         </div>
       </div>
 

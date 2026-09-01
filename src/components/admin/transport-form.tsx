@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { SingleImageUpload } from "@/components/admin/image-upload";
 import type { Transport } from "@prisma/client";
 
 export function TransportForm({
@@ -51,8 +52,8 @@ export function TransportForm({
         </div>
       </div>
       <div>
-        <Label htmlFor="image">URL Gambar</Label>
-        <Input id="image" name="image" required defaultValue={defaultValues?.image} />
+        <Label htmlFor="image">Gambar Kendaraan</Label>
+        <SingleImageUpload name="image" folder="transport" defaultValue={defaultValues?.image} />
       </div>
 
       <label className="flex items-center gap-2 text-sm">

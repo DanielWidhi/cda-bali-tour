@@ -1,21 +1,39 @@
 import Link from "next/link";
-import { MapPinned, Car, MessageSquareText, Star } from "lucide-react";
+import { MapPinned, Car, MessageSquareText, Star, Images, Users } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [tourCount, transportCount, testimonialCount, newInquiryCount] =
-    await Promise.all([
-      prisma.tourPackage.count(),
-      prisma.transport.count(),
-      prisma.testimonial.count(),
-      prisma.inquiry.count({ where: { status: "NEW" } }),
-    ]);
+  const [
+    tourCount,
+    transportCount,
+    testimonialCount,
+    pendingTestimonialCount,
+    galleryCount,
+    userCount,
+    newInquiryCount,
+  ] = await Promise.all([
+    prisma.tourPackage.count(),
+    prisma.transport.count(),
+    prisma.testimonial.count({ where: { published: true } }),
+    prisma.testimonial.count({ where: { published: false } }),
+    prisma.galleryImage.count(),
+    prisma.profile.count(),
+    prisma.inquiry.count({ where: { status: { in: ["NEW", "IN_PROGRESS"] } } }),
+  ]);
 
   const cards = [
     { label: "Tour Packages", value: tourCount, href: "/admin/tours", icon: MapPinned },
     { label: "Transport Options", value: transportCount, href: "/admin/transport", icon: Car },
-    { label: "Testimonials", value: testimonialCount, href: "/admin/testimonials", icon: Star },
-    { label: "Inquiry Baru", value: newInquiryCount, href: "/admin/inquiries", icon: MessageSquareText },
+    { label: "Gallery Photos", value: galleryCount, href: "/admin/gallery", icon: Images },
+    {
+      label: "Testimonials",
+      value: testimonialCount,
+      href: "/admin/testimonials",
+      icon: Star,
+      badge: pendingTestimonialCount > 0 ? `${pendingTestimonialCount} menunggu` : undefined,
+    },
+    { label: "Inquiry Belum Selesai", value: newInquiryCount, href: "/admin/inquiries", icon: MessageSquareText },
+    { label: "Admin Users", value: userCount, href: "/admin/users", icon: Users },
   ];
 
   const recentInquiries = await prisma.inquiry.findMany({
@@ -28,14 +46,21 @@ export default async function AdminDashboardPage() {
       <h1 className="font-serif text-2xl mb-1">Dashboard</h1>
       <p className="text-black/50 mb-8">Ringkasan konten website CDA Bali Tour.</p>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
-        {cards.map(({ label, value, href, icon: Icon }) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+        {cards.map(({ label, value, href, icon: Icon, badge }) => (
           <Link
             key={label}
             href={href}
             className="rounded-2xl bg-white border border-black/5 p-5 hover:shadow-md transition-shadow"
           >
-            <Icon className="h-5 w-5 text-[color:var(--color-amber-deep)] mb-3" />
+            <div className="flex items-start justify-between">
+              <Icon className="h-5 w-5 text-[color:var(--color-amber-deep)] mb-3" />
+              {badge && (
+                <span className="rounded-full bg-amber-100 text-amber-700 text-[11px] font-semibold px-2 py-0.5">
+                  {badge}
+                </span>
+              )}
+            </div>
             <p className="text-2xl font-serif">{value}</p>
             <p className="text-sm text-black/50">{label}</p>
           </Link>
