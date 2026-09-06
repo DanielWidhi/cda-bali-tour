@@ -18,10 +18,9 @@ export function Hero({
     <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="https://picsum.photos/seed/hero-batur-hero/1600/1000"
+          src="/images/hero/nusapenida.webp"
           alt="Sunrise di atas Gunung Batur dengan kabut kaldera, Kintamani, Bali"
           fill
-          priority
           className="object-cover opacity-45"
           sizes="100vw"
         />
