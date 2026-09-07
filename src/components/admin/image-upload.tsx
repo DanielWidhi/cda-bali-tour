@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
-import Swal from "sweetalert2";
+import { fireAlert } from "@/lib/swal";
 import { cn } from "@/lib/utils";
 
 async function uploadFile(file: File, folder: string): Promise<string> {
@@ -38,7 +38,7 @@ export function SingleImageUpload({
       const uploadedUrl = await uploadFile(file, folder);
       setUrl(uploadedUrl);
     } catch (err) {
-      await Swal.fire({
+      await fireAlert({
         title: "Upload gagal",
         text: err instanceof Error ? err.message : "Terjadi kesalahan.",
         icon: "error",
@@ -123,7 +123,7 @@ export function MultiImageUpload({
       );
       setUrls((prev) => [...prev, ...uploaded]);
     } catch (err) {
-      await Swal.fire({
+      await fireAlert({
         title: "Upload gagal",
         text: err instanceof Error ? err.message : "Terjadi kesalahan.",
         icon: "error",

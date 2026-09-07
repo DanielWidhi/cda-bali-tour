@@ -120,6 +120,7 @@ export default async function TourDetailPage({
               alt={tour.title}
               fill
               priority
+              quality={75}
               sizes="(max-width: 1024px) 100vw, 66vw"
               className="object-cover"
             />

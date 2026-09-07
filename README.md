@@ -178,18 +178,36 @@ Efek lain: `fade-up`, `fade-down`, `zoom-in`, `slide-up`, dll — lihat [dokumen
 
 ## SweetAlert2
 
-Dipakai untuk notifikasi sukses/gagal di form kontak dan konfirmasi hapus data di admin. Untuk pakai di tempat lain:
+Dipakai untuk notifikasi sukses/gagal di form kontak dan konfirmasi hapus data di admin. Library ini **di-lazy-load** (baru didownload browser saat benar-benar dipanggil, bukan ikut bundle awal halaman) lewat helper terpusat — jangan import `sweetalert2` langsung, selalu lewat helper ini:
 
 ```tsx
-import Swal from "sweetalert2";
-await Swal.fire({ title: "Judul", text: "Pesan", icon: "success" });
+import { fireAlert } from "@/lib/swal";
+await fireAlert({ title: "Judul", text: "Pesan", icon: "success" });
 ```
+
+## Optimasi Performa
+
+Beberapa hal berikut sudah diterapkan supaya website ringan di production (Vercel):
+
+- **Region function di-set ke Singapura** (`vercel.json` → `regions: ["sin1"]`), disamakan dengan region database Supabase (`ap-southeast-1`) supaya tidak ada round-trip lintas benua tiap kali halaman butuh data. **Kalau ganti provider database atau pindah region Supabase, sesuaikan juga region di `vercel.json`.**
+- **SweetAlert2 di-lazy-load** (lihat section di atas) — tidak ikut JS bundle awal.
+- **Skeleton loading** dipakai di halaman Tour Listing (`tour-list-skeleton.tsx`) untuk mencegah *layout shift* — kalau nambah `<Suspense>` baru di halaman lain, pastikan fallback-nya punya dimensi mirip konten asli, jangan cuma teks pendek.
+- **`quality` pada `next/image`** disesuaikan per konteks (65 untuk thumbnail kecil, 70-75 untuk gambar besar) — kalau ubah/tambah gambar baru, ikuti pola yang sama, jangan biarkan default 75 untuk semua ukuran.
+- Cek berkala lewat [PageSpeed Insights](https://pagespeed.web.dev/) setelah ada perubahan besar, terutama halaman yang fetch banyak data dari database.
 
 ## Mengganti gambar
 
-Saat ini pakai placeholder Picsum. Edit field `coverImage`/`gallery`/`image` langsung dari halaman admin dan isi dengan URL foto asli (upload dulu ke layanan seperti Cloudinary/Supabase Storage, lalu tempel URL-nya).
+**Gambar Hero (homepage) & About Us** — ini sengaja disimpan **lokal** (bukan URL eksternal) supaya kamu bisa kontrol kualitas & ukuran filenya sendiri:
 
-Domain gambar baru perlu ditambahkan di `next.config.ts`:
+1. Kompres foto asli ke format **WebP**, usahakan di bawah 300KB per file (pakai [squoosh.app](https://squoosh.app) atau tool kompresi lainnya)
+2. Simpan dengan nama **persis sama**, timpa file placeholder yang ada:
+   - `public/images/hero-batur.webp` (rasio disarankan ~16:10, akan tampil sebagai background hero)
+   - `public/images/about-team.webp` (rasio disarankan ~16:8, halaman Tentang Kami)
+3. Selesai — tidak perlu ubah kode apa pun, path sudah otomatis terbaca
+
+**Gambar lain** (tour package, transport, gallery) tetap lewat **upload di halaman admin** (tersimpan ke Supabase Storage) — ini sengaja dibuat dinamis karena kontennya sering berubah dan dikelola langsung dari CMS, bukan dari file project.
+
+Kalau suatu saat butuh domain gambar eksternal baru, tambahkan di `next.config.ts`:
 ```ts
 images: {
   remotePatterns: [

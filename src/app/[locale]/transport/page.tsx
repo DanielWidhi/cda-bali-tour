@@ -47,6 +47,7 @@ export default async function TransportPage() {
                   alt={car.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 25vw"
+                  quality={70}
                   className="object-cover"
                 />
               </div>

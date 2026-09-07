@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
-import Swal from "sweetalert2";
+import { fireAlert } from "@/lib/swal";
 
 export function DeleteButton({
   action,
@@ -14,7 +14,7 @@ export function DeleteButton({
   const [pending, startTransition] = useTransition();
 
   async function handleClick() {
-    const result = await Swal.fire({
+    const result = await fireAlert({
       title: "Hapus data ini?",
       text: `"${itemLabel}" akan dihapus permanen dan tidak bisa dikembalikan.`,
       icon: "warning",
@@ -29,7 +29,7 @@ export function DeleteButton({
 
     startTransition(async () => {
       await action();
-      await Swal.fire({
+      await fireAlert({
         title: "Terhapus",
         text: "Data berhasil dihapus.",
         icon: "success",

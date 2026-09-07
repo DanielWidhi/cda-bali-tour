@@ -16,6 +16,7 @@ export function TourCard({ tour }: { tour: TourPackage }) {
           alt={tour.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          quality={70}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <Badge variant="solid" className="absolute top-3 left-3">

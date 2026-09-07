@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { TourCard } from "@/components/sections/tour-card";
+import { TourListSkeleton } from "@/components/sections/tour-list-skeleton";
 import { prisma } from "@/lib/prisma";
 import { mapTour } from "@/lib/mappers";
 import { cn } from "@/lib/utils";
@@ -91,7 +92,7 @@ export default async function TourListPage({
         <p className="text-black/60 mt-3">{t("description")}</p>
       </div>
 
-      <Suspense fallback={<p>...</p>}>
+      <Suspense fallback={<TourListSkeleton />}>
         <TourFilterList activeCategory={activeCategory} />
       </Suspense>
     </div>

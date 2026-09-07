@@ -2,7 +2,7 @@
 
 import { useState, useTransition, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { fireAlert } from "@/lib/swal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -38,7 +38,7 @@ export function TestimonialForm({
       });
 
       if (result.ok) {
-        await Swal.fire({
+        await fireAlert({
           title: t("successTitle"),
           text: t("successText"),
           icon: "success",
@@ -51,7 +51,7 @@ export function TestimonialForm({
         setTourSlug("");
         setQuote("");
       } else {
-        await Swal.fire({
+        await fireAlert({
           title: t("errorTitle"),
           text: result.error ?? t("errorDefault"),
           icon: "error",

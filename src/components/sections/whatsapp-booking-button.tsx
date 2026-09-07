@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import Swal from "sweetalert2";
+import { fireAlert } from "@/lib/swal";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { saveInquiryAction } from "@/app/actions/inquiry-actions";
@@ -29,7 +29,7 @@ export function WhatsAppBookingButton({
       const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`;
       window.open(url, "_blank", "noopener,noreferrer");
 
-      Swal.fire({
+      fireAlert({
         title: "Membuka WhatsApp...",
         text: "Lanjutkan percakapan booking Anda di sana.",
         icon: "success",

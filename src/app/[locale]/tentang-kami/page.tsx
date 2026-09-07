@@ -31,10 +31,11 @@ export default async function AboutPage() {
 
       <div className="relative aspect-[16/8] rounded-2xl overflow-hidden mt-8">
         <Image
-          src="https://picsum.photos/seed/about-team/1600/800"
+          src="/images/hero/about-team.jpg"
           alt="Tim driver dan pemandu PT. CDA di Bali"
           fill
           sizes="100vw"
+          quality={70}
           className="object-cover"
         />
       </div>

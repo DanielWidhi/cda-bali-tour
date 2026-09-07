@@ -2,7 +2,7 @@
 
 import { useState, useTransition, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { fireAlert } from "@/lib/swal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,7 +29,7 @@ export function ContactForm() {
       });
 
       if (!result.ok) {
-        await Swal.fire({
+        await fireAlert({
           title: t("errorTitle"),
           text: t("errorText"),
           icon: "error",
@@ -38,7 +38,7 @@ export function ContactForm() {
         return;
       }
 
-      await Swal.fire({
+      await fireAlert({
         title: t("successTitle"),
         text: t("successText"),
         icon: "success",

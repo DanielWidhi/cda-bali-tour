@@ -53,6 +53,7 @@ export function GalleryLightbox({
               alt={img.caption ?? "Foto galeri CDA Bali Tour"}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
+              quality={65}
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </button>
@@ -96,6 +97,7 @@ export function GalleryLightbox({
               alt={images[activeIndex].caption ?? "Foto galeri CDA Bali Tour"}
               fill
               sizes="90vw"
+              quality={80}
               className="object-contain"
               priority
             />

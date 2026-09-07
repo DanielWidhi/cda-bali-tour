@@ -21,6 +21,8 @@ export function Hero({
           src="/images/hero/nusapenida.webp"
           alt="Sunrise di atas Gunung Batur dengan kabut kaldera, Kintamani, Bali"
           fill
+          priority
+          quality={70}
           className="object-cover opacity-45"
           sizes="100vw"
         />

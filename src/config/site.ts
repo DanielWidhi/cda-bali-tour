@@ -6,8 +6,8 @@ export const siteConfig = {
     "CDA Bali Tour menyediakan paket tour, sewa mobil dengan driver, dan aktivitas wisata di Bali dengan harga transparan tanpa biaya tersembunyi. Legal, berpengalaman, dan dipercaya ribuan wisatawan.",
   url: "https://www.cdabalitour.com", // ganti sesuai domain yang dibeli nanti
   ogImage: "/images/og-cover.jpg",
-  phone: "+62 813-3917-2556",
-  whatsapp: "6281339172556",
+  phone: "+62 812-3703-3488",
+  whatsapp: "6281237033488",
   email: "info@cdabalitour.com",
   address: "Gg. Tunjung Sari, Batubulan Kangin, Sukawati, Gianyar, Bali 80582",
   socials: {
@@ -18,7 +18,7 @@ export const siteConfig = {
   // Kredit developer di footer — ganti "url" ke link yang kamu mau (portofolio, LinkedIn, dll)
   developer: {
     name: "Daniel Widhi",
-    url: "https://daniel.gdpartstudio.my.id",
+    url: "https://danielwidhi.com",
   },
   nav: [
     {
