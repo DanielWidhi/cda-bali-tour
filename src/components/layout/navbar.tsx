@@ -130,7 +130,7 @@ export function Navbar() {
                     className={cn("h-4 w-4 transition-transform", mobileDropdown && "rotate-180")}
                   />
                 </button>
-                <div className={cn("pl-3 flex flex-col", mobileDropdown ? "block" : "hidden")}>
+                <div className={cn("pl-3 flex-col gap-1", mobileDropdown ? "flex" : "hidden")}>
                   {item.children.map((child) => (
                     <Link
                       key={child.href}
