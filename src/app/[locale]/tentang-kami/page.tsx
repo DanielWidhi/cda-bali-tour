@@ -31,8 +31,8 @@ export default async function AboutPage() {
 
       <div className="relative aspect-[16/8] rounded-2xl overflow-hidden mt-8">
         <Image
-          src="/images/hero/about-team.jpg"
-          alt="Tim driver dan pemandu PT. CDA di Bali"
+          src="/images/hero/cda-logo-landscape.jpg"
+          alt="Logo PT. CDA Bali"
           fill
           sizes="100vw"
           quality={70}

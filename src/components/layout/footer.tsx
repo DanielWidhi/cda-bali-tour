@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import Image from "next/image";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -52,14 +53,20 @@ export function Footer() {
     <footer className="bg-[color:var(--color-ink)] text-white/80">
       <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] text-[color:var(--color-ink)] font-serif text-lg">
-              C
+          <Link href="/" className="flex items-center gap-2 mb-4">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] overflow-hidden shrink-0">
+              <Image
+                src="/images/logo/cda-logo.webp"
+                alt={siteConfig.brandName}
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
             </span>
             <span className="font-serif text-lg text-white">
               {siteConfig.brandName}
             </span>
-          </div>
+          </Link>
           <p className="text-sm leading-relaxed text-white/60">
             {siteConfig.description}
           </p>
