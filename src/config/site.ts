@@ -1,5 +1,5 @@
 export const siteConfig = {
-  companyLegalName: "PT. CDA",
+  companyLegalName: "PT. Cahaya Dimbo Abadi",
   brandName: "CDA Bali Tour",
   tagline: "Explore Bali, The Way It Should Be",
   description:
