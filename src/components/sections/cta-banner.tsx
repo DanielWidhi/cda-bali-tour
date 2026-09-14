@@ -16,13 +16,13 @@ export function CtaBanner() {
           <h2 className="font-serif text-3xl sm:text-4xl leading-tight">{t("title")}</h2>
           <p className="mt-3 text-white/70">{t("description")}</p>
         </div>
-        <div className="flex gap-3">
-          <Button asChild size="lg">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <Button asChild size="lg" className="w-full sm:w-auto">
             <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
               {t("chatWhatsapp")}
             </a>
           </Button>
-          <Button asChild size="lg" variant="inverse">
+          <Button asChild size="lg" variant="inverse" className="w-full sm:w-auto">
             <Link href="/tour">{t("viewPackages")}</Link>
           </Button>
         </div>
