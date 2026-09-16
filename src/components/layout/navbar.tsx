@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export function Navbar() {
   const t = useTranslations("nav");
@@ -33,9 +34,13 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-[color:var(--color-mist)]/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-ink)] text-[color:var(--color-amber)] font-serif text-lg">
-            C
-          </span>
+          <Image
+            src="/images/icon/cda-logo.webp"
+            alt="CDA Logo"
+            width={36}
+            height={36}
+            className="rounded-full"
+          />
           <span className="font-serif text-lg leading-none">{siteConfig.brandName}</span>
         </Link>
 
