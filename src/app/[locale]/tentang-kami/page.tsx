@@ -29,7 +29,7 @@ export default async function AboutPage() {
 
       <div className="relative aspect-[16/8] rounded-2xl overflow-hidden mt-8">
         <Image
-          src="/images/about-team.webp"
+          src="/images/banner/bannercda.jpg"
           alt="Tim driver dan pemandu CDA Bali Tour"
           fill
           sizes="100vw"

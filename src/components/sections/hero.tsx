@@ -18,7 +18,7 @@ export function Hero({
     <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="/images/hero-batur.webp"
+          src="/images/hero/nusapenida.webp"
           alt="Sunrise di atas Gunung Batur dengan kabut kaldera, Kintamani, Bali"
           fill
           priority
