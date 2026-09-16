@@ -41,12 +41,13 @@ export default async function ContactPage() {
             <p className="text-sm text-black/70">{siteConfig.email}</p>
           </div>
 
+          {/* Koordinat presisi (bukan sekadar cari teks alamat) */}
           <div className="rounded-2xl overflow-hidden border border-black/10 mt-3 aspect-video">
             <iframe
-              title="Lokasi PT. CDA"
+              title="Lokasi CDA Bali Tour"
               className="w-full h-full"
               loading="lazy"
-              src="https://www.google.com/maps?q=Batubulan,Sukawati,Gianyar,Bali&output=embed"
+              src="https://www.google.com/maps?q=-8.6454061,115.1915991&z=17&output=embed"
             />
           </div>
         </div>

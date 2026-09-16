@@ -24,8 +24,8 @@ export default async function AdminTransportPage() {
         </Button>
       </div>
 
-      <div className="rounded-2xl bg-white border border-black/5 overflow-x-auto">
-        <table className="w-full min-w-[520px] text-sm">
+      <div className="rounded-2xl bg-white border border-black/5 overflow-hidden overflow-x-auto">
+        <table className="w-full text-sm min-w-[500px]">
           <thead>
             <tr className="border-b border-black/5 text-left text-black/50">
               <th className="px-5 py-3 font-medium">Nama</th>
@@ -39,10 +39,13 @@ export default async function AdminTransportPage() {
             {cars.map((car) => (
               <tr key={car.id}>
                 <td className="px-5 py-3 font-medium">{car.name}</td>
-                <td className="px-5 py-3 text-black/60">{car.capacity}</td>
+                <td className="px-5 py-3 text-black/60">{car.capacityMin}-{car.capacityMax} orang</td>
                 <td className="px-5 py-3 text-black/60">{formatIDR(car.pricePerDay)}</td>
                 <td className="px-5 py-3">
-                  <Badge variant={car.published ? "green" : "outline"} className={!car.published ? "border-black/20 text-black/50" : ""}>
+                  <Badge
+                    variant={car.published ? "green" : "outline"}
+                    className={!car.published ? "border-black/20 text-black/50" : ""}
+                  >
                     {car.published ? "Publish" : "Draft"}
                   </Badge>
                 </td>
@@ -61,9 +64,7 @@ export default async function AdminTransportPage() {
             ))}
           </tbody>
         </table>
-        {cars.length === 0 && (
-          <p className="text-center text-black/50 py-10">Belum ada data armada.</p>
-        )}
+        {cars.length === 0 && <p className="text-center text-black/50 py-10">Belum ada data armada.</p>}
       </div>
     </div>
   );

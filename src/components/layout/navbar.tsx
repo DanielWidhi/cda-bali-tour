@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Menu, X, ChevronDown, Phone } from "lucide-react";
@@ -8,58 +8,44 @@ import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 export function Navbar() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
 
-  const navItems = [
-    {
-      href: "/tour",
-      label: t("tourPackages"),
-      children: [
-        { href: "/tour", label: t("allPackages") },
-        { href: "/tour?category=sunrise", label: t("sunriseTour") },
-        { href: "/tour?category=day-tour", label: t("dayTour") },
-        { href: "/tour?category=nusa-penida", label: t("nusaPenida") },
-        { href: "/tour?category=adventure", label: t("adventure") },
-      ],
-    },
-    { href: "/transport", label: t("transport") },
-    { href: "/gallery", label: t("gallery") },
-    { href: "/tentang-kami", label: t("aboutUs") },
-    { href: "/testimoni", label: t("testimonials") },
-    { href: "/kontak", label: t("contact") },
-  ];
+  function toggleMenu() {
+    setOpen((v) => {
+      const next = !v;
+      if (!next) setMobileDropdown(false);
+      return next;
+    });
+  }
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-[color:var(--color-mist)]/90 backdrop-blur-md">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 lg:px-8 py-3">
-        <Link href="/" className="flex items-center shrink-0" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-ink)] overflow-hidden">
-            <Image
-              src="/images/logo/cda-logo.webp"
-              alt={siteConfig.brandName}
-              width={36}
-              height={36}
-              className="h-full w-full object-cover"
-              priority
-            />
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
+        <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-ink)] text-[color:var(--color-amber)] font-serif text-lg">
+            C
           </span>
-          <span className="font-serif text-lg leading-none ml-2">
-            {siteConfig.brandName}
-          </span>
+          <span className="font-serif text-lg leading-none">{siteConfig.brandName}</span>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navItems.map((item) =>
+          {siteConfig.nav.map((item) =>
             item.children ? (
               <div key={item.href} className="relative group">
                 <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium hover:text-[color:var(--color-amber-deep)] transition-colors">
-                  {item.label}
+                  {t(item.labelKey)}
                   <ChevronDown className="h-3.5 w-3.5" />
                 </button>
                 <div className="absolute left-0 top-full pt-2 hidden group-hover:block">
@@ -70,7 +56,7 @@ export function Navbar() {
                         href={child.href}
                         className="block rounded-lg px-3 py-2 text-sm hover:bg-[color:var(--color-mist)]"
                       >
-                        {child.label}
+                        {t(child.labelKey)}
                       </Link>
                     ))}
                   </div>
@@ -82,13 +68,13 @@ export function Navbar() {
                 href={item.href}
                 className="px-4 py-2 text-sm font-medium hover:text-[color:var(--color-amber-deep)] transition-colors"
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             )
           )}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <LanguageSwitcher />
           <a
             href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
@@ -98,79 +84,77 @@ export function Navbar() {
             {siteConfig.phone}
           </a>
           <Button asChild size="default">
-            <a
-              href={`https://wa.me/${siteConfig.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
               {t("bookNow")}
             </a>
           </Button>
         </div>
 
-        <button
-          className="lg:hidden p-2"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-        >
+        <button className="lg:hidden p-2" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={open}>
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      {/* Mobile nav */}
+      {/* Mobile nav — full-screen, animasi halus via grid-rows trick */}
       <div
         className={cn(
-          "lg:hidden overflow-hidden transition-[max-height] duration-300 border-t border-black/5",
-          open ? "max-h-[32rem] overflow-y-auto" : "max-h-0 border-t-0"
+          "lg:hidden grid transition-[grid-template-rows] duration-300 ease-in-out",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         )}
       >
-        <nav className="flex flex-col px-5 py-3 gap-1">
-          {navItems.map((item) =>
-            item.children ? (
-              <div key={item.href}>
-                <button
-                  onClick={() => setMobileDropdown((v) => !v)}
-                  className="flex w-full items-center justify-between py-2.5 text-sm font-medium"
-                >
-                  {item.label}
-                  <ChevronDown
-                    className={cn("h-4 w-4 transition-transform", mobileDropdown && "rotate-180")}
-                  />
-                </button>
-                <div className={cn("pl-3 flex-col gap-1", mobileDropdown ? "flex" : "hidden")}>
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      onClick={() => setOpen(false)}
-                      className="py-2 text-sm text-black/70"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
+        <div className="overflow-hidden">
+          <nav className="flex min-h-[calc(100dvh-4rem)] flex-col px-5 py-6 gap-1 border-t border-black/5">
+            {siteConfig.nav.map((item) =>
+              item.children ? (
+                <div key={item.href}>
+                  <button
+                    onClick={() => setMobileDropdown((v) => !v)}
+                    className="flex w-full items-center justify-between py-2.5 text-sm font-medium"
+                    aria-expanded={mobileDropdown}
+                  >
+                    {t(item.labelKey)}
+                    <ChevronDown
+                      className={cn("h-4 w-4 transition-transform duration-300", mobileDropdown && "rotate-180")}
+                    />
+                  </button>
+                  <div
+                    className={cn(
+                      "grid transition-[grid-template-rows] duration-300 ease-in-out",
+                      mobileDropdown ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    )}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="pl-3 flex flex-col gap-1 pb-1">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={toggleMenu}
+                            className="py-2 text-sm text-black/70"
+                          >
+                            {t(child.labelKey)}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="py-2.5 text-sm font-medium"
-              >
-                {item.label}
-              </Link>
-            )
-          )}
-          <div className="py-2.5">
-            <LanguageSwitcher />
-          </div>
-          <Button asChild className="mt-2 w-full">
-            <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
-              {t("bookViaWhatsapp")}
-            </a>
-          </Button>
-        </nav>
+              ) : (
+                <Link key={item.href} href={item.href} onClick={toggleMenu} className="py-2.5 text-sm font-medium">
+                  {t(item.labelKey)}
+                </Link>
+              )
+            )}
+            <div className="py-2.5">
+              <LanguageSwitcher />
+            </div>
+            <Button asChild className="mt-2 w-full">
+              <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                {t("bookViaWhatsapp")}
+              </a>
+            </Button>
+          </nav>
+        </div>
       </div>
     </header>
   );

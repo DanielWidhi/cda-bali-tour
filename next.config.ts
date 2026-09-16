@@ -9,8 +9,6 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "picsum.photos" },
       { protocol: "https", hostname: "fastly.picsum.photos" },
       { protocol: "https", hostname: "*.supabase.co" }, // Supabase Storage (upload gambar admin)
-      // Saat pindah ke gambar asli, tambahkan domain CDN/storage di sini
-      // atau hapus seluruh remotePatterns jika semua gambar disimpan di /public
     ],
   },
 };

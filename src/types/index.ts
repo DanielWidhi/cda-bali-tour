@@ -12,7 +12,7 @@ export interface TourPackage {
   category: TourCategory;
   categoryLabel: string;
   location: string;
-  duration: string;
+  duration: string; // sudah diformat, misal "5 jam" / "5 hours"
   price: number;
   originalPrice?: number;
   rating: number;
@@ -31,16 +31,19 @@ export interface TourPackage {
 export interface TransportOption {
   slug: string;
   name: string;
-  capacity: string;
+  capacity: string; // sudah diformat, misal "4-5 orang" / "4-5 people"
   pricePerDay: number;
   hours: number;
+  hoursLabel: string; // sudah diformat, misal "10 jam" / "10 hours"
   image: string;
 }
 
 export interface Testimonial {
+  id: string;
   name: string;
   origin: string;
+  phone: string | null;
   rating: number;
   quote: string;
-  tourSlug?: string;
+  tourSlug?: string | null;
 }

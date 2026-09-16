@@ -21,38 +21,34 @@ export function TransportForm({
       </div>
       <div>
         <Label htmlFor="slug">Slug</Label>
-        <Input
-          id="slug"
-          name="slug"
-          required
-          pattern="[a-z0-9-]+"
-          placeholder="toyota-hiace"
-          defaultValue={defaultValues?.slug}
-        />
+        <Input id="slug" name="slug" required pattern="[a-z0-9-]+" placeholder="toyota-hiace" defaultValue={defaultValues?.slug} />
       </div>
-      <div>
-        <Label htmlFor="capacity">Kapasitas</Label>
-        <Input id="capacity" name="capacity" required placeholder="4-5 orang" defaultValue={defaultValues?.capacity} />
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="capacityMin">Kapasitas Min</Label>
+          <Input id="capacityMin" name="capacityMin" type="number" min={1} required defaultValue={defaultValues?.capacityMin ?? 4} />
+        </div>
+        <div>
+          <Label htmlFor="capacityMax">Kapasitas Max</Label>
+          <Input id="capacityMax" name="capacityMax" type="number" min={1} required defaultValue={defaultValues?.capacityMax ?? 5} />
+        </div>
       </div>
+      <p className="text-xs text-black/40 -mt-3">Cukup angka — label &ldquo;orang&rdquo;/&ldquo;people&rdquo; otomatis mengikuti bahasa</p>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="pricePerDay">Harga per Hari (IDR)</Label>
-          <Input
-            id="pricePerDay"
-            name="pricePerDay"
-            type="number"
-            min={0}
-            required
-            defaultValue={defaultValues?.pricePerDay}
-          />
+          <Input id="pricePerDay" name="pricePerDay" type="number" min={0} required defaultValue={defaultValues?.pricePerDay} />
         </div>
         <div>
           <Label htmlFor="hours">Durasi (jam)</Label>
           <Input id="hours" name="hours" type="number" min={1} required defaultValue={defaultValues?.hours ?? 10} />
         </div>
       </div>
+
       <div>
-        <Label htmlFor="image">Gambar Kendaraan</Label>
+        <Label>Gambar Kendaraan</Label>
         <SingleImageUpload name="image" folder="transport" defaultValue={defaultValues?.image} />
       </div>
 
@@ -66,9 +62,7 @@ export function TransportForm({
         Publish (tampilkan di website)
       </label>
 
-      <Button type="submit" size="lg" className="self-start">
-        {submitLabel}
-      </Button>
+      <Button type="submit" size="lg" className="self-start">{submitLabel}</Button>
     </form>
   );
 }

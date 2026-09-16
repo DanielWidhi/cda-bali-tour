@@ -2,13 +2,13 @@
 
 import { useState, useTransition, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { fireAlert } from "@/lib/swal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { StarRatingInput } from "@/components/ui/star-rating-input";
 import { submitTestimonialAction } from "@/app/[locale]/testimoni/actions";
+import { fireAlert } from "@/lib/swal";
 
 export function TestimonialForm({
   tourOptions,
@@ -70,26 +70,14 @@ export function TestimonialForm({
         </div>
         <div>
           <Label htmlFor="origin">{t("originLabel")}</Label>
-          <Input
-            id="origin"
-            required
-            placeholder={t("originPlaceholder")}
-            value={origin}
-            onChange={(e) => setOrigin(e.target.value)}
-          />
+          <Input id="origin" required placeholder={t("originPlaceholder")} value={origin} onChange={(e) => setOrigin(e.target.value)} />
         </div>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <Label htmlFor="phone">{t("phoneLabel")}</Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="+62..."
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+          <Input id="phone" type="tel" placeholder="+62..." value={phone} onChange={(e) => setPhone(e.target.value)} />
         </div>
         <div>
           <Label htmlFor="tourSlug">{t("tourLabel")}</Label>
@@ -101,9 +89,7 @@ export function TestimonialForm({
           >
             <option value="">{t("tourPlaceholder")}</option>
             {tourOptions.map((tour) => (
-              <option key={tour.slug} value={tour.slug}>
-                {tour.title}
-              </option>
+              <option key={tour.slug} value={tour.slug}>{tour.title}</option>
             ))}
           </select>
         </div>
@@ -116,14 +102,7 @@ export function TestimonialForm({
 
       <div>
         <Label htmlFor="quote">{t("quoteLabel")}</Label>
-        <Textarea
-          id="quote"
-          required
-          className="min-h-32"
-          placeholder={t("quotePlaceholder")}
-          value={quote}
-          onChange={(e) => setQuote(e.target.value)}
-        />
+        <Textarea id="quote" required className="min-h-32" placeholder={t("quotePlaceholder")} value={quote} onChange={(e) => setQuote(e.target.value)} />
       </div>
 
       <Button type="submit" size="lg" className="self-start" disabled={pending}>

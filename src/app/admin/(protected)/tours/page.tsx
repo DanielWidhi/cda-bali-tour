@@ -8,9 +8,7 @@ import { DeleteButton } from "@/components/admin/delete-button";
 import { deleteTourAction } from "./actions";
 
 export default async function AdminToursPage() {
-  const tours = await prisma.tourPackage.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const tours = await prisma.tourPackage.findMany({ orderBy: { createdAt: "desc" } });
 
   return (
     <div>
@@ -26,8 +24,8 @@ export default async function AdminToursPage() {
         </Button>
       </div>
 
-      <div className="rounded-2xl bg-white border border-black/5 overflow-x-auto">
-        <table className="w-full min-w-[640px] text-sm">
+      <div className="rounded-2xl bg-white border border-black/5 overflow-hidden overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead>
             <tr className="border-b border-black/5 text-left text-black/50">
               <th className="px-5 py-3 font-medium">Nama</th>
@@ -54,7 +52,10 @@ export default async function AdminToursPage() {
                   </span>
                 </td>
                 <td className="px-5 py-3">
-                  <Badge variant={tour.published ? "green" : "outline"} className={!tour.published ? "border-black/20 text-black/50" : ""}>
+                  <Badge
+                    variant={tour.published ? "green" : "outline"}
+                    className={!tour.published ? "border-black/20 text-black/50" : ""}
+                  >
                     {tour.published ? "Publish" : "Draft"}
                   </Badge>
                 </td>
@@ -66,10 +67,7 @@ export default async function AdminToursPage() {
                     >
                       <Pencil className="h-4 w-4" />
                     </Link>
-                    <DeleteButton
-                      itemLabel={tour.title}
-                      action={deleteTourAction.bind(null, tour.id)}
-                    />
+                    <DeleteButton itemLabel={tour.title} action={deleteTourAction.bind(null, tour.id)} />
                   </div>
                 </td>
               </tr>

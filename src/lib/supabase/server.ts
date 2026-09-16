@@ -18,8 +18,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch {
-            // Dipanggil dari Server Component (bukan Server Action/Route Handler).
-            // Aman diabaikan karena middleware yang menangani refresh session.
+            // Dipanggil dari Server Component — aman diabaikan, middleware yang refresh session
           }
         },
       },

@@ -4,13 +4,7 @@ import { useState } from "react";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function StarRatingInput({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (value: number) => void;
-}) {
+export function StarRatingInput({ value, onChange }: { value: number; onChange: (value: number) => void }) {
   const [hover, setHover] = useState<number | null>(null);
   const displayValue = hover ?? value;
 
@@ -29,9 +23,7 @@ export function StarRatingInput({
           <Star
             className={cn(
               "h-7 w-7 transition-colors",
-              star <= displayValue
-                ? "fill-[color:var(--color-amber)] text-[color:var(--color-amber)]"
-                : "text-black/20"
+              star <= displayValue ? "fill-[color:var(--color-amber)] text-[color:var(--color-amber)]" : "text-black/20"
             )}
           />
         </button>

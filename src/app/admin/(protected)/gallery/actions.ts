@@ -2,10 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { linesToArray } from "@/lib/form-parsers";
 
 export async function createGalleryImagesAction(formData: FormData) {
-  const urls = linesToArray(String(formData.get("images") ?? ""));
+  const urls = String(formData.get("images") ?? "")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
   const caption = String(formData.get("caption") ?? "").trim() || null;
 
   if (urls.length === 0) return;

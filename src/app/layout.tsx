@@ -25,7 +25,8 @@ export const metadata: Metadata = {
     default: `${siteConfig.brandName} — Paket Tour, Sewa Mobil & Aktivitas Wisata Bali`,
     template: `%s | ${siteConfig.brandName}`,
   },
-  description: siteConfig.description,
+  description:
+    "CDA Bali Tour menyediakan paket tour, sewa mobil dengan driver, dan aktivitas wisata di Bali dengan harga transparan tanpa biaya tersembunyi.",
   keywords: [
     "tour bali",
     "paket wisata bali",
@@ -38,27 +39,17 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.companyLegalName }],
   openGraph: {
     type: "website",
-    locale: "id_ID",
-    url: siteConfig.url,
     siteName: siteConfig.brandName,
     title: `${siteConfig.brandName} — Paket Tour, Sewa Mobil & Aktivitas Wisata Bali`,
-    description: siteConfig.description,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.brandName,
-    description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
-  alternates: {
-    canonical: siteConfig.url,
-  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: { canonical: siteConfig.url },
 };
 
 export default async function RootLayout({
@@ -71,7 +62,6 @@ export default async function RootLayout({
     "@type": "TravelAgency",
     name: siteConfig.companyLegalName,
     alternateName: siteConfig.brandName,
-    description: siteConfig.description,
     url: siteConfig.url,
     telephone: siteConfig.phone,
     email: siteConfig.email,

@@ -41,9 +41,7 @@ export function UserForm({
           className={isEdit ? "opacity-60" : ""}
         />
         {isEdit && (
-          <p className="text-xs text-black/40 mt-1">
-            Email tidak bisa diubah dari sini.
-          </p>
+          <p className="text-xs text-black/40 mt-1">Email tidak bisa diubah dari sini.</p>
         )}
       </div>
 
@@ -67,9 +65,7 @@ export function UserForm({
           <option value="SUPERADMIN">Super Admin</option>
         </select>
         {isSelf && (
-          <p className="text-xs text-black/40 mt-1">
-            Kamu tidak bisa mengubah role akun sendiri.
-          </p>
+          <p className="text-xs text-black/40 mt-1">Kamu tidak bisa mengubah role akun sendiri.</p>
         )}
       </div>
 

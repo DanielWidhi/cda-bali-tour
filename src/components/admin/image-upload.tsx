@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
 import { fireAlert } from "@/lib/swal";
-import { cn } from "@/lib/utils";
 
 async function uploadFile(file: File, folder: string): Promise<string> {
   const formData = new FormData();
@@ -60,9 +59,7 @@ export function SingleImageUpload({
           const file = e.dataTransfer.files?.[0];
           if (file) handleFile(file);
         }}
-        className={cn(
-          "relative flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-black/15 bg-black/[0.02] text-sm text-black/50 hover:border-[color:var(--color-amber)] transition-colors overflow-hidden"
-        )}
+        className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-black/15 bg-black/[0.02] text-sm text-black/50 hover:border-[color:var(--color-amber)] transition-colors overflow-hidden"
       >
         {url ? (
           <>
@@ -101,7 +98,7 @@ export function SingleImageUpload({
   );
 }
 
-/** Upload banyak gambar sekaligus — hasil ditambahkan sebagai daftar URL (1 per baris). */
+/** Upload banyak gambar sekaligus. */
 export function MultiImageUpload({
   name,
   folder,

@@ -11,9 +11,7 @@ export default async function AdminUsersPage() {
   const currentProfile = await getCurrentProfile();
   const isSuperadmin = currentProfile?.role === "SUPERADMIN";
 
-  const users = await prisma.profile.findMany({
-    orderBy: { createdAt: "asc" },
-  });
+  const users = await prisma.profile.findMany({ orderBy: { createdAt: "asc" } });
 
   return (
     <div>
@@ -57,11 +55,7 @@ export default async function AdminUsersPage() {
                 <td className="px-5 py-3">
                   <Badge
                     variant={user.role === "SUPERADMIN" ? "default" : "outline"}
-                    className={
-                      user.role === "SUPERADMIN"
-                        ? "gap-1"
-                        : "gap-1 border-black/15 text-black/50"
-                    }
+                    className={user.role === "SUPERADMIN" ? "gap-1" : "gap-1 border-black/15 text-black/50"}
                   >
                     {user.role === "SUPERADMIN" ? (
                       <ShieldCheck className="h-3 w-3" />
@@ -81,10 +75,7 @@ export default async function AdminUsersPage() {
                         <Pencil className="h-4 w-4" />
                       </Link>
                       {user.id !== currentProfile?.id && (
-                        <DeleteButton
-                          itemLabel={user.name}
-                          action={deleteUserAction.bind(null, user.id)}
-                        />
+                        <DeleteButton itemLabel={user.name} action={deleteUserAction.bind(null, user.id)} />
                       )}
                     </div>
                   </td>

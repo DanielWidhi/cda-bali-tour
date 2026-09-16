@@ -15,17 +15,19 @@
     "bookViaWhatsapp": "Book via WhatsApp"
   },
   "footer": {
+    "description": "CDA Bali Tour menyediakan paket tour, sewa mobil dengan driver, dan aktivitas wisata di Bali dengan harga transparan tanpa biaya tersembunyi. Legal, berpengalaman, dan dipercaya ribuan wisatawan.",
     "contact": "Kontak",
     "services": "Layanan",
     "carRental": "Sewa Mobil + Driver",
     "rightsReserved": "All rights reserved.",
-    "publishedBy": "Published by"
+    "publishedBy": "Published by",
+    "legalOperator": "Legal Tour Operator in Bali, Indonesia"
   },
   "hero": {
     "trustedByTravelers": "Dipercaya wisatawan dari berbagai negara",
     "ratingText": "{rating}/5 dari {count}+ wisatawan",
     "title": "Jelajahi Bali dengan tenang, bersama <highlight>pengemudi lokal</highlight> yang mengenal setiap sudutnya.",
-    "description": "PT. CDA menghadirkan paket tour privat, sewa mobil dengan driver, dan aktivitas wisata di seluruh Bali — harga transparan, tanpa biaya tersembunyi, dan bisa dibayar setelah trip selesai.",
+    "description": "PT. Cahaya Dimbo Abadi menghadirkan paket tour privat, sewa mobil dengan driver, dan aktivitas wisata di seluruh Bali — harga transparan, tanpa biaya tersembunyi, dan bisa dibayar setelah trip selesai.",
     "viewPackages": "Lihat Paket Tour",
     "rentCar": "Sewa Mobil + Driver",
     "legalBadge": "Legal tour operator — beroperasi lebih dari 9 tahun di Bali"
@@ -80,6 +82,10 @@
   "language": {
     "label": "Bahasa"
   },
+  "units": {
+    "hours": "jam",
+    "people": "orang"
+  },
   "tourListing": {
     "label": "Tour Packages",
     "title": "Paket tour Bali untuk setiap gaya perjalanan",
@@ -108,7 +114,6 @@
     "label": "Bali Transport Service",
     "title": "Susun itinerary sendiri, jelajahi Bali sesuka Anda",
     "description": "Sewa mobil ber-AC dengan driver berbahasa Inggris. Cocok untuk keluarga, rombongan, atau siapa pun yang ingin rute bebas tanpa terikat paket tur.",
-    "perHour": "jam",
     "book": "Booking",
     "includes": "Termasuk",
     "excludes": "Tidak Termasuk",
@@ -126,7 +131,7 @@
     "statYears": "9+ tahun pengalaman",
     "statTravelers": "5.000+ wisatawan terlayani",
     "statLegal": "Legal & berizin resmi",
-    "paragraph1": "{company} adalah operator tour resmi yang berbasis di Gianyar, Bali. Kami memulai dari layanan sewa mobil dengan driver kecil-kecilan, dan kini telah berkembang menjadi penyedia paket tour, transport, dan aktivitas wisata yang dipercaya ribuan wisatawan dari berbagai negara.",
+    "paragraph1": "PT. Cahaya Dimbo Abadi adalah operator tour resmi yang berbasis di Gianyar, Bali. Kami memulai dari layanan sewa mobil dengan driver kecil-kecilan, dan kini telah berkembang menjadi penyedia paket tour, transport, dan aktivitas wisata yang dipercaya ribuan wisatawan dari berbagai negara.",
     "paragraph2": "Kami percaya bahwa pengalaman berlibur terbaik datang dari keterbukaan: harga yang jelas sejak awal, driver yang benar-benar mengenal budaya dan medan Bali, serta layanan yang bisa dibayar setelah perjalanan selesai — bukan sebelum Anda yakin.",
     "paragraph3": "Ketika diperlukan, kami juga bekerja sama dengan pemandu wisata berlisensi yang memiliki pengetahuan mendalam tentang sejarah dan seni Bali, sehingga setiap cerita yang Anda dengar sepanjang perjalanan benar-benar akurat dan berarti."
   },
@@ -151,7 +156,7 @@
   "testimoniPage": {
     "label": "Testimoni",
     "title": "Bagaimana pengalaman kamu bersama kami?",
-    "description": "Terima kasih sudah menjelajah Bali bersama CDA. Ceritanya bakal sangat membantu wisatawan lain menentukan pilihan mereka.",
+    "description": "Terima kasih sudah menjelajah Bali bersama kami. Ceritanya bakal sangat membantu wisatawan lain menentukan pilihan mereka.",
     "nameLabel": "Nama",
     "originLabel": "Asal (Negara / Kota)",
     "originPlaceholder": "Australia / Jakarta",

@@ -2,13 +2,13 @@
 
 import { useState, useTransition, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { fireAlert } from "@/lib/swal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { siteConfig } from "@/config/site";
 import { saveInquiryAction } from "@/app/actions/inquiry-actions";
+import { fireAlert } from "@/lib/swal";
 
 export function ContactForm() {
   const t = useTranslations("contactPage");
@@ -47,8 +47,11 @@ export function ContactForm() {
       });
 
       const text = `Halo, nama saya ${name} (${phone}).\n\n${message}`;
-      const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      window.open(
+        `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
 
       setName("");
       setPhone("");
@@ -60,35 +63,16 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5" data-aos="fade-up">
       <div>
         <Label htmlFor="name">{t("nameLabel")}</Label>
-        <Input
-          id="name"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={t("namePlaceholder")}
-        />
+        <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} placeholder={t("namePlaceholder")} />
       </div>
       <div>
         <Label htmlFor="phone">{t("phoneLabel")}</Label>
-        <Input
-          id="phone"
-          type="tel"
-          required
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="08xx-xxxx-xxxx"
-        />
+        <Input id="phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="08xx-xxxx-xxxx" />
         <p className="text-xs text-black/40 mt-1">{t("phoneHint")}</p>
       </div>
       <div>
         <Label htmlFor="message">{t("messageLabel")}</Label>
-        <Textarea
-          id="message"
-          required
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder={t("messagePlaceholder")}
-        />
+        <Textarea id="message" required value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t("messagePlaceholder")} />
       </div>
       <Button type="submit" size="lg" className="self-start" disabled={pending}>
         {pending ? t("sending") : t("send")}

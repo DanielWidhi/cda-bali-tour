@@ -1,19 +1,11 @@
 export function TourListSkeleton() {
   return (
     <>
-      {/* Skeleton filter pills — jumlah & ukuran meniru kategori asli */}
       <div className="flex flex-wrap gap-2 mb-10">
         {[24, 28, 28, 32, 28].map((w, i) => (
-          <div
-            key={i}
-            className="h-[38px] rounded-full bg-black/5 animate-pulse"
-            style={{ width: `${w * 4}px` }}
-          />
+          <div key={i} className="h-[38px] rounded-full bg-black/5 animate-pulse" style={{ width: `${w * 4}px` }} />
         ))}
       </div>
-
-      {/* Skeleton grid kartu — dimensi meniru TourCard asli (aspect-[4/3] image + area teks)
-          supaya tinggi total halaman tidak "meloncat" begitu data asli masuk. */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="rounded-2xl border border-black/5 overflow-hidden">

@@ -2,47 +2,37 @@
 
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { useParams } from "next/navigation";
-import { Globe } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const locales = [
-  { code: "id", label: "ID" },
-  { code: "en", label: "EN" },
-] as const;
-
-export function LanguageSwitcher({ className }: { className?: string }) {
+export function LanguageSwitcher() {
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  function handleChange(nextLocale: string) {
-    router.replace(
-      // @ts-expect-error -- pathname bertipe generik dari next-intl, params bisa berisi slug dinamis
-      { pathname, params },
-      { locale: nextLocale }
-    );
+  function switchTo(next: "id" | "en") {
+    const query = Object.fromEntries(searchParams.entries());
+    router.replace({ pathname, query }, { locale: next });
   }
 
   return (
-    <div className={`flex items-center gap-1 text-sm ${className ?? ""}`}>
-      <Globe className="h-4 w-4 text-black/40" />
-      {locales.map((l, i) => (
-        <span key={l.code} className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => handleChange(l.code)}
-            className={
-              locale === l.code
-                ? "font-semibold text-[color:var(--color-amber-deep)]"
-                : "text-black/50 hover:text-black/80 transition-colors"
-            }
-          >
-            {l.label}
-          </button>
-          {i < locales.length - 1 && <span className="text-black/20">/</span>}
-        </span>
-      ))}
+    <div className="flex items-center gap-1 text-sm">
+      <button
+        type="button"
+        onClick={() => switchTo("id")}
+        className={cn("font-medium", locale === "id" ? "text-[color:var(--color-amber-deep)]" : "text-black/40")}
+      >
+        ID
+      </button>
+      <span className="text-black/20">/</span>
+      <button
+        type="button"
+        onClick={() => switchTo("en")}
+        className={cn("font-medium", locale === "en" ? "text-[color:var(--color-amber-deep)]" : "text-black/40")}
+      >
+        EN
+      </button>
     </div>
   );
 }

@@ -4,10 +4,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import {
-  linesToArray,
-  parseItinerary,
-  parseFaq,
+  buildLocalizedText,
+  buildLocalizedArray,
+  buildLocalizedItinerary,
+  buildLocalizedFaq,
 } from "@/lib/form-parsers";
+
+function field(formData: FormData, name: string) {
+  return String(formData.get(name) ?? "");
+}
 
 function buildTourData(formData: FormData) {
   const price = Number(formData.get("price"));
@@ -15,25 +20,28 @@ function buildTourData(formData: FormData) {
   const originalPrice = originalPriceRaw ? Number(originalPriceRaw) : null;
 
   return {
-    slug: String(formData.get("slug")).trim(),
-    title: String(formData.get("title")).trim(),
-    category: String(formData.get("category")).trim(),
-    categoryLabel: String(formData.get("categoryLabel")).trim(),
-    location: String(formData.get("location")).trim(),
-    duration: String(formData.get("duration")).trim(),
+    slug: field(formData, "slug").trim(),
+    title: field(formData, "title").trim(),
+    category: field(formData, "category").trim(),
+    categoryLabel: field(formData, "categoryLabel").trim(),
+    location: field(formData, "location").trim(),
+    durationHours: Number(formData.get("durationHours")),
     price,
     originalPrice,
     rating: Number(formData.get("rating") ?? 5),
     reviewCount: Number(formData.get("reviewCount") ?? 0),
-    coverImage: String(formData.get("coverImage")).trim(),
-    gallery: linesToArray(String(formData.get("gallery") ?? "")),
-    shortDescription: String(formData.get("shortDescription")).trim(),
-    description: String(formData.get("description")).trim(),
-    highlights: linesToArray(String(formData.get("highlights") ?? "")),
-    itinerary: parseItinerary(String(formData.get("itinerary") ?? "")),
-    includes: linesToArray(String(formData.get("includes") ?? "")),
-    excludes: linesToArray(String(formData.get("excludes") ?? "")),
-    faq: parseFaq(String(formData.get("faq") ?? "")),
+    coverImage: field(formData, "coverImage").trim(),
+    gallery: field(formData, "gallery")
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean),
+    shortDescription: buildLocalizedText(field(formData, "shortDescriptionId"), field(formData, "shortDescriptionEn")),
+    description: buildLocalizedText(field(formData, "descriptionId"), field(formData, "descriptionEn")),
+    highlights: buildLocalizedArray(field(formData, "highlightsId"), field(formData, "highlightsEn")),
+    itinerary: buildLocalizedItinerary(field(formData, "itineraryId"), field(formData, "itineraryEn")),
+    includes: buildLocalizedArray(field(formData, "includesId"), field(formData, "includesEn")),
+    excludes: buildLocalizedArray(field(formData, "excludesId"), field(formData, "excludesEn")),
+    faq: buildLocalizedFaq(field(formData, "faqId"), field(formData, "faqEn")),
     published: formData.get("published") === "on",
   };
 }

@@ -24,7 +24,7 @@ export function TourCard({ tour }: { tour: TourPackage }) {
         </Badge>
         {tour.originalPrice && (
           <Badge variant="default" className="absolute top-3 right-3 bg-white text-[color:var(--color-amber-deep)]">
-            Hemat {Math.round((1 - tour.price / tour.originalPrice) * 100)}%
+            -{Math.round((1 - tour.price / tour.originalPrice) * 100)}%
           </Badge>
         )}
       </Link>
@@ -41,26 +41,19 @@ export function TourCard({ tour }: { tour: TourPackage }) {
             {tour.title}
           </h3>
         </Link>
-        <p className="text-sm text-black/60 leading-relaxed line-clamp-2">
-          {tour.shortDescription}
-        </p>
+        <p className="text-sm text-black/60 leading-relaxed line-clamp-2">{tour.shortDescription}</p>
         <div className="flex items-center gap-1 mt-3 text-sm">
           <Star className="h-4 w-4 fill-[color:var(--color-amber)] text-[color:var(--color-amber)]" />
           <span className="font-semibold">{tour.rating}</span>
-          <span className="text-black/50">({tour.reviewCount} ulasan)</span>
+          <span className="text-black/50">({tour.reviewCount})</span>
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between border-t border-black/5 pt-4">
         <div>
           {tour.originalPrice && (
-            <p className="text-xs text-black/40 line-through">
-              {formatIDR(tour.originalPrice)}
-            </p>
+            <p className="text-xs text-black/40 line-through">{formatIDR(tour.originalPrice)}</p>
           )}
-          <p className="font-serif text-lg text-[color:var(--color-amber-deep)]">
-            {formatIDR(tour.price)}
-            <span className="text-xs font-sans text-black/50"> /orang</span>
-          </p>
+          <p className="font-serif text-lg text-[color:var(--color-amber-deep)]">{formatIDR(tour.price)}</p>
         </div>
         <Button asChild size="sm">
           <Link href={`/tour/${tour.slug}`}>Detail</Link>

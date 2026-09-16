@@ -4,8 +4,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import Image from "next/image";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,20 +29,15 @@ export function Footer() {
   const footerColumns = [
     {
       title: t("nav.tourPackages"),
-      links: [
-        { label: t("nav.sunriseTour"), href: "/tour?category=sunrise" },
-        { label: t("nav.dayTour"), href: "/tour?category=day-tour" },
-        { label: t("nav.nusaPenida"), href: "/tour?category=nusa-penida" },
-        { label: t("nav.adventure"), href: "/tour?category=adventure" },
-      ],
+      links: siteConfig.nav[0].children!.slice(1), // Sunrise, Day Tour, Nusa Penida, Adventure
     },
     {
       title: t("footer.services"),
       links: [
-        { label: t("footer.carRental"), href: "/transport" },
-        { label: t("nav.gallery"), href: "/gallery" },
-        { label: t("nav.aboutUs"), href: "/tentang-kami" },
-        { label: t("nav.contact"), href: "/kontak" },
+        { labelKey: "transport", href: "/transport" },
+        { labelKey: "gallery", href: "/gallery" },
+        { labelKey: "aboutUs", href: "/tentang-kami" },
+        { labelKey: "contact", href: "/kontak" },
       ],
     },
   ];
@@ -53,23 +46,13 @@ export function Footer() {
     <footer className="bg-[color:var(--color-ink)] text-white/80">
       <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link href="/" className="flex items-center gap-2 mb-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] overflow-hidden shrink-0">
-              <Image
-                src="/images/logo/cda-logo.webp"
-                alt={siteConfig.brandName}
-                width={36}
-                height={36}
-                className="h-full w-full object-cover"
-              />
+          <div className="flex items-center gap-2 mb-4">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] text-[color:var(--color-ink)] font-serif text-lg">
+              C
             </span>
-            <span className="font-serif text-lg text-white">
-              {siteConfig.brandName}
-            </span>
-          </Link>
-          <p className="text-sm leading-relaxed text-white/60">
-            {siteConfig.description}
-          </p>
+            <span className="font-serif text-lg text-white">{siteConfig.brandName}</span>
+          </div>
+          <p className="text-sm leading-relaxed text-white/60">{t("footer.description")}</p>
           <div className="flex gap-3 mt-5">
             <a
               href={siteConfig.socials.instagram}
@@ -99,7 +82,7 @@ export function Footer() {
               {col.links.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">
-                    {link.label}
+                    {t(`nav.${link.labelKey}`)}
                   </Link>
                 </li>
               ))}
@@ -109,7 +92,7 @@ export function Footer() {
 
         <div>
           <h4 className="font-serif text-base text-white mb-4">{t("footer.contact")}</h4>
-          <ul className="flex flex-col gap-3 text-sm text-white/60 mb-5">
+          <ul className="flex flex-col gap-3 text-sm text-white/60">
             <li className="flex gap-2.5">
               <MapPin className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{siteConfig.address}</span>
@@ -123,15 +106,13 @@ export function Footer() {
               <span>{siteConfig.email}</span>
             </li>
           </ul>
-          <LanguageSwitcher className="[&_svg]:text-white/40 [&_button]:text-white/60" />
         </div>
       </div>
 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-5 lg:px-8 py-5 flex flex-col sm:flex-row gap-2 items-center justify-between text-xs text-white/40">
           <p>
-            © {new Date().getFullYear()} {siteConfig.companyLegalName} — {siteConfig.brandName}.{" "}
-            {t("footer.rightsReserved")}
+            © {new Date().getFullYear()} {siteConfig.companyLegalName} — {siteConfig.brandName}. {t("footer.rightsReserved")}
           </p>
           <p>
             {t("footer.publishedBy")}{" "}

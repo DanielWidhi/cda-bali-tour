@@ -9,18 +9,25 @@ import { CtaBanner } from "@/components/sections/cta-banner";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { mapTour } from "@/lib/mappers";
+import type { Locale } from "@/lib/localization";
 
-export const revalidate = 60; // ISR: refresh data tiap 60 detik / setelah revalidatePath dari admin
+export const revalidate = 60;
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations("home");
+
   const tours = (
     await prisma.tourPackage.findMany({
       where: { published: true },
       orderBy: { createdAt: "desc" },
       take: 4,
     })
-  ).map(mapTour);
+  ).map((tour) => mapTour(tour, locale as Locale));
 
   const testimonials = await prisma.testimonial.findMany({
     where: { published: true },
@@ -28,8 +35,6 @@ export default async function Home() {
     take: 3,
   });
 
-  // Rating homepage dihitung otomatis dari SEMUA testimonial yang published,
-  // bukan angka statis.
   const ratingAgg = await prisma.testimonial.aggregate({
     where: { published: true },
     _avg: { rating: true },
@@ -49,9 +54,7 @@ export default async function Home() {
             <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-amber-deep)]">
               {t("popularLabel")}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl mt-3">
-              {t("popularTitle")}
-            </h2>
+            <h2 className="font-serif text-3xl sm:text-4xl mt-3">{t("popularTitle")}</h2>
           </div>
           <Button asChild variant="outline" className="self-start sm:self-auto">
             <Link href="/tour">{t("viewAll")}</Link>
@@ -59,10 +62,8 @@ export default async function Home() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {tours.map((tour, i) => (
-            <div key={tour.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
-              <TourCard tour={tour} />
-            </div>
+          {tours.map((tour) => (
+            <TourCard key={tour.slug} tour={tour} />
           ))}
         </div>
       </section>

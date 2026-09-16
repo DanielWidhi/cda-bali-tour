@@ -9,29 +9,37 @@ datasource db {
 }
 
 model TourPackage {
-  id               String   @id @default(cuid())
-  slug             String   @unique
-  title            String
-  category         String
-  categoryLabel    String
-  location         String
-  duration         String
-  price            Int
-  originalPrice    Int?
-  rating           Float    @default(5)
-  reviewCount      Int      @default(0)
-  coverImage       String
-  gallery          String[]
-  shortDescription String
-  description      String   @db.Text
-  highlights       String[]
-  itinerary        Json // [{ time: string, activity: string }]
-  includes         String[]
-  excludes         String[]
-  faq              Json // [{ question: string, answer: string }]
-  published        Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String // sengaja 1 bahasa (nama produk bersifat universal)
+  category      String
+  categoryLabel String
+  location      String // sengaja 1 bahasa
+  durationHours Int // angka murni — satuan "jam"/"hours" ditentukan otomatis oleh locale
+  price         Int
+  originalPrice Int?
+  rating        Float    @default(5)
+  reviewCount   Int      @default(0)
+  coverImage    String
+  gallery       String[]
+
+  // Semua field di bawah ini bilingual, format JSON: { "id": "...", "en": "..." }
+  // Array bilingual (highlights/includes/excludes): [{ "id": "...", "en": "..." }, ...]
+  // itinerary: [{ "time": "05.30", "activity": { "id": "...", "en": "..." } }, ...]
+  // faq: [{ "question": {...}, "answer": {...} }, ...]
+  // Desain JSON fleksibel ini sengaja dipilih supaya nambah bahasa baru (misal zh)
+  // nanti TIDAK perlu ubah struktur database — cukup tambah key baru di tiap objek.
+  shortDescription Json
+  description      Json
+  highlights       Json
+  itinerary        Json
+  includes         Json
+  excludes         Json
+  faq              Json
+
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("tour_packages")
 }
@@ -39,8 +47,9 @@ model TourPackage {
 model Transport {
   id           String   @id @default(cuid())
   slug         String   @unique
-  name         String
-  capacity     String
+  name         String // sengaja 1 bahasa
+  capacityMin  Int
+  capacityMax  Int
   pricePerDay  Int
   hours        Int
   image        String
@@ -81,7 +90,7 @@ enum AdminRole {
 
 // Data profil admin, terhubung 1:1 dengan user di Supabase Auth (auth.users.id)
 model Profile {
-  id        String    @id // sama dengan Supabase auth user id
+  id        String    @id
   email     String    @unique
   name      String
   role      AdminRole @default(ADMIN)
@@ -100,9 +109,9 @@ enum InquiryStatus {
 model Inquiry {
   id        String        @id @default(cuid())
   name      String
-  contact   String? // nomor WA / email, opsional
+  contact   String? // nomor WA / email
   message   String        @db.Text
-  source    String // contoh: "contact-form", atau slug tour saat booking
+  source    String
   status    InquiryStatus @default(NEW)
   createdAt DateTime      @default(now())
 

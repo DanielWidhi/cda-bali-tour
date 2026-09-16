@@ -75,7 +75,6 @@ export function GalleryLightbox({
           >
             <X className="h-5 w-5" />
           </button>
-
           <button
             type="button"
             onClick={(e) => {
@@ -87,11 +86,7 @@ export function GalleryLightbox({
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
-
-          <div
-            className="relative w-full max-w-4xl aspect-[4/3]"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-4xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={images[activeIndex].url}
               alt={images[activeIndex].caption ?? "Foto galeri CDA Bali Tour"}
@@ -102,7 +97,6 @@ export function GalleryLightbox({
               priority
             />
           </div>
-
           <button
             type="button"
             onClick={(e) => {
@@ -114,7 +108,6 @@ export function GalleryLightbox({
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-
           {images[activeIndex].caption && (
             <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm">
               {images[activeIndex].caption}

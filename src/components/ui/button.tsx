@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -9,14 +8,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-[color:var(--color-amber)] text-[color:var(--color-ink)] hover:brightness-105 shadow-sm",
-        outline:
-          "border border-current bg-transparent hover:bg-black/5",
+        default: "bg-[color:var(--color-amber)] text-[color:var(--color-ink)] hover:brightness-105 shadow-sm",
+        outline: "border border-current bg-transparent hover:bg-black/5",
         ghost: "hover:bg-black/5",
         link: "underline-offset-4 hover:underline text-[color:var(--color-amber)]",
-        inverse:
-          "bg-[color:var(--color-mist)] text-[color:var(--color-ink)] hover:brightness-95",
+        inverse: "bg-[color:var(--color-mist)] text-[color:var(--color-ink)] hover:brightness-95",
       },
       size: {
         default: "h-11 px-6 py-2",
@@ -25,10 +21,7 @@ const buttonVariants = cva(
         icon: "h-10 w-10 rounded-full",
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: "default", size: "default" },
   }
 );
 
@@ -38,8 +31,7 @@ function Button({
   size,
   asChild = false,
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
+}: React.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : "button";
   return (
     <Comp

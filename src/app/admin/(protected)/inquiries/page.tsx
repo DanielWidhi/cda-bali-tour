@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { DeleteButton } from "@/components/admin/delete-button";
+import { WhatsAppLinkButton } from "@/components/admin/whatsapp-link-button";
 import { deleteInquiryAction } from "./actions";
 import { StatusSelect } from "./status-select";
 
@@ -25,6 +26,7 @@ export default async function AdminInquiriesPage() {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <StatusSelect id={inq.id} status={inq.status} />
+                <WhatsAppLinkButton phone={inq.contact} />
                 <DeleteButton itemLabel={inq.name} action={deleteInquiryAction.bind(null, inq.id)} />
               </div>
             </div>

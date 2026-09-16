@@ -16,14 +16,12 @@ import { prisma } from "@/lib/prisma";
 import { mapTour } from "@/lib/mappers";
 import { formatIDR } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+import type { Locale } from "@/lib/localization";
 
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const tours = await prisma.tourPackage.findMany({
-    where: { published: true },
-    select: { slug: true },
-  });
+  const tours = await prisma.tourPackage.findMany({ where: { published: true }, select: { slug: true } });
   return tours.map((t) => ({ slug: t.slug }));
 }
 
@@ -38,11 +36,9 @@ export async function generateMetadata({
 
   return {
     title: `${tour.title} — ${formatIDR(tour.price)}`,
-    description: tour.shortDescription,
     alternates: { canonical: `/tour/${tour.slug}` },
     openGraph: {
       title: tour.title,
-      description: tour.shortDescription,
       images: [{ url: tour.coverImage, width: 1200, height: 800 }],
     },
   };
@@ -51,12 +47,12 @@ export async function generateMetadata({
 export default async function TourDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const raw = await prisma.tourPackage.findUnique({ where: { slug } });
   if (!raw || !raw.published) notFound();
-  const tour = mapTour(raw);
+  const tour = mapTour(raw, locale as Locale);
   const t = await getTranslations("tourDetail");
 
   const jsonLd = {
@@ -73,19 +69,12 @@ export default async function TourDetailPage({
       availability: "https://schema.org/InStock",
       url: `${siteConfig.url}/tour/${tour.slug}`,
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: tour.rating,
-      reviewCount: tour.reviewCount,
-    },
+    aggregateRating: { "@type": "AggregateRating", ratingValue: tour.rating, reviewCount: tour.reviewCount },
   };
 
   return (
     <div className="mx-auto max-w-7xl px-5 lg:px-8 py-10">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <nav className="text-xs text-black/50 mb-6">
         <Link href="/">{t("home")}</Link> / <Link href="/tour">{t("breadcrumb")}</Link> /{" "}
@@ -94,36 +83,19 @@ export default async function TourDetailPage({
 
       <div className="grid lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2" data-aos="fade-up">
-          <Badge variant="default" className="mb-3">
-            {tour.categoryLabel}
-          </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl leading-tight">
-            {tour.title}
-          </h1>
+          <Badge variant="default" className="mb-3">{tour.categoryLabel}</Badge>
+          <h1 className="font-serif text-3xl sm:text-4xl leading-tight">{tour.title}</h1>
           <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-black/60">
             <span className="flex items-center gap-1">
               <Star className="h-4 w-4 fill-[color:var(--color-amber)] text-[color:var(--color-amber)]" />
-              <strong className="text-black">{tour.rating}</strong> (
-              {tour.reviewCount} {t("reviews")})
+              <strong className="text-black">{tour.rating}</strong> ({tour.reviewCount} {t("reviews")})
             </span>
-            <span className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" /> {tour.location}
-            </span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-4 w-4" /> {tour.duration}
-            </span>
+            <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {tour.location}</span>
+            <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {tour.duration}</span>
           </div>
 
           <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mt-6">
-            <Image
-              src={tour.coverImage}
-              alt={tour.title}
-              fill
-              priority
-              quality={75}
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              className="object-cover"
-            />
+            <Image src={tour.coverImage} alt={tour.title} fill priority quality={75} sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" />
           </div>
 
           <section className="mt-10">
@@ -149,9 +121,7 @@ export default async function TourDetailPage({
               {tour.itinerary.map((step, i) => (
                 <li key={i} className="ml-6 pb-6 last:pb-0">
                   <span className="absolute -left-[7px] flex h-3.5 w-3.5 rounded-full bg-[color:var(--color-amber)]" />
-                  <p className="text-xs font-semibold text-[color:var(--color-amber-deep)]">
-                    {step.time}
-                  </p>
+                  <p className="text-xs font-semibold text-[color:var(--color-amber-deep)]">{step.time}</p>
                   <p className="text-sm text-black/70 mt-0.5">{step.activity}</p>
                 </li>
               ))}
@@ -164,8 +134,7 @@ export default async function TourDetailPage({
               <ul className="flex flex-col gap-2">
                 {tour.includes.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-black/70">
-                    <Check className="h-4 w-4 text-[color:var(--color-green)] shrink-0 mt-0.5" />
-                    {item}
+                    <Check className="h-4 w-4 text-[color:var(--color-green)] shrink-0 mt-0.5" />{item}
                   </li>
                 ))}
               </ul>
@@ -175,8 +144,7 @@ export default async function TourDetailPage({
               <ul className="flex flex-col gap-2">
                 {tour.excludes.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-black/70">
-                    <X className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
-                    {item}
+                    <X className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />{item}
                   </li>
                 ))}
               </ul>
@@ -198,24 +166,15 @@ export default async function TourDetailPage({
           )}
         </div>
 
-        {/* Sticky booking card */}
         <aside className="lg:col-span-1" data-aos="fade-up" data-aos-delay="150">
           <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            {tour.originalPrice && (
-              <p className="text-sm text-black/40 line-through">
-                {formatIDR(tour.originalPrice)}
-              </p>
-            )}
-            <p className="font-serif text-3xl text-[color:var(--color-amber-deep)]">
-              {formatIDR(tour.price)}
-            </p>
+            {tour.originalPrice && <p className="text-sm text-black/40 line-through">{formatIDR(tour.originalPrice)}</p>}
+            <p className="font-serif text-3xl text-[color:var(--color-amber-deep)]">{formatIDR(tour.price)}</p>
             <p className="text-xs text-black/50 mb-6">{t("perPerson")}</p>
 
             <Button asChild size="lg" className="w-full mb-3">
               <a
-                href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
-                  `Halo, saya ingin booking paket "${tour.title}"`
-                )}`}
+                href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Halo, saya ingin booking paket "${tour.title}"`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

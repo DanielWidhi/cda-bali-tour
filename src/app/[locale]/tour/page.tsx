@@ -6,6 +6,7 @@ import { TourCard } from "@/components/sections/tour-card";
 import { TourListSkeleton } from "@/components/sections/tour-list-skeleton";
 import { prisma } from "@/lib/prisma";
 import { mapTour } from "@/lib/mappers";
+import type { Locale } from "@/lib/localization";
 import { cn } from "@/lib/utils";
 
 export const revalidate = 60;
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function TourFilterList({ activeCategory }: { activeCategory: string }) {
+async function TourFilterList({ activeCategory, locale }: { activeCategory: string; locale: Locale }) {
   const t = await getTranslations();
   const categories = [
     { label: t("tourListing.allPackages"), value: "all" },
@@ -31,13 +32,10 @@ async function TourFilterList({ activeCategory }: { activeCategory: string }) {
 
   const tours = (
     await prisma.tourPackage.findMany({
-      where: {
-        published: true,
-        ...(activeCategory !== "all" ? { category: activeCategory } : {}),
-      },
+      where: { published: true, ...(activeCategory !== "all" ? { category: activeCategory } : {}) },
       orderBy: { createdAt: "desc" },
     })
-  ).map(mapTour);
+  ).map((tour) => mapTour(tour, locale));
 
   return (
     <>
@@ -74,10 +72,13 @@ async function TourFilterList({ activeCategory }: { activeCategory: string }) {
 }
 
 export default async function TourListPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ category?: string }>;
 }) {
+  const { locale } = await params;
   const { category } = await searchParams;
   const activeCategory = category ?? "all";
   const t = await getTranslations("tourListing");
@@ -93,7 +94,7 @@ export default async function TourListPage({
       </div>
 
       <Suspense fallback={<TourListSkeleton />}>
-        <TourFilterList activeCategory={activeCategory} />
+        <TourFilterList activeCategory={activeCategory} locale={locale as Locale} />
       </Suspense>
     </div>
   );

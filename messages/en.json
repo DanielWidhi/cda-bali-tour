@@ -15,17 +15,19 @@
     "bookViaWhatsapp": "Book via WhatsApp"
   },
   "footer": {
+    "description": "CDA Bali Tour offers tour packages, car rental with driver, and activities across Bali with transparent pricing and no hidden fees. Legal, experienced, and trusted by thousands of travelers.",
     "contact": "Contact",
     "services": "Services",
     "carRental": "Car Rental + Driver",
     "rightsReserved": "All rights reserved.",
-    "publishedBy": "Published by"
+    "publishedBy": "Published by",
+    "legalOperator": "Legal Tour Operator in Bali, Indonesia"
   },
   "hero": {
     "trustedByTravelers": "Trusted by travelers from all over the world",
     "ratingText": "{rating}/5 from {count}+ travelers",
     "title": "Explore Bali at ease, with <highlight>local drivers</highlight> who know every corner.",
-    "description": "PT. CDA offers private tour packages, car rental with driver, and activities across Bali — transparent pricing, no hidden fees, and pay after your trip is done.",
+    "description": "PT. Cahaya Dimbo Abadi offers private tour packages, car rental with driver, and activities across Bali — transparent pricing, no hidden fees, and pay after your trip is done.",
     "viewPackages": "View Tour Packages",
     "rentCar": "Rent a Car + Driver",
     "legalBadge": "Legal tour operator — 9+ years operating in Bali"
@@ -80,6 +82,10 @@
   "language": {
     "label": "Language"
   },
+  "units": {
+    "hours": "hours",
+    "people": "people"
+  },
   "tourListing": {
     "label": "Tour Packages",
     "title": "Bali tour packages for every travel style",
@@ -108,7 +114,6 @@
     "label": "Bali Transport Service",
     "title": "Build your own itinerary, explore Bali your way",
     "description": "Rent an air-conditioned car with an English-speaking driver. Perfect for families, groups, or anyone who wants a flexible route without being tied to a fixed package.",
-    "perHour": "hours",
     "book": "Book",
     "includes": "Included",
     "excludes": "Not Included",
@@ -126,8 +131,8 @@
     "statYears": "9+ years of experience",
     "statTravelers": "5,000+ travelers served",
     "statLegal": "Legally licensed operator",
-    "paragraph1": "{company} is an officially licensed tour operator based in Gianyar, Bali. We started as a small car-rental-with-driver service, and have since grown into a provider of tour packages, transport, and activities trusted by thousands of travelers from around the world.",
-    "paragraph2": "We believe the best travel experience comes from transparency: clear pricing from the start, drivers who truly know Bali's culture and terrain, and payment that can be made after your trip is complete — not before you're sure.",
+    "paragraph1": "PT. Cahaya Dimbo Abadi is a licensed tour operator based in Gianyar, Bali. We started as a small car rental with driver service, and have grown into a trusted provider of tour packages, transport, and activities for thousands of travelers from around the world.",
+    "paragraph2": "We believe the best travel experience comes from openness: clear pricing from the start, drivers who truly know Bali's culture and terrain, and service you can pay for after your trip — not before you're sure.",
     "paragraph3": "When needed, we also work with licensed tour guides who have deep knowledge of Bali's history and art, so every story you hear along the way is accurate and meaningful."
   },
   "contactPage": {
@@ -151,7 +156,7 @@
   "testimoniPage": {
     "label": "Testimonials",
     "title": "How was your experience with us?",
-    "description": "Thank you for exploring Bali with CDA. Your story will really help other travelers make their decision.",
+    "description": "Thank you for exploring Bali with us. Your story will really help other travelers make their decision.",
     "nameLabel": "Name",
     "originLabel": "Origin (Country / City)",
     "originPlaceholder": "Australia / Jakarta",

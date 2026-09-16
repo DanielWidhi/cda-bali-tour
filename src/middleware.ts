@@ -8,7 +8,6 @@ const intlMiddleware = createMiddleware(routing);
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Route /admin/* -> tidak pakai locale, cukup proteksi Supabase Auth
   if (pathname.startsWith("/admin")) {
     const { response, user } = await updateSession(request);
     const isLoginPage = pathname === "/admin/login";
@@ -22,7 +21,6 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // Semua halaman publik lain -> ditangani next-intl (deteksi/redirect locale)
   return intlMiddleware(request);
 }
 

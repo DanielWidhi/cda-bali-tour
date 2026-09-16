@@ -18,7 +18,7 @@ export function Hero({
     <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="/images/hero/nusapenida.webp"
+          src="/images/hero-batur.webp"
           alt="Sunrise di atas Gunung Batur dengan kabut kaldera, Kintamani, Bali"
           fill
           priority
@@ -43,10 +43,7 @@ export function Hero({
           </span>
         </div>
 
-        <h1
-          className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl"
-          data-aos="fade-up"
-        >
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl" data-aos="fade-up">
           {t.rich("title", {
             highlight: (chunks) => (
               <span className="italic text-[color:var(--color-amber)]">{chunks}</span>
@@ -61,11 +58,15 @@ export function Hero({
           {t("description")}
         </p>
 
-        <div className="mt-9 flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="200">
-          <Button asChild size="lg">
+        <div
+          className="mt-9 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <Button asChild size="lg" className="w-full sm:w-auto">
             <Link href="/tour">{t("viewPackages")}</Link>
           </Button>
-          <Button asChild size="lg" variant="inverse">
+          <Button asChild size="lg" variant="inverse" className="w-full sm:w-auto">
             <Link href="/transport">{t("rentCar")}</Link>
           </Button>
         </div>

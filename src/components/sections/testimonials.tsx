@@ -1,10 +1,9 @@
 import { useTranslations } from "next-intl";
 import { Star, Quote } from "lucide-react";
-import type { Testimonial } from "@prisma/client";
+import type { Testimonial } from "@/types";
 
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const t = useTranslations("testimonialsSection");
-
   if (testimonials.length === 0) return null;
 
   return (
@@ -26,9 +25,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
               className="rounded-2xl bg-white/5 border border-white/10 p-6 flex flex-col"
             >
               <Quote className="h-6 w-6 text-[color:var(--color-amber)] mb-4" />
-              <p className="text-white/80 text-sm leading-relaxed flex-1">
-                &ldquo;{item.quote}&rdquo;
-              </p>
+              <p className="text-white/80 text-sm leading-relaxed flex-1">&ldquo;{item.quote}&rdquo;</p>
               <div className="flex items-center gap-1 mt-5 mb-2 text-[color:var(--color-amber)]">
                 {Array.from({ length: item.rating }).map((_, i) => (
                   <Star key={i} className="h-3.5 w-3.5 fill-current" />

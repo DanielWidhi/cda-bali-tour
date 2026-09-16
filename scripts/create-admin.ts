@@ -26,8 +26,6 @@ if (password.length < 6) {
   process.exit(1);
 }
 
-// Pakai Service Role Key -> akses penuh, HANYA dijalankan dari CLI lokal,
-// jangan pernah expose key ini ke browser/client.
 const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
@@ -38,7 +36,7 @@ async function main() {
   const { data, error } = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
-    email_confirm: true, // langsung dianggap terverifikasi, tanpa perlu klik email
+    email_confirm: true,
   });
 
   if (error || !data.user) {
@@ -46,8 +44,6 @@ async function main() {
     process.exit(1);
   }
 
-  // Script ini khusus untuk akun PERTAMA -> otomatis jadi SUPERADMIN,
-  // supaya ada minimal 1 akun yang bisa mengelola admin lain lewat CMS.
   await prisma.profile.create({
     data: {
       id: data.user.id,

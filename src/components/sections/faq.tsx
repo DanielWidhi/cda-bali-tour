@@ -8,7 +8,6 @@ import {
 
 export function FAQSection() {
   const t = useTranslations("faq");
-  // next-intl mengizinkan ambil array langsung dari messages via t.raw()
   const items = t.raw("items") as { question: string; answer: string }[];
 
   return (

@@ -22,20 +22,12 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
   @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
   }
   @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
   }
 }
 
@@ -49,11 +41,7 @@ body {
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-.font-serif {
+h1, h2, h3, h4, .font-serif {
   font-family: var(--font-fraunces), Georgia, serif;
 }
 
@@ -64,7 +52,6 @@ h4,
   width: 100%;
   overflow: hidden;
 }
-
 .ridge-divider svg {
   position: absolute;
   bottom: -1px;
@@ -73,9 +60,7 @@ h4,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

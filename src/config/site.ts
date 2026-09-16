@@ -2,14 +2,14 @@ export const siteConfig = {
   companyLegalName: "PT. Cahaya Dimbo Abadi",
   brandName: "CDA Bali Tour",
   tagline: "Explore Bali, The Way It Should Be",
-  description:
-    "CDA Bali Tour menyediakan paket tour, sewa mobil dengan driver, dan aktivitas wisata di Bali dengan harga transparan tanpa biaya tersembunyi. Legal, berpengalaman, dan dipercaya ribuan wisatawan.",
   url: "https://www.cdabalitour.com", // ganti sesuai domain yang dibeli nanti
   ogImage: "/images/og-cover.jpg",
   phone: "+62 813-3917-2556",
   whatsapp: "6281339172556",
   email: "info@cdabalitour.com",
   address: "Gg. Tunjung Sari, Batubulan Kangin, Sukawati, Gianyar, Bali 80582",
+  // Koordinat presisi untuk embed peta di halaman Kontak (bukan cuma cari teks alamat)
+  mapCoordinates: { lat: -8.6454061, lng: 115.1915991 },
   socials: {
     instagram: "https://instagram.com/cdabalitour",
     facebook: "https://facebook.com/cdabalitour",
@@ -22,21 +22,21 @@ export const siteConfig = {
   },
   nav: [
     {
-      label: "Tour Packages",
+      labelKey: "tourPackages",
       href: "/tour",
       children: [
-        { label: "Semua Paket", href: "/tour" },
-        { label: "Sunrise Tour", href: "/tour?category=sunrise" },
-        { label: "Day Tour", href: "/tour?category=day-tour" },
-        { label: "Nusa Penida", href: "/tour?category=nusa-penida" },
-        { label: "Adventure", href: "/tour?category=adventure" },
+        { labelKey: "allPackages", href: "/tour" },
+        { labelKey: "sunriseTour", href: "/tour?category=sunrise" },
+        { labelKey: "dayTour", href: "/tour?category=day-tour" },
+        { labelKey: "nusaPenida", href: "/tour?category=nusa-penida" },
+        { labelKey: "adventure", href: "/tour?category=adventure" },
       ],
     },
-    { label: "Transport", href: "/transport" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Tentang Kami", href: "/tentang-kami" },
-    { label: "Testimoni", href: "/testimoni" },
-    { label: "Kontak", href: "/kontak" },
+    { labelKey: "transport", href: "/transport" },
+    { labelKey: "gallery", href: "/gallery" },
+    { labelKey: "aboutUs", href: "/tentang-kami" },
+    { labelKey: "testimonials", href: "/testimoni" },
+    { labelKey: "contact", href: "/kontak" },
   ],
 };
 

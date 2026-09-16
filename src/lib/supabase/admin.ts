@@ -1,8 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
-// ⚠️ HANYA dipakai di server (Server Action / Route Handler).
-// Service role key bisa bypass semua Row Level Security — jangan pernah
-// diimpor ke komponen client.
+// HANYA dipakai di server (Server Action / Route Handler). Service role key
+// bisa bypass semua RLS — jangan pernah diimpor ke komponen client.
 export function createAdminClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

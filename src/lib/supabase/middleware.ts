@@ -23,8 +23,6 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // IMPORTANT: jangan hapus baris ini. getUser() akan me-refresh token
-  // yang sudah kedaluwarsa dan menyinkronkan cookie session.
   const {
     data: { user },
   } = await supabase.auth.getUser();

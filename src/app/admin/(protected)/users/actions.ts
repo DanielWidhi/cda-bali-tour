@@ -1,17 +1,17 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { getCurrentProfile } from "@/lib/current-profile";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getCurrentProfile } from "@/lib/current-profile";
 
 export type UserActionState = { error?: string };
 
 async function requireSuperadmin() {
   const profile = await getCurrentProfile();
-  if (!profile || profile.role !== "SUPERADMIN") {
-    return null;
+  if (profile?.role !== "SUPERADMIN") {
+    throw new Error("Hanya Super Admin yang bisa melakukan aksi ini.");
   }
   return profile;
 }
@@ -20,9 +20,10 @@ export async function createUserAction(
   _prevState: UserActionState,
   formData: FormData
 ): Promise<UserActionState> {
-  const actor = await requireSuperadmin();
-  if (!actor) {
-    return { error: "Hanya Super Admin yang bisa menambah akun admin." };
+  try {
+    await requireSuperadmin();
+  } catch {
+    return { error: "Hanya Super Admin yang bisa menambah akun." };
   }
 
   const email = String(formData.get("email") ?? "").trim();
@@ -45,7 +46,7 @@ export async function createUserAction(
   });
 
   if (error || !data.user) {
-    return { error: error?.message ?? "Gagal membuat akun di Supabase Auth." };
+    return { error: error?.message ?? "Gagal membuat akun." };
   }
 
   await prisma.profile.create({
@@ -61,35 +62,28 @@ export async function updateUserAction(
   _prevState: UserActionState,
   formData: FormData
 ): Promise<UserActionState> {
-  const actor = await requireSuperadmin();
-  if (!actor) {
-    return { error: "Hanya Super Admin yang bisa mengedit akun admin lain." };
+  const currentProfile = await getCurrentProfile();
+  if (currentProfile?.role !== "SUPERADMIN") {
+    return { error: "Hanya Super Admin yang bisa mengedit akun." };
   }
 
   const name = String(formData.get("name") ?? "").trim();
-  const role = String(formData.get("role") ?? "ADMIN") as "SUPERADMIN" | "ADMIN";
-  const newPassword = String(formData.get("password") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  const isSelf = currentProfile.id === id;
+  // Superadmin tidak boleh ubah role akun sendiri (jaga-jaga supaya tidak
+  // "mengunci diri sendiri" jadi Admin biasa tanpa akses Users).
+  const role = isSelf
+    ? currentProfile.role
+    : (String(formData.get("role") ?? "ADMIN") as "SUPERADMIN" | "ADMIN");
 
-  if (!name) {
-    return { error: "Nama wajib diisi." };
+  if (!name) return { error: "Nama wajib diisi." };
+  if (password && password.length < 6) {
+    return { error: "Password minimal 6 karakter." };
   }
 
-  // Cegah superadmin menurunkan role diri sendiri sampai tidak ada superadmin tersisa
-  if (actor.id === id && role !== "SUPERADMIN") {
-    const superadminCount = await prisma.profile.count({ where: { role: "SUPERADMIN" } });
-    if (superadminCount <= 1) {
-      return { error: "Tidak bisa menurunkan role — minimal harus ada 1 Super Admin." };
-    }
-  }
-
-  if (newPassword) {
-    if (newPassword.length < 6) {
-      return { error: "Password baru minimal 6 karakter." };
-    }
+  if (password) {
     const supabaseAdmin = createAdminClient();
-    const { error } = await supabaseAdmin.auth.admin.updateUserById(id, {
-      password: newPassword,
-    });
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(id, { password });
     if (error) return { error: error.message };
   }
 
@@ -100,11 +94,11 @@ export async function updateUserAction(
 }
 
 export async function deleteUserAction(id: string) {
-  const actor = await requireSuperadmin();
-  if (!actor) {
-    throw new Error("Hanya Super Admin yang bisa menghapus akun admin.");
+  const currentProfile = await getCurrentProfile();
+  if (currentProfile?.role !== "SUPERADMIN") {
+    throw new Error("Hanya Super Admin yang bisa menghapus akun.");
   }
-  if (actor.id === id) {
+  if (currentProfile.id === id) {
     throw new Error("Tidak bisa menghapus akun sendiri.");
   }
 

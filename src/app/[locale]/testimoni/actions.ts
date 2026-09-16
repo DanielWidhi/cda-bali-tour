@@ -23,7 +23,7 @@ export async function submitTestimonialAction(input: {
       rating: Math.min(5, Math.max(1, input.rating)),
       tourSlug: input.tourSlug?.trim() || null,
       quote: input.quote.trim(),
-      published: false, // menunggu approval admin sebelum tampil di homepage
+      published: false, // menunggu approval admin
     },
   });
 

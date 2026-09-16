@@ -8,7 +8,8 @@ function buildTransportData(formData: FormData) {
   return {
     slug: String(formData.get("slug")).trim(),
     name: String(formData.get("name")).trim(),
-    capacity: String(formData.get("capacity")).trim(),
+    capacityMin: Number(formData.get("capacityMin")),
+    capacityMax: Number(formData.get("capacityMax")),
     pricePerDay: Number(formData.get("pricePerDay")),
     hours: Number(formData.get("hours")),
     image: String(formData.get("image")).trim(),
@@ -36,7 +37,6 @@ export async function updateTransportAction(id: string, formData: FormData) {
 
 export async function deleteTransportAction(id: string) {
   await prisma.transport.delete({ where: { id } });
-
   revalidatePath("/admin/transport");
   revalidatePath("/transport");
 }

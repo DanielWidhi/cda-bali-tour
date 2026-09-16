@@ -1,12 +1,31 @@
 import Link from "next/link";
-import { ExternalLink, LogOut } from "lucide-react";
-import { adminNavItems } from "@/lib/admin-nav";
+import {
+  LayoutDashboard,
+  MapPinned,
+  Car,
+  Images,
+  Star,
+  MessageSquareText,
+  Users,
+  ExternalLink,
+  LogOut,
+} from "lucide-react";
 import { logoutAction } from "@/app/admin/actions-auth";
+
+export const adminNavItems = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/tours", label: "Tour Packages", icon: MapPinned },
+  { href: "/admin/transport", label: "Transport", icon: Car },
+  { href: "/admin/gallery", label: "Gallery", icon: Images },
+  { href: "/admin/testimonials", label: "Testimonials", icon: Star },
+  { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquareText },
+  { href: "/admin/users", label: "Users", icon: Users },
+];
 
 export function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <>
-      <Link href="/admin" onClick={onNavigate} className="flex items-center gap-2 mb-8 shrink-0">
+    <div className="flex h-full flex-col">
+      <Link href="/admin" className="flex items-center gap-2 mb-8 shrink-0" onClick={onNavigate}>
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] text-[color:var(--color-ink)] font-serif text-lg">
           C
         </span>
@@ -27,7 +46,8 @@ export function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void })
         ))}
       </nav>
 
-      <div className="flex flex-col gap-1 pt-4 border-t border-white/10 shrink-0">
+      {/* Selalu terlihat, tidak ikut ter-scroll bersama nav di atas */}
+      <div className="flex flex-col gap-1 pt-4 mt-4 border-t border-white/10 shrink-0">
         <a
           href="/"
           target="_blank"
@@ -44,6 +64,6 @@ export function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void })
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 }

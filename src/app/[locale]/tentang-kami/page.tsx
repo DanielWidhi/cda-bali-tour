@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { ShieldCheck, Users, Clock3 } from "lucide-react";
-import { siteConfig } from "@/config/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("aboutPage");
   return {
-    title: t("label"),
-    description: t("paragraph1", { company: siteConfig.companyLegalName }),
+    title: t("title"),
     alternates: { canonical: "/tentang-kami" },
   };
 }
@@ -31,8 +29,8 @@ export default async function AboutPage() {
 
       <div className="relative aspect-[16/8] rounded-2xl overflow-hidden mt-8">
         <Image
-          src="/images/hero/cda-logo-landscape.jpg"
-          alt="Logo PT. CDA Bali"
+          src="/images/about-team.webp"
+          alt="Tim driver dan pemandu CDA Bali Tour"
           fill
           sizes="100vw"
           quality={70}
@@ -50,7 +48,7 @@ export default async function AboutPage() {
       </div>
 
       <div className="mt-10 prose prose-neutral max-w-none text-black/70 leading-relaxed">
-        <p>{t("paragraph1", { company: siteConfig.companyLegalName })}</p>
+        <p>{t("paragraph1")}</p>
         <p>{t("paragraph2")}</p>
         <p>{t("paragraph3")}</p>
       </div>

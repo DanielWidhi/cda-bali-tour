@@ -1,10 +1,13 @@
-import { prisma } from "@/lib/prisma";
-import { getCurrentProfile } from "@/lib/current-profile";
 import { AdminShell } from "@/components/admin/admin-shell";
+import { getCurrentProfile } from "@/lib/current-profile";
+import { prisma } from "@/lib/prisma";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function ProtectedAdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const profile = await getCurrentProfile();
-
   const unreadInquiryCount = await prisma.inquiry.count({
     where: { status: { in: ["NEW", "IN_PROGRESS"] } },
   });

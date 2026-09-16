@@ -1,241 +1,36 @@
-# CDA Bali Tour — Website + CMS (PT. CDA)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Website tour & transport Bali dibangun dengan **Next.js 16** (App Router), **TypeScript**, **Tailwind CSS v4**, komponen ala **shadcn/ui**, database **Supabase (Postgres)** lewat **Prisma ORM**, login admin pakai **Supabase Auth**, animasi **AOS**, dan notifikasi **SweetAlert2**. Sudah termasuk **CMS admin** untuk mengelola tour, transport, testimoni, dan pesan masuk tanpa perlu sentuh kode.
+## Getting Started
 
----
-
-## 1. Buat project Supabase
-
-1. Buka [supabase.com](https://supabase.com) → **New Project**.
-2. Isi nama project (misal `cda-bali-tour`), buat password database yang kuat (**catat password ini**, dipakai di langkah 3), pilih region terdekat (misal Singapore).
-3. Tunggu project selesai dibuat (±2 menit).
-
-## 2. Install project & isi `.env`
-
-```bash
-cd cda-bali-tour
-npm install
-cp .env.example .env
-```
-
-Buka `.env` dan isi 3 kelompok variabel berikut:
-
-**a) Database (untuk Prisma)** — dari **Project Settings → Database → Connection String**:
-```env
-DATABASE_URL="...connection pooler, port 6543..."
-DIRECT_URL="...direct connection, port 5432..."
-```
-(ganti `[PASSWORD]` dengan password yang kamu buat di langkah 1)
-
-**b) Auth (untuk login admin)** — dari **Project Settings → API**:
-```env
-NEXT_PUBLIC_SUPABASE_URL="https://xxxxx.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJ..."          # key "anon public"
-SUPABASE_SERVICE_ROLE_KEY="eyJ..."               # key "service_role secret" — RAHASIA!
-```
-
-> ⚠️ `SUPABASE_SERVICE_ROLE_KEY` punya akses penuh ke database & auth. Jangan pernah dipakai di kode yang jalan di browser, dan jangan commit ke git (sudah otomatis di-`.gitignore`).
-
-## 3. Setup database (Prisma)
-
-```bash
-npm run db:generate   # generate Prisma Client sesuai schema
-npm run db:migrate     # buat tabel-tabel di Supabase
-npm run db:seed         # isi data contoh (tour, transport, testimoni)
-```
-
-`npm run db:migrate` akan minta nama migrasi — isi bebas, misal `init`.
-
-## 4. Buat akun admin (Supabase Auth)
-
-Login CMS **tidak** pakai tabel database biasa, tapi sistem **Supabase Auth** bawaan. Buat akun admin pertama lewat script:
-
-```bash
-npm run create-admin -- "admin@cdabalitour.com" "passwordKuat123" "Nama Kamu"
-```
-
-Setelah ini, akun tersebut akan muncul di Supabase Dashboard pada **Authentication → Users** (bukan di Table Editor — Supabase Auth memang menyimpan user di schema `auth` yang terpisah dan hanya tampil di tab Authentication, bukan sebagai tabel biasa).
-
-Mau tambah admin lain? Jalankan lagi command yang sama dengan email berbeda, atau tambahkan manual lewat **Authentication → Users → Add User** di dashboard Supabase.
-
-## 5. Jalankan project
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-- Website: `http://localhost:3000`
-- Login admin: `http://localhost:3000/admin/login` — pakai email & password dari langkah 4
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Struktur project
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```
-prisma/
-  schema.prisma           → definisi tabel database (tour, transport, testimoni, inquiry, gallery, profile/role)
-  seed.ts                  → data awal (opsional, sekali jalan)
-scripts/
-  create-admin.ts           → bikin akun Superadmin pertama di Supabase Auth
-messages/
-  id.json, en.json           → semua teks UI publik (Bahasa Indonesia & English)
-src/
-  middleware.ts              → gabungan: proteksi /admin (Supabase session) + routing locale (next-intl)
-  i18n/
-    routing.ts                 → konfigurasi locale (id default, en opsional, prefix "as-needed")
-    navigation.ts               → Link/useRouter/redirect locale-aware (pengganti next/link)
-    request.ts                   → loader file messages/{locale}.json
-  lib/
-    prisma.ts                 → Prisma client singleton
-    current-profile.ts         → ambil profil (nama, role) admin yang login
-    supabase/
-      client.ts                 → Supabase client untuk browser
-      server.ts                 → Supabase client untuk Server Component/Action
-      middleware.ts              → refresh session di middleware
-      admin.ts                   → Supabase client service-role (storage upload, kelola user admin)
-    mappers.ts                  → konversi tipe Prisma → tipe komponen UI
-    form-parsers.ts              → parsing textarea multi-baris jadi array/objek
-  app/
-    layout.tsx                 → root layout MINIMAL (html/body/font saja — tidak ada Navbar/Footer!)
-    [locale]/                   → SEMUA halaman publik (otomatis dapat prefix /en untuk bahasa Inggris)
-      layout.tsx                  → Navbar, Footer, WhatsApp float, AOS, NextIntlClientProvider
-      page.tsx                     → Homepage (fetch dari Prisma)
-      tour/, transport/, gallery/, tentang-kami/, testimoni/, kontak/
-    actions/
-      inquiry-actions.ts          → Server Action simpan pesan (dipakai form kontak)
-    api/admin/upload/route.ts   → endpoint upload gambar ke Supabase Storage (khusus admin login)
-    admin/                       → TIDAK di-i18n-kan, tetap Bahasa Indonesia, di luar folder [locale]
-      login/                       → halaman login
-      actions-auth.ts               → Server Action login/logout (Supabase Auth)
-      (protected)/                   → semua halaman admin yang butuh login
-        page.tsx                       → dashboard
-        tours/                          → CRUD tour package (dengan upload gambar)
-        transport/                      → CRUD armada (dengan upload gambar)
-        gallery/                        → upload & kelola foto gallery publik
-        testimonials/                    → approve/reject testimoni dari user + tambah manual
-        inquiries/                        → lihat & kelola pesan masuk
-        users/                            → CRUD akun admin (khusus role Superadmin)
-  components/
-    ui/                        → komponen dasar (Button, Card, dst — gaya shadcn/ui)
-    layout/                     → Navbar, Footer, WhatsApp float, LanguageSwitcher, AOSInit
-    sections/                    → Hero, Testimonials, TourCard, form kontak/testimoni, dll
-    admin/                        → AdminShell (header+sidebar+footer), form, upload gambar, dll
-```
+## Learn More
 
-## Multi-bahasa (i18n)
+To learn more about Next.js, take a look at the following resources:
 
-Website publik mendukung **Bahasa Indonesia** (default, tanpa prefix URL, misal `/tour`) dan **English** (prefix `/en`, misal `/en/tour`). Pengunjung bisa ganti bahasa lewat tombol **ID/EN** di navbar.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-**Yang sudah diterjemahkan otomatis:** seluruh teks UI tetap (navbar, footer, judul halaman, label form, tombol, FAQ).
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-**Yang TIDAK ikut diterjemahkan** (dan ini keputusan desain yang disengaja): konten yang diinput admin lewat CMS — judul/deskripsi tour, nama armada, isi testimoni, dll — karena itu data dinamis yang admin isi sendiri dalam satu bahasa. Kalau ke depannya kamu butuh tour package dengan judul/deskripsi berbeda per bahasa, itu perlu penambahan struktur database (field terpisah per locale) — kabari saya kalau butuh ini.
+## Deploy on Vercel
 
-**Menambah/ubah teks terjemahan:** edit `messages/id.json` dan `messages/en.json`, pastikan strukturnya sama persis di kedua file.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-**Halaman admin sengaja tidak di-i18n-kan** — tetap Bahasa Indonesia saja, karena biasanya dioperasikan oleh tim lokal.
-
-## Kenapa login admin tidak ada di Table Editor Supabase?
-
-Supabase Auth menyimpan data user di schema database khusus bernama `auth` (tabel `auth.users`), terpisah dari schema `public` yang biasa kamu lihat di **Table Editor**. Ini standar keamanan Supabase — supaya data kredensial tidak tercampur dengan data aplikasi biasa. Untuk melihat/mengelola user admin, buka tab **Authentication → Users** di dashboard, bukan Table Editor.
-
-## Role Admin: Superadmin vs Admin
-
-- **Superadmin**: akses penuh, termasuk halaman **Users** — bisa tambah, edit, dan hapus akun admin lain.
-- **Admin**: bisa mengelola semua konten (tour, transport, gallery, testimonial, inquiry), tapi halaman **Users** read-only — tidak bisa tambah/edit/hapus akun siapa pun (termasuk dirinya sendiri).
-
-Akun pertama yang dibuat lewat `npm run create-admin` otomatis jadi **Superadmin**. Admin berikutnya ditambahkan lewat halaman `/admin/users` (bukan script lagi).
-
-## Upload Gambar
-
-Tour Package, Transport, dan Gallery admin punya **upload area drag-and-drop** (bukan input URL manual) — mendukung PNG, JPG, WEBP, GIF, maksimal 5MB per file. File tersimpan di **Supabase Storage**.
-
-**Wajib disiapkan sebelum upload berfungsi**: buat bucket storage bernama `cda-images` di Supabase Dashboard → **Storage** → New bucket, centang **Public bucket** (supaya gambar bisa diakses publik oleh pengunjung website).
-
-## Testimoni dari User
-
-Halaman `/testimoni` memungkinkan wisatawan submit testimoni sendiri (Nama, Asal, No. Telp, Rating, Tour Terkait, Isi Testimoni). Testimoni ini **tidak langsung tayang** — berstatus "menunggu approval" sampai admin menyetujuinya lewat halaman `/admin/testimonials`. Testimoni yang admin input manual dari CMS langsung tayang tanpa approval.
-
-## Mengelola konten (CMS)
-
-Login ke `/admin`, lalu:
-
-- **Tour Packages** → tambah/edit/hapus paket tour. Field array (highlights, includes, excludes, gallery) diisi **satu item per baris**. Itinerary pakai format `05.30 - Aktivitas`, FAQ pakai format `Pertanyaan :: Jawaban`.
-- **Transport** → kelola armada sewa mobil.
-- **Testimonials** → tambah/hapus testimoni yang tampil di homepage.
-- **Inquiries** → lihat semua pesan dari form kontak, ubah status (Baru/Diproses/Selesai).
-
-Semua perubahan langsung tampil di website tanpa perlu rebuild (revalidasi otomatis).
-
-## AOS (Animate On Scroll)
-
-Aktif secara global lewat `src/components/aos-init.tsx`. Tambah animasi ke elemen baru:
-
-```tsx
-<div data-aos="fade-up" data-aos-delay="100">...</div>
-```
-
-Efek lain: `fade-up`, `fade-down`, `zoom-in`, `slide-up`, dll — lihat [dokumentasi AOS](https://michalsnik.github.io/aos/).
-
-## SweetAlert2
-
-Dipakai untuk notifikasi sukses/gagal di form kontak dan konfirmasi hapus data di admin. Library ini **di-lazy-load** (baru didownload browser saat benar-benar dipanggil, bukan ikut bundle awal halaman) lewat helper terpusat — jangan import `sweetalert2` langsung, selalu lewat helper ini:
-
-```tsx
-import { fireAlert } from "@/lib/swal";
-await fireAlert({ title: "Judul", text: "Pesan", icon: "success" });
-```
-
-## Optimasi Performa
-
-Beberapa hal berikut sudah diterapkan supaya website ringan di production (Vercel):
-
-- **Region function di-set ke Singapura** (`vercel.json` → `regions: ["sin1"]`), disamakan dengan region database Supabase (`ap-southeast-1`) supaya tidak ada round-trip lintas benua tiap kali halaman butuh data. **Kalau ganti provider database atau pindah region Supabase, sesuaikan juga region di `vercel.json`.**
-- **SweetAlert2 di-lazy-load** (lihat section di atas) — tidak ikut JS bundle awal.
-- **Skeleton loading** dipakai di halaman Tour Listing (`tour-list-skeleton.tsx`) untuk mencegah *layout shift* — kalau nambah `<Suspense>` baru di halaman lain, pastikan fallback-nya punya dimensi mirip konten asli, jangan cuma teks pendek.
-- **`quality` pada `next/image`** disesuaikan per konteks (65 untuk thumbnail kecil, 70-75 untuk gambar besar) — kalau ubah/tambah gambar baru, ikuti pola yang sama, jangan biarkan default 75 untuk semua ukuran.
-- Cek berkala lewat [PageSpeed Insights](https://pagespeed.web.dev/) setelah ada perubahan besar, terutama halaman yang fetch banyak data dari database.
-
-## Mengganti gambar
-
-**Gambar Hero (homepage) & About Us** — ini sengaja disimpan **lokal** (bukan URL eksternal) supaya kamu bisa kontrol kualitas & ukuran filenya sendiri:
-
-1. Kompres foto asli ke format **WebP**, usahakan di bawah 300KB per file (pakai [squoosh.app](https://squoosh.app) atau tool kompresi lainnya)
-2. Simpan dengan nama **persis sama**, timpa file placeholder yang ada:
-   - `public/images/hero-batur.webp` (rasio disarankan ~16:10, akan tampil sebagai background hero)
-   - `public/images/about-team.webp` (rasio disarankan ~16:8, halaman Tentang Kami)
-3. Selesai — tidak perlu ubah kode apa pun, path sudah otomatis terbaca
-
-**Gambar lain** (tour package, transport, gallery) tetap lewat **upload di halaman admin** (tersimpan ke Supabase Storage) — ini sengaja dibuat dinamis karena kontennya sering berubah dan dikelola langsung dari CMS, bukan dari file project.
-
-Kalau suatu saat butuh domain gambar eksternal baru, tambahkan di `next.config.ts`:
-```ts
-images: {
-  remotePatterns: [
-    { protocol: "https", hostname: "domain-gambar-baru.com" },
-  ],
-},
-```
-
-## SEO yang sudah disiapkan
-
-- Metadata unik per halaman + per tour (`generateMetadata`)
-- `sitemap.xml` & `robots.txt` otomatis, sitemap ambil data langsung dari database
-- JSON-LD structured data: `TravelAgency` (global) & `TouristTrip` (per tour)
-- ISR (`revalidate = 60`) — halaman selalu segar tanpa perlu rebuild manual
-- Static Generation untuk semua slug tour yang sudah ada saat build
-
-**Setelah live**, jangan lupa:
-1. Ganti `url` di `src/config/site.ts` ke domain asli
-2. Submit `https://domainkamu.com/sitemap.xml` ke [Google Search Console](https://search.google.com/search-console)
-3. Buat Google Business Profile dengan nama & alamat yang identik dengan website
-
-## Build & deploy
-
-```bash
-npm run build
-npm start
-```
-
-Deploy termudah lewat [Vercel](https://vercel.com): hubungkan repo GitHub, isi semua environment variables yang sama seperti `.env` di dashboard Vercel, lalu deploy.
-
-**Penting**: jalankan `npm run db:migrate` dari komputer lokal (bukan dari Vercel) setiap kali ada perubahan `schema.prisma`, karena migrasi butuh koneksi `DIRECT_URL` yang tidak dijalankan otomatis saat deploy.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

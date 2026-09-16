@@ -8,7 +8,5 @@ export async function getCurrentProfile() {
   } = await supabase.auth.getUser();
 
   if (!user) return null;
-
-  const profile = await prisma.profile.findUnique({ where: { id: user.id } });
-  return profile;
+  return prisma.profile.findUnique({ where: { id: user.id } });
 }

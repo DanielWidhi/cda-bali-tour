@@ -25,9 +25,13 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
+      {/* Sticky footer: kalau konten halaman pendek/kosong/loading, footer
+          tetap nempel di bawah viewport, bukan "naik" ke tengah layar. */}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
       <WhatsAppFloat />
       <AOSInit />
     </NextIntlClientProvider>
