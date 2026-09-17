@@ -117,8 +117,19 @@
     "book": "Book",
     "includes": "Included",
     "excludes": "Not Included",
-    "includesList": [],
-    "excludesList": [],
+    "includesList": [
+      "Professional English-speaking driver",
+      "Air-conditioned vehicle",
+      "Round-trip fuel",
+      "Parking fees",
+      "24/7 customer support"
+    ],
+    "excludesList": [
+      "Entrance tickets to tourist attractions",
+      "Personal expenses",
+      "Meals",
+      "Accommodation"
+    ],
     "noData": "No vehicles available yet."
   },
   "galleryPage": {
