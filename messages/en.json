@@ -117,6 +117,8 @@
     "book": "Book",
     "includes": "Included",
     "excludes": "Not Included",
+    "includesList": [],
+    "excludesList": [],
     "noData": "No vehicles available yet."
   },
   "galleryPage": {

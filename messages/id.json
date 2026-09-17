@@ -117,6 +117,8 @@
     "book": "Booking",
     "includes": "Termasuk",
     "excludes": "Tidak Termasuk",
+    "includesList": [],
+    "excludesList": [],
     "noData": "Belum ada data armada."
   },
   "galleryPage": {

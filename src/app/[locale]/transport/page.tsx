@@ -36,13 +36,13 @@ export default async function TransportPage({
         <p className="text-black/60 mt-3 leading-relaxed">{t("description")}</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
-        {transportOptions.map((car, i) => (
-          <div key={car.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
-            <Card>
-              <div className="relative aspect-[4/3]">
-                <Image src={car.image} alt={car.name} fill sizes="(max-width: 768px) 100vw, 25vw" quality={70} className="object-cover" />
-              </div>
+       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
+         {transportOptions.map((car, i) => (
+           <div key={car.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
+             <Card>
+               <div className="relative aspect-[4/3]">
+                 <Image src={car.image || "/images/icon/images-404.webp"} alt={car.name} fill sizes="(max-width: 768px) 100vw, 25vw" quality={70} className="object-cover" />
+               </div>
               <CardContent className="pt-4 flex-1">
                 <h3 className="font-serif text-lg">{car.name}</h3>
                 <p className="text-sm text-black/50 mt-1">{car.capacity}</p>
