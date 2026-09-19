@@ -5,9 +5,30 @@ import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
 import { fireAlert } from "@/lib/swal";
 
+// Target kompresi: maks ~400KB & lebar/tinggi maks 1600px, dikonversi ke WebP.
+// Dijalankan di browser (bukan server) supaya bandwidth upload lebih hemat
+// dan kuota Supabase Storage tidak boros untuk foto asli yang masih besar.
+async function compressImage(file: File): Promise<File> {
+  const { default: imageCompression } = await import("browser-image-compression");
+  try {
+    return await imageCompression(file, {
+      maxSizeMB: 0.4,
+      maxWidthOrHeight: 1600,
+      useWebWorker: true,
+      fileType: "image/webp",
+    });
+  } catch {
+    // Kalau kompresi gagal (format aneh, dsb), tetap lanjut upload file asli
+    // daripada gagal total — validasi ukuran/tipe tetap dicek di server.
+    return file;
+  }
+}
+
 async function uploadFile(file: File, folder: string): Promise<string> {
+  const compressed = await compressImage(file);
+
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", compressed, compressed.name || file.name);
   formData.append("folder", folder);
 
   const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
@@ -76,11 +97,14 @@ export function SingleImageUpload({
             </button>
           </>
         ) : uploading ? (
-          <Loader2 className="h-6 w-6 animate-spin" />
+          <>
+            <Loader2 className="h-6 w-6 animate-spin" />
+            <span>Mengompres & mengupload...</span>
+          </>
         ) : (
           <>
             <Upload className="h-6 w-6" />
-            <span>Klik atau drag gambar ke sini (PNG/JPG, maks 5MB)</span>
+            <span>Klik atau drag gambar ke sini — otomatis dikompres</span>
           </>
         )}
         <input
@@ -144,11 +168,14 @@ export function MultiImageUpload({
         className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-black/15 bg-black/[0.02] text-sm text-black/50 hover:border-[color:var(--color-amber)] transition-colors"
       >
         {uploading ? (
-          <Loader2 className="h-6 w-6 animate-spin" />
+          <>
+            <Loader2 className="h-6 w-6 animate-spin" />
+            <span>Mengompres & mengupload...</span>
+          </>
         ) : (
           <>
             <Upload className="h-6 w-6" />
-            <span>Klik atau drag beberapa gambar sekaligus (PNG/JPG, maks 5MB/file)</span>
+            <span>Klik atau drag beberapa gambar sekaligus — otomatis dikompres</span>
           </>
         )}
         <input

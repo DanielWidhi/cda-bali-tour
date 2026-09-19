@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppFloat } from "@/components/layout/whatsapp-float";
 import { AOSInit } from "@/components/layout/aos-init";
+import { GoogleTagManager, GoogleTagManagerNoScript } from "@/components/layout/google-tag-manager";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -25,6 +26,8 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
+      <GoogleTagManager />
+      <GoogleTagManagerNoScript />
       {/* Sticky footer: kalau konten halaman pendek/kosong/loading, footer
           tetap nempel di bawah viewport, bukan "naik" ke tengah layar. */}
       <div className="min-h-screen flex flex-col">

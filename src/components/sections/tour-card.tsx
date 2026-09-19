@@ -8,12 +8,11 @@ import { formatIDR } from "@/lib/utils";
 import { TourPackage } from "@/types";
 
 export function TourCard({ tour }: { tour: TourPackage }) {
-  const imageSrc = tour.coverImage || "/images/icon/images-404.webp";
   return (
     <Card className="group hover:shadow-lg transition-shadow h-full">
       <Link href={`/tour/${tour.slug}`} className="relative block aspect-[4/3] overflow-hidden">
         <Image
-          src={imageSrc}
+          src={tour.coverImage}
           alt={tour.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"

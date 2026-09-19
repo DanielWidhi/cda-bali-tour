@@ -34,13 +34,12 @@ export async function generateMetadata({
   const tour = await prisma.tourPackage.findUnique({ where: { slug } });
   if (!tour) return {};
 
-  const coverImage = tour.coverImage || "/images/icon/images-404.webp";
   return {
     title: `${tour.title} — ${formatIDR(tour.price)}`,
     alternates: { canonical: `/tour/${tour.slug}` },
     openGraph: {
       title: tour.title,
-      images: [{ url: coverImage, width: 1200, height: 800 }],
+      images: [{ url: tour.coverImage, width: 1200, height: 800 }],
     },
   };
 }
@@ -96,7 +95,7 @@ export default async function TourDetailPage({
           </div>
 
           <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mt-6">
-            <Image src={tour.coverImage || "/images/icon/images-404.webp"} alt={tour.title} fill priority quality={75} sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" />
+            <Image src={tour.coverImage} alt={tour.title} fill priority quality={75} sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover" />
           </div>
 
           <section className="mt-10">

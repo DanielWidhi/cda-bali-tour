@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import Image from "next/image";
 
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -48,13 +47,9 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Image
-              src="/images/icon/cda-logo.webp"
-              alt="CDA Logo"
-              width={36}
-              height={36}
-              className="rounded-full"
-            />
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] text-[color:var(--color-ink)] font-serif text-lg">
+              C
+            </span>
             <span className="font-serif text-lg text-white">{siteConfig.brandName}</span>
           </div>
           <p className="text-sm leading-relaxed text-white/60">{t("footer.description")}</p>
