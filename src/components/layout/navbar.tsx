@@ -3,16 +3,24 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Menu, X, ChevronDown, Phone } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export function Navbar() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function toggleMenu() {
     setOpen((v) => {
@@ -30,12 +38,10 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-[color:var(--color-mist)]/90 backdrop-blur-md">
+    <header className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${scrolled ? "border-b border-black/5 bg-[color:var(--color-mist)]/90 backdrop-blur-md text-black" : "bg-transparent border-transparent text-white"}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-ink)] text-[color:var(--color-amber)] font-serif text-lg">
-            C
-          </span>
+          <Image src="/images/icon/cda-logo.webp" alt="CDA Logo" width={36} height={36} className="rounded-full" />
           <span className="font-serif text-lg leading-none">{siteConfig.brandName}</span>
         </Link>
 
@@ -76,13 +82,6 @@ export function Navbar() {
 
         <div className="hidden lg:flex items-center gap-3">
           <LanguageSwitcher />
-          <a
-            href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-            className="flex items-center gap-1.5 text-sm font-medium text-black/70 hover:text-[color:var(--color-ink)]"
-          >
-            <Phone className="h-4 w-4" />
-            {siteConfig.phone}
-          </a>
           <Button asChild size="default">
             <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
               {t("bookNow")}
@@ -90,9 +89,12 @@ export function Navbar() {
           </Button>
         </div>
 
-        <button className="lg:hidden p-2" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={open}>
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-3 lg:hidden">
+          <LanguageSwitcher />
+          <button className="p-2" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={open}>
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav — full-screen, animasi halus via grid-rows trick */}
@@ -145,9 +147,6 @@ export function Navbar() {
                 </Link>
               )
             )}
-            <div className="py-2.5">
-              <LanguageSwitcher />
-            </div>
             <Button asChild className="mt-2 w-full">
               <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
                 {t("bookViaWhatsapp")}

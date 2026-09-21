@@ -41,7 +41,7 @@ export default async function TransportPage({
           <div key={car.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
             <Card>
               <div className="relative aspect-[4/3]">
-                <Image src={car.image} alt={car.name} fill sizes="(max-width: 768px) 100vw, 25vw" quality={70} className="object-cover" />
+                <Image src={car.image || "/images/icon/images-404.webp"} alt={car.name} fill sizes="(max-width: 768px) 100vw, 25vw" quality={70} className="object-cover" />
               </div>
               <CardContent className="pt-4 flex-1">
                 <h3 className="font-serif text-lg">{car.name}</h3>
@@ -72,7 +72,7 @@ export default async function TransportPage({
         <div>
           <h3 className="font-serif text-xl mb-3">{t("includes")}</h3>
           <ul className="flex flex-col gap-2">
-            {(t.raw("includesList") as string[]).map((item) => (
+            {(Array.isArray(t.raw("includesList")) ? (t.raw("includesList") as string[]) : []).map((item) => (
               <li key={item} className="flex gap-2 text-sm text-black/70">
                 <Check className="h-4 w-4 text-[color:var(--color-green)] shrink-0 mt-0.5" />{item}
               </li>
@@ -82,7 +82,7 @@ export default async function TransportPage({
         <div>
           <h3 className="font-serif text-xl mb-3">{t("excludes")}</h3>
           <ul className="flex flex-col gap-2">
-            {(t.raw("excludesList") as string[]).map((item) => (
+            {(Array.isArray(t.raw("excludesList")) ? (t.raw("excludesList") as string[]) : []).map((item) => (
               <li key={item} className="flex gap-2 text-sm text-black/70">
                 <X className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />{item}
               </li>

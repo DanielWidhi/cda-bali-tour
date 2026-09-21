@@ -117,6 +117,19 @@
     "book": "Booking",
     "includes": "Termasuk",
     "excludes": "Tidak Termasuk",
+    "includesList": [
+      "Sopir berbahasa Inggris profesional",
+      "Kendaraan ber-AC",
+      "Bensin pulang-pergi",
+      "Biaya parkir",
+      "Dukungan pelanggan 24 jam"
+    ],
+    "excludesList": [
+      "Tiket masuk objek wisata",
+      "Pengeluaran pribadi",
+      "Makan",
+      "Akomodasi"
+    ],
     "noData": "Belum ada data armada."
   },
   "galleryPage": {

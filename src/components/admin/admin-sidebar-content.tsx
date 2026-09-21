@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -26,9 +27,13 @@ export function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void })
   return (
     <div className="flex h-full flex-col">
       <Link href="/admin" className="flex items-center gap-2 mb-8 shrink-0" onClick={onNavigate}>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[color:var(--color-amber)] text-[color:var(--color-ink)] font-serif text-lg">
-          C
-        </span>
+        <Image
+          src="/images/icon/cda-logo.webp"
+          alt="CDA Logo"
+          width={36}
+          height={36}
+          className="rounded-full"
+        />
         <span className="font-serif text-white text-base">CDA Admin</span>
       </Link>
 

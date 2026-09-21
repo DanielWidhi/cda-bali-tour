@@ -15,7 +15,7 @@ export function Hero({
   const t = useTranslations("hero");
 
   return (
-    <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden">
+    <section className="relative bg-[color:var(--color-ink)] text-white overflow-hidden pt-16">
       <div className="absolute inset-0">
         <Image
           src="/images/hero/nusapenida.webp"

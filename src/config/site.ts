@@ -7,18 +7,18 @@ export const siteConfig = {
   phone: "+62 813-3917-2556",
   whatsapp: "6281339172556",
   email: "info@cdabalitour.com",
-  address: "Gg. Tunjung Sari, Batubulan Kangin, Sukawati, Gianyar, Bali 80582",
+  address: "Gg. Jepun No.4, Padangsambian, Kec. Denpasar Bar., Kota Denpasar, Bali 80118",
   // Koordinat presisi untuk embed peta di halaman Kontak (bukan cuma cari teks alamat)
   mapCoordinates: { lat: -8.6454061, lng: 115.1915991 },
   socials: {
-    instagram: "https://instagram.com/cdabalitour",
+    instagram: "https://www.instagram.com/balitourntravelcda/",
     facebook: "https://facebook.com/cdabalitour",
     tripadvisor: "https://tripadvisor.com",
   },
   // Kredit developer di footer — ganti "url" ke link yang kamu mau (portofolio, LinkedIn, dll)
   developer: {
     name: "Daniel Widhi",
-    url: "https://danielwidhi.com",
+    url: "https://daniel.gdpartstudio.my.id",
   },
   nav: [
     {

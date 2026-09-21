@@ -21,15 +21,15 @@ export function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => switchTo("id")}
-        className={cn("font-medium", locale === "id" ? "text-[color:var(--color-amber-deep)]" : "text-black/40")}
+        className={cn("font-medium", locale === "id" ? "text-[color:var(--color-amber-deep)]" : "opacity-60")}
       >
         ID
       </button>
-      <span className="text-black/20">/</span>
+      <span className="opacity-30">/</span>
       <button
         type="button"
         onClick={() => switchTo("en")}
-        className={cn("font-medium", locale === "en" ? "text-[color:var(--color-amber-deep)]" : "text-black/40")}
+        className={cn("font-medium", locale === "en" ? "text-[color:var(--color-amber-deep)]" : "opacity-60")}
       >
         EN
       </button>
