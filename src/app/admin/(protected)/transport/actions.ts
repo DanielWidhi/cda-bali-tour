@@ -23,7 +23,7 @@ export async function createTransportAction(formData: FormData) {
 
   revalidatePath("/admin/transport");
   revalidatePath("/transport");
-  redirect("/admin/transport");
+  redirect("/admin/transport?toast=create");
 }
 
 export async function updateTransportAction(id: string, formData: FormData) {
@@ -32,7 +32,7 @@ export async function updateTransportAction(id: string, formData: FormData) {
 
   revalidatePath("/admin/transport");
   revalidatePath("/transport");
-  redirect("/admin/transport");
+  redirect("/admin/transport?toast=update");
 }
 
 export async function deleteTransportAction(id: string) {

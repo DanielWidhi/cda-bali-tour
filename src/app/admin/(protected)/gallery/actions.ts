@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 export async function createGalleryImagesAction(formData: FormData) {
@@ -18,6 +19,7 @@ export async function createGalleryImagesAction(formData: FormData) {
 
   revalidatePath("/admin/gallery");
   revalidatePath("/gallery");
+  redirect("/admin/gallery?toast=create");
 }
 
 export async function deleteGalleryImageAction(id: string) {

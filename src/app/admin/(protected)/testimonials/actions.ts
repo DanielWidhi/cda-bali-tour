@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 export async function createTestimonialAction(formData: FormData) {
@@ -12,18 +13,20 @@ export async function createTestimonialAction(formData: FormData) {
       rating: Number(formData.get("rating") ?? 5),
       quote: String(formData.get("quote")).trim(),
       tourSlug: String(formData.get("tourSlug") ?? "").trim() || null,
-      published: true, // testimoni yang admin input manual langsung tayang
+      published: true,
     },
   });
 
   revalidatePath("/admin/testimonials");
   revalidatePath("/");
+  redirect("/admin/testimonials?toast=create");
 }
 
 export async function toggleTestimonialPublishedAction(id: string, published: boolean) {
   await prisma.testimonial.update({ where: { id }, data: { published } });
   revalidatePath("/admin/testimonials");
   revalidatePath("/");
+  redirect("/admin/testimonials?toast=toggle");
 }
 
 export async function deleteTestimonialAction(id: string) {

@@ -54,7 +54,7 @@ export async function createUserAction(
   });
 
   revalidatePath("/admin/users");
-  redirect("/admin/users");
+  redirect("/admin/users?toast=create");
 }
 
 export async function updateUserAction(
@@ -70,8 +70,6 @@ export async function updateUserAction(
   const name = String(formData.get("name") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const isSelf = currentProfile.id === id;
-  // Superadmin tidak boleh ubah role akun sendiri (jaga-jaga supaya tidak
-  // "mengunci diri sendiri" jadi Admin biasa tanpa akses Users).
   const role = isSelf
     ? currentProfile.role
     : (String(formData.get("role") ?? "ADMIN") as "SUPERADMIN" | "ADMIN");
@@ -90,7 +88,7 @@ export async function updateUserAction(
   await prisma.profile.update({ where: { id }, data: { name, role } });
 
   revalidatePath("/admin/users");
-  redirect("/admin/users");
+  redirect("/admin/users?toast=update");
 }
 
 export async function deleteUserAction(id: string) {

@@ -53,7 +53,7 @@ export async function createTourAction(formData: FormData) {
   revalidatePath("/admin/tours");
   revalidatePath("/tour");
   revalidatePath("/");
-  redirect("/admin/tours");
+  redirect("/admin/tours?toast=create");
 }
 
 export async function updateTourAction(id: string, formData: FormData) {
@@ -64,7 +64,7 @@ export async function updateTourAction(id: string, formData: FormData) {
   revalidatePath("/tour");
   revalidatePath(`/tour/${data.slug}`);
   revalidatePath("/");
-  redirect("/admin/tours");
+  redirect("/admin/tours?toast=update");
 }
 
 export async function deleteTourAction(id: string) {
