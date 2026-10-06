@@ -184,6 +184,7 @@
     "successTitle": "Thank you! 🙏",
     "successText": "We've received your testimonial and it will appear on the website once reviewed by our team.",
     "errorTitle": "Failed to send",
-    "errorDefault": "Something went wrong, please try again."
+    "errorDefault": "Something went wrong, please try again.",
+    "carouselTitle": "What travelers say about us"
   }
 }

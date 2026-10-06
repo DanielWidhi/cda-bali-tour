@@ -184,6 +184,7 @@
     "successTitle": "Terima kasih! 🙏",
     "successText": "Testimoni kamu sudah kami terima dan akan tampil di website setelah ditinjau tim kami.",
     "errorTitle": "Gagal mengirim",
-    "errorDefault": "Terjadi kesalahan, silakan coba lagi."
+    "errorDefault": "Terjadi kesalahan, silakan coba lagi.",
+    "carouselTitle": "Apa kata para wisatawan tentang kami"
   }
 }
