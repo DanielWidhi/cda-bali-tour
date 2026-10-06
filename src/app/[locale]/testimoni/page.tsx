@@ -24,7 +24,6 @@ export default async function TestimoniPage() {
   const testimonials = await prisma.testimonial.findMany({
     where: { published: true },
     orderBy: { createdAt: "desc" },
-    take: 3,
   });
 
   return (

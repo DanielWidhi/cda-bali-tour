@@ -39,12 +39,17 @@ export function TestimonialCarousel({
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
+      const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
       const scrollAmount = clientWidth * 0.85;
-      scrollRef.current.scrollTo({
-        left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
-        behavior: "smooth",
-      });
+      let newPos;
+      if (direction === "left") {
+        newPos = scrollLeft - scrollAmount;
+        if (newPos <= 0) newPos = scrollWidth - clientWidth; // loop to end
+      } else {
+        newPos = scrollLeft + scrollAmount;
+        if (newPos + clientWidth >= scrollWidth) newPos = 0; // loop to start
+      }
+      scrollRef.current.scrollTo({ left: newPos, behavior: "smooth" });
     }
   };
 
@@ -142,11 +147,18 @@ export function TestimonialCarousel({
             <ChevronLeft className="h-4 w-4" />
           </button>
 
-          <div
-            ref={scrollRef}
-            className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none py-4 px-2"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
+    <div
+      ref={scrollRef}
+      className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none py-4 px-2"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        onScroll={() => {
+          if (scrollRef.current) {
+            const slideWidth = scrollRef.current.clientWidth;
+            const newIdx = Math.round(scrollRef.current.scrollLeft / slideWidth);
+            setCurrentIndex(newIdx);
+          }
+        }}
+    >
             {testimonials.map((item) => (
               <div key={item.id} className="snap-center shrink-0 w-[85vw]">
                 <div className="relative h-full rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 p-6 flex flex-col justify-between overflow-hidden">
@@ -197,20 +209,22 @@ export function TestimonialCarousel({
         </div>
       )}
 
-      <div className="flex justify-center gap-2 mt-6">
-        {Array.from({ length: totalSlides }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => (isDesktop ? goToSlide(index) : null)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              (isDesktop && currentIndex === index) || (!isDesktop && index === 0)
-                ? "w-8 bg-[color:var(--color-amber)]"
-                : "bg-gray-300 hover:bg-[color:var(--color-amber)]"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+{isDesktop && (
+        <div className="flex justify-center gap-2 mt-6">
+          {Array.from({ length: totalSlides }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => (isDesktop ? goToSlide(index) : null)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                (isDesktop && currentIndex === index) || (!isDesktop && index === 0)
+                  ? "w-8 bg-[color:var(--color-amber)]"
+                  : "bg-gray-300 hover:bg-[color:var(--color-amber)]"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes fadeIn {
