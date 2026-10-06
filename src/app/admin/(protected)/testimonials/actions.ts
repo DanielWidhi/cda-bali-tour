@@ -22,6 +22,13 @@ export async function createTestimonialAction(formData: FormData) {
   redirect("/admin/testimonials?toast=create");
 }
 
+export async function acceptAllPendingTestimonialsAction() {
+  await prisma.testimonial.updateMany({ where: { published: false }, data: { published: true } });
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials?toast=acceptAll");
+}
+
 export async function toggleTestimonialPublishedAction(id: string, published: boolean) {
   await prisma.testimonial.update({ where: { id }, data: { published } });
   revalidatePath("/admin/testimonials");

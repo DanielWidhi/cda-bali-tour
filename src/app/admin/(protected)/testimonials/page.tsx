@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { WhatsAppLinkButton } from "@/components/admin/whatsapp-link-button";
-import { createTestimonialAction, deleteTestimonialAction } from "./actions";
+import { createTestimonialAction, deleteTestimonialAction, acceptAllPendingTestimonialsAction } from "./actions";
 import { PublishToggle } from "./publish-toggle";
 
 function TestimonialCard({
@@ -103,21 +103,26 @@ export default async function AdminTestimonialsPage() {
         </form>
 
         <div className="flex flex-col gap-8">
-          {pending.length > 0 && (
-            <div>
-              <h2 className="font-serif text-lg mb-3 flex items-center gap-2">
-                Menunggu Approval
-                <span className="rounded-full bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5">
-                  {pending.length}
-                </span>
-              </h2>
-              <div className="flex flex-col gap-3">
-                {pending.map((t) => (
-                  <TestimonialCard key={t.id} t={t} />
-                ))}
-              </div>
-            </div>
-          )}
+{pending.length > 0 && (
+  <div>
+    <div className="flex items-center gap-2 mb-2">
+      <h2 className="font-serif text-lg mb-0 flex items-center gap-2">
+        Menunggu Approval
+        <span className="rounded-full bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5">
+          {pending.length}
+        </span>
+      </h2>
+      <Button type="button" onClick={acceptAllPendingTestimonialsAction} className="ml-auto self-start">
+        Accept All
+      </Button>
+    </div>
+    <div className="flex flex-col gap-3">
+      {pending.map((t) => (
+        <TestimonialCard key={t.id} t={t} />
+      ))}
+    </div>
+  </div>
+)}
 
           <div>
             <h2 className="font-serif text-lg mb-3">Sudah Tayang</h2>
