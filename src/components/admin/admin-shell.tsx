@@ -49,14 +49,15 @@ export function AdminShell({
 
       <div className="flex-1 min-w-0 flex flex-col">
         {/* Header — profil (nama + role, tanpa foto) + lonceng notifikasi inquiry */}
-        <header className="flex items-center justify-between gap-4 border-b border-black/5 bg-white px-5 lg:px-10 py-3">
-          <button
-            className="md:hidden p-2 -ml-2"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Buka menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+<header className="flex items-center justify-between gap-4 border-b border-black/5 bg-white px-5 lg:px-10 py-3 sticky top-0 z-10 bg-white/95 backdrop-blur-sm" style={{ backdropFilter: "blur(8px)" }}>
+            <button
+              className="md:hidden p-2 -ml-2"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Buka  "
+            >
+              <Menu  />
+            </button>
+            <div className="flex-1"/>
 
           <div className="flex-1" />
 
