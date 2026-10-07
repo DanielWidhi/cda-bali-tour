@@ -11,6 +11,7 @@ import { PublishToggle } from "./publish-toggle";
 
 function TestimonialCard({
   t,
+  tourTitle,
 }: {
   t: {
     id: string;
@@ -20,8 +21,12 @@ function TestimonialCard({
     rating: number;
     quote: string;
     published: boolean;
+    tourSlug?: string | null;
   };
+  tourTitle?: string | null;
 }) {
+// removed internal DB fetch, title passed as prop
+
   return (
     <div className="rounded-2xl bg-white border border-black/5 p-5 flex items-start justify-between gap-4">
       <div className="min-w-0">
@@ -34,11 +39,14 @@ function TestimonialCard({
         <p className="text-xs font-medium">
           {t.name} — {t.origin}
         </p>
-        {t.phone && (
-          <p className="text-xs text-black/50 flex items-center gap-1 mt-0.5">
-            <Phone className="h-3 w-3" /> {t.phone}
-          </p>
-        )}
+        {tourTitle && (
+  <p className="text-xs text-black/70">Tour: {tourTitle}</p>
+)}
+{t.phone && (
+  <p className="text-xs text-black/50 flex items-center gap-1 mt-0.5">
+    <Phone className="h-3 w-3" /> {t.phone}
+  </p>
+)}
       </div>
       <div className="flex flex-col items-end gap-2 shrink-0">
         <PublishToggle id={t.id} published={t.published} />
@@ -56,8 +64,19 @@ export default async function AdminTestimonialsPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  const pending = allTestimonials.filter((t) => !t.published);
-  const published = allTestimonials.filter((t) => t.published);
+  const testimonialsWithTitle = await Promise.all(
+    allTestimonials.map(async (t) => {
+      const title = t.tourSlug
+        ? await prisma.tourPackage
+            .findUnique({ where: { slug: t.tourSlug }, select: { title: true } })
+            .then(res => res?.title)
+        : null;
+      return { ...t, tourTitle: title };
+    })
+  );
+
+  const pending = testimonialsWithTitle.filter((t) => !t.published);
+  const published = testimonialsWithTitle.filter((t) => t.published);
 
   return (
     <div>
@@ -93,7 +112,16 @@ export default async function AdminTestimonialsPage() {
           </div>
           <div>
             <Label htmlFor="tourSlug">Slug Tour Terkait (opsional)</Label>
-            <Input id="tourSlug" name="tourSlug" placeholder="sunrise-mount-batur-jeep" />
+            <select
+              id="tourSlug"
+              name="tourSlug"
+              className="flex h-11 w-full rounded-xl border border-black/15 bg-white px-4 text-sm outline-none focus-visible:border-[color:var(--color-amber)] focus-visible:ring-2 focus-visible:ring-[color:var(--color-amber)]/20"
+            >
+              <option value="">Tidak ada</option>
+              {await prisma.tourPackage.findMany({ where: { published: true }, select: { slug: true, title: true } }).then(tours => tours.map(t => (
+                <option key={t.slug} value={t.slug}>{t.title}</option>
+              )))}
+            </select>
           </div>
           <div>
             <Label htmlFor="quote">Isi Testimoni</Label>
@@ -103,32 +131,32 @@ export default async function AdminTestimonialsPage() {
         </form>
 
         <div className="flex flex-col gap-8">
-{pending.length > 0 && (
-  <div>
-    <div className="flex items-center gap-2 mb-3">
-      <h2 className="font-serif text-lg mb-0 flex items-center gap-2">
-        Menunggu Approval
-        <span className="rounded-full bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5">
-          {pending.length}
-        </span>
-      </h2>
-      <Button type="button" onClick={acceptAllPendingTestimonialsAction} className="ml-auto self-start">
-        Accept All
-      </Button>
-    </div>
-    <div className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-2">
-      {pending.map((t) => (
-        <TestimonialCard key={t.id} t={t} />
-      ))}
-    </div>
-  </div>
-)}
+          {pending.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="font-serif text-lg mb-0 flex items-center gap-2">
+                  Menunggu Approval
+                  <span className="rounded-full bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5">
+                    {pending.length}
+                  </span>
+                </h2>
+                <Button type="button" onClick={acceptAllPendingTestimonialsAction} className="ml-auto self-start">
+                  Accept All
+                </Button>
+              </div>
+              <div className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-2">
+                {pending.map((t) => (
+                  <TestimonialCard key={t.id} t={t} tourTitle={t.tourTitle} />
+                ))}
+              </div>
+            </div>
+          )}
 
           <div>
             <h2 className="font-serif text-lg mb-3">Sudah Tayang</h2>
             <div className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-2">
               {published.map((t) => (
-                <TestimonialCard key={t.id} t={t} />
+                <TestimonialCard key={t.id} t={t} tourTitle={t.tourTitle} />
               ))}
               {published.length === 0 && (
                 <p className="text-sm text-black/50">Belum ada testimoni yang tayang.</p>
