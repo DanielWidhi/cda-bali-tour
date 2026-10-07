@@ -105,7 +105,7 @@ export default async function AdminTestimonialsPage() {
         <div className="flex flex-col gap-8">
 {pending.length > 0 && (
   <div>
-    <div className="flex items-center gap-2 mb-2">
+    <div className="flex items-center gap-2 mb-3">
       <h2 className="font-serif text-lg mb-0 flex items-center gap-2">
         Menunggu Approval
         <span className="rounded-full bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5">
@@ -116,7 +116,7 @@ export default async function AdminTestimonialsPage() {
         Accept All
       </Button>
     </div>
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-2">
       {pending.map((t) => (
         <TestimonialCard key={t.id} t={t} />
       ))}
@@ -126,7 +126,7 @@ export default async function AdminTestimonialsPage() {
 
           <div>
             <h2 className="font-serif text-lg mb-3">Sudah Tayang</h2>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 max-h-96 overflow-y-auto pr-2">
               {published.map((t) => (
                 <TestimonialCard key={t.id} t={t} />
               ))}
