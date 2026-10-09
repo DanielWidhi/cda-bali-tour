@@ -53,7 +53,7 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
         <Link href="/" className="flex items-center gap-2 shrink-0" onClick={() => setOpen(false)}>
-          <Image src="/images/icon/cda-logo.webp" alt="CDA Logo" width={36} height={36} className="rounded-full" />
+          <Image src="/images/icon/cda-webp.webp" alt="CDA Logo" width={36} height={36} className="rounded-full" />
           <span className={cn("font-serif text-lg leading-none transition-colors", isTransparent ? "text-white" : "text-black")}>
             {siteConfig.brandName}
           </span>
@@ -74,8 +74,8 @@ export function Navbar() {
                     isItemActive
                       ? "text-[color:var(--color-amber-deep)] font-semibold"
                       : isTransparent
-                      ? "text-white/90 hover:text-white"
-                      : "text-black/80 hover:text-[color:var(--color-amber-deep)]"
+                        ? "text-white/90 hover:text-white"
+                        : "text-black/80 hover:text-[color:var(--color-amber-deep)]"
                   )}
                 >
                   {t(item.labelKey)}
@@ -112,8 +112,8 @@ export function Navbar() {
                   isItemActive
                     ? "text-[color:var(--color-amber-deep)] font-semibold"
                     : isTransparent
-                    ? "text-white/90 hover:text-white"
-                    : "text-black/80 hover:text-[color:var(--color-amber-deep)]"
+                      ? "text-white/90 hover:text-white"
+                      : "text-black/80 hover:text-[color:var(--color-amber-deep)]"
                 )}
               >
                 {t(item.labelKey)}

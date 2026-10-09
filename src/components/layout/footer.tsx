@@ -48,7 +48,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Image src="/images/icon/cda-logo.webp" alt="CDA Logo" width={36} height={36} className="rounded-full" />
+            <Image src="/images/icon/cda-webp.webp" alt="CDA Logo" width={36} height={36} className="rounded-full" />
             <span className="font-serif text-lg text-white">{siteConfig.brandName}</span>
           </div>
           <p className="text-sm leading-relaxed text-white/60">{t("footer.description")}</p>

@@ -28,7 +28,7 @@ export function AdminSidebarContent({ onNavigate }: { onNavigate?: () => void })
     <div className="flex h-full flex-col">
       <Link href="/admin" className="flex items-center gap-2 mb-8 shrink-0" onClick={onNavigate}>
         <Image
-          src="/images/icon/cda-logo.webp"
+          src="/images/icon/cda-webp.webp"
           alt="CDA Logo"
           width={36}
           height={36}
