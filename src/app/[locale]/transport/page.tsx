@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Check, X } from "lucide-react";
+import { Check, X, ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { mapTransport } from "@/lib/mappers";
-import { formatIDR } from "@/lib/utils";
+import { formatPrice } from "@/lib/currency";
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/lib/localization";
 
@@ -40,18 +41,26 @@ export default async function TransportPage({
         {transportOptions.map((car, i) => (
           <div key={car.slug} data-aos="fade-up" data-aos-delay={(i % 4) * 100}>
             <Card>
-              <div className="relative aspect-[4/3]">
+              <Link href={`/transport/${car.slug}`} className="relative block aspect-[4/3]">
                 <Image src={car.image || "/images/icon/images-404.webp"} alt={car.name} fill sizes="(max-width: 768px) 100vw, 25vw" quality={70} className="object-cover" />
-              </div>
+              </Link>
               <CardContent className="pt-4 flex-1">
-                <h3 className="font-serif text-lg">{car.name}</h3>
+                <Link href={`/transport/${car.slug}`} className="hover:text-[color:var(--color-amber-deep)] transition-colors">
+                  <h3 className="font-serif text-lg">{car.name}</h3>
+                </Link>
                 <p className="text-sm text-black/50 mt-1">{car.capacity}</p>
               </CardContent>
               <CardFooter className="flex-col items-start gap-3 border-t border-black/5 pt-4">
                 <div>
-                  <p className="font-serif text-xl text-[color:var(--color-amber-deep)]">{formatIDR(car.pricePerDay)}</p>
+                  <p className="font-serif text-xl text-[color:var(--color-amber-deep)]">{formatPrice(car.pricePerDay, car.currency)}</p>
                   <p className="text-xs text-black/50">/ {car.hoursLabel}</p>
                 </div>
+                <Link
+                  href={`/transport/${car.slug}`}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-[color:var(--color-amber-deep)] hover:underline"
+                >
+                  {t("viewDetail")} <ArrowRight className="h-3 w-3" />
+                </Link>
                 <Button asChild size="sm" className="w-full">
                   <a
                     href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Halo, saya ingin sewa mobil ${car.name}`)}`}

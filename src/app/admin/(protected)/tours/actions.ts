@@ -18,6 +18,8 @@ function buildTourData(formData: FormData) {
   const price = Number(formData.get("price"));
   const originalPriceRaw = formData.get("originalPrice");
   const originalPrice = originalPriceRaw ? Number(originalPriceRaw) : null;
+  const priceUsdRaw = field(formData, "priceUsd").trim();
+  const originalPriceUsdRaw = field(formData, "originalPriceUsd").trim();
 
   return {
     slug: field(formData, "slug").trim(),
@@ -28,6 +30,8 @@ function buildTourData(formData: FormData) {
     durationHours: Number(formData.get("durationHours")),
     price,
     originalPrice,
+    priceUsd: priceUsdRaw ? Number(priceUsdRaw) : null,
+    originalPriceUsd: originalPriceUsdRaw ? Number(originalPriceUsdRaw) : null,
     rating: Number(formData.get("rating") ?? 5),
     reviewCount: Number(formData.get("reviewCount") ?? 0),
     coverImage: field(formData, "coverImage").trim(),

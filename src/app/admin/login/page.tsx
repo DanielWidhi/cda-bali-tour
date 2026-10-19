@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
         <form action={formAction} className="flex flex-col gap-4">
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" required autoFocus placeholder="admin@cdabalitour.com" />
+            <Input id="email" name="email" type="email" required autoFocus placeholder="nama@domain.com" />
           </div>
           <div>
             <Label htmlFor="password">Password</Label>

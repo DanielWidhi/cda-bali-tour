@@ -12,7 +12,16 @@
     "testimonials": "Testimoni",
     "contact": "Kontak",
     "bookNow": "Book Now",
-    "bookViaWhatsapp": "Book via WhatsApp"
+    "bookViaWhatsapp": "Book via WhatsApp",
+    "ourService": "Our Service",
+    "allServices": "Semua Layanan",
+    "rentCar": "Rent Car",
+    "airportTransfer": "Airport Transfer",
+    "hotelTransfer": "Hotel Transfer",
+    "groupTrip": "Group Trip",
+    "couplePackage": "Couple Package",
+    "honeymoonPackage": "Honeymoon Package",
+    "activityOrganizer": "Activity Organizer"
   },
   "footer": {
     "description": "CDA Bali Tour menyediakan paket tour, sewa mobil dengan driver, dan aktivitas wisata di Bali dengan harga transparan tanpa biaya tersembunyi. Legal, berpengalaman, dan dipercaya ribuan wisatawan.",
@@ -108,7 +117,8 @@
     "askFirst": "Tanya Dulu",
     "noDeposit": "Booking tanpa DP",
     "payAfter": "Bayar setelah trip",
-    "freeCancel": "Pembatalan gratis 24 jam"
+    "freeCancel": "Pembatalan gratis 24 jam",
+    "usdNote": "Harga USD bersifat indikatif. Pembayaran dalam IDR mengikuti kurs pada hari pembayaran."
   },
   "transportPage": {
     "label": "Bali Transport Service",
@@ -130,7 +140,8 @@
       "Makan",
       "Akomodasi"
     ],
-    "noData": "Belum ada data armada."
+    "noData": "Belum ada data armada.",
+    "viewDetail": "Lihat detail & harga zona"
   },
   "galleryPage": {
     "label": "Gallery",
@@ -186,5 +197,57 @@
     "errorTitle": "Gagal mengirim",
     "errorDefault": "Terjadi kesalahan, silakan coba lagi.",
     "carouselTitle": "Apa kata para wisatawan tentang kami"
+  },
+  "transportDetail": {
+    "home": "Beranda",
+    "breadcrumb": "Transport",
+    "capacity": "Kapasitas",
+    "luggage": "Bagasi",
+    "dayRate": "Sewa harian",
+    "perHours": "per {hours} jam",
+    "aboutVehicle": "Tentang kendaraan",
+    "photos": "Foto kendaraan",
+    "zonePricing": "Harga per Zona",
+    "zonePricingIntro": "Gunakan daftar zona ini sebagai acuan harga untuk airport transfer, hotel transfer, atau sewa mobil dengan tour.",
+    "zone": "Zona {number}",
+    "bookZone": "Pesan Zona {number}",
+    "noZonePrices": "Harga zona untuk armada ini tersedia lewat WhatsApp.",
+    "customRouteTitle": "Butuh rute custom?",
+    "customRouteText": "Misalnya dari Zona 1 ke Zona 2, atau rute yang melewati beberapa zona. Hubungi kami dan harga akan disesuaikan oleh tim kami lewat WhatsApp.",
+    "customRouteCta": "Tanya Rute Custom",
+    "usdNote": "Harga USD bersifat indikatif. Pembayaran dalam IDR mengikuti kurs pada hari pembayaran.",
+    "bookDay": "Booking via WhatsApp",
+    "noDeposit": "Booking tanpa DP",
+    "payAfter": "Bayar setelah trip",
+    "freeCancel": "Pembatalan gratis 24 jam",
+    "waVehicle": "Halo, saya ingin sewa {vehicle}.",
+    "waZone": "Halo, saya ingin memesan {vehicle} untuk Zona {number}.",
+    "waCustom": "Halo, saya ingin menanyakan rute custom dengan {vehicle}."
+  },
+  "servicesPage": {
+    "label": "Our Service",
+    "title": "Layanan lengkap untuk perjalananmu di Bali",
+    "description": "Dari transfer bandara sampai paket honeymoon — pilih layanan yang cocok, sisanya kami yang urus.",
+    "learnMore": "Lihat detail",
+    "empty": "Belum ada layanan yang tersedia.",
+    "ctaTitle": "Belum menemukan yang kamu cari?",
+    "ctaText": "Ceritakan rencanamu, kami bantu susun perjalanannya.",
+    "ctaButton": "Chat WhatsApp"
+  },
+  "serviceDetail": {
+    "home": "Beranda",
+    "breadcrumb": "Our Service",
+    "highlights": "Highlight",
+    "includes": "Termasuk",
+    "excludes": "Tidak Termasuk",
+    "faq": "Pertanyaan Umum",
+    "photos": "Foto",
+    "bookWhatsapp": "Booking via WhatsApp",
+    "askFirst": "Tanya Dulu",
+    "viewFleet": "Lihat Armada & Harga Zona",
+    "noDeposit": "Booking tanpa DP",
+    "payAfter": "Bayar setelah trip",
+    "freeCancel": "Pembatalan gratis 24 jam",
+    "waMessage": "Halo, saya tertarik dengan layanan {service}."
   }
 }

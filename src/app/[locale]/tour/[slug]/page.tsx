@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/accordion";
 import { prisma } from "@/lib/prisma";
 import { mapTour } from "@/lib/mappers";
-import { formatIDR } from "@/lib/utils";
+import { formatPrice } from "@/lib/currency";
+import { resolvePrice } from "@/lib/currency";
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/lib/localization";
 
@@ -28,15 +29,16 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const tour = await prisma.tourPackage.findUnique({ where: { slug } });
   if (!tour) return {};
+  const metaPrice = resolvePrice(tour.price, tour.priceUsd, locale as Locale);
 
   const coverImage = tour.coverImage || "/images/icon/images-404.webp";
   return {
-    title: `${tour.title} — ${formatIDR(tour.price)}`,
+    title: `${tour.title} — ${formatPrice(metaPrice.amount, metaPrice.currency)}`,
     alternates: { canonical: `/tour/${tour.slug}` },
     openGraph: {
       title: tour.title,
@@ -66,7 +68,7 @@ export default async function TourDetailPage({
     offers: {
       "@type": "Offer",
       price: tour.price,
-      priceCurrency: "IDR",
+      priceCurrency: tour.currency,
       availability: "https://schema.org/InStock",
       url: `${siteConfig.url}/tour/${tour.slug}`,
     },
@@ -169,9 +171,10 @@ export default async function TourDetailPage({
 
         <aside className="lg:col-span-1" data-aos="fade-up" data-aos-delay="150">
           <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            {tour.originalPrice && <p className="text-sm text-black/40 line-through">{formatIDR(tour.originalPrice)}</p>}
-            <p className="font-serif text-3xl text-[color:var(--color-amber-deep)]">{formatIDR(tour.price)}</p>
-            <p className="text-xs text-black/50 mb-6">{t("perPerson")}</p>
+            {tour.originalPrice && <p className="text-sm text-black/40 line-through">{formatPrice(tour.originalPrice, tour.currency)}</p>}
+            <p className="font-serif text-3xl text-[color:var(--color-amber-deep)]">{formatPrice(tour.price, tour.currency)}</p>
+            <p className={tour.currency === "USD" ? "text-xs text-black/50 mb-2" : "text-xs text-black/50 mb-6"}>{t("perPerson")}</p>
+            {tour.currency === "USD" && <p className="text-[11px] leading-snug text-black/40 mb-6">{t("usdNote")}</p>}
 
             <Button asChild size="lg" className="w-full mb-3">
               <a

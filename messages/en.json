@@ -12,7 +12,16 @@
     "testimonials": "Testimonials",
     "contact": "Contact",
     "bookNow": "Book Now",
-    "bookViaWhatsapp": "Book via WhatsApp"
+    "bookViaWhatsapp": "Book via WhatsApp",
+    "ourService": "Our Service",
+    "allServices": "All Services",
+    "rentCar": "Rent Car",
+    "airportTransfer": "Airport Transfer",
+    "hotelTransfer": "Hotel Transfer",
+    "groupTrip": "Group Trip",
+    "couplePackage": "Couple Package",
+    "honeymoonPackage": "Honeymoon Package",
+    "activityOrganizer": "Activity Organizer"
   },
   "footer": {
     "description": "CDA Bali Tour offers tour packages, car rental with driver, and activities across Bali with transparent pricing and no hidden fees. Legal, experienced, and trusted by thousands of travelers.",
@@ -108,7 +117,8 @@
     "askFirst": "Ask First",
     "noDeposit": "No deposit required",
     "payAfter": "Pay after the trip",
-    "freeCancel": "Free cancellation within 24 hours"
+    "freeCancel": "Free cancellation within 24 hours",
+    "usdNote": "USD prices are indicative. Payment in IDR is converted at the exchange rate on the day of payment."
   },
   "transportPage": {
     "label": "Bali Transport Service",
@@ -130,7 +140,8 @@
       "Meals",
       "Accommodation"
     ],
-    "noData": "No vehicles available yet."
+    "noData": "No vehicles available yet.",
+    "viewDetail": "View details & zone prices"
   },
   "galleryPage": {
     "label": "Gallery",
@@ -186,5 +197,57 @@
     "errorTitle": "Failed to send",
     "errorDefault": "Something went wrong, please try again.",
     "carouselTitle": "What travelers say about us"
+  },
+  "transportDetail": {
+    "home": "Home",
+    "breadcrumb": "Transport",
+    "capacity": "Capacity",
+    "luggage": "Luggage",
+    "dayRate": "Daily rental",
+    "perHours": "per {hours} hours",
+    "aboutVehicle": "About this vehicle",
+    "photos": "Vehicle photos",
+    "zonePricing": "Zone Pricing",
+    "zonePricingIntro": "Use these zones as a price guide for airport transfers, hotel transfers, or car rental with tour.",
+    "zone": "Zone {number}",
+    "bookZone": "Book Zone {number}",
+    "noZonePrices": "Zone prices for this vehicle are available via WhatsApp.",
+    "customRouteTitle": "Need a custom route?",
+    "customRouteText": "For example from Zone 1 to Zone 2, or a route across several zones. Contact us and our team will adjust the price via WhatsApp.",
+    "customRouteCta": "Ask About a Custom Route",
+    "usdNote": "USD prices are indicative. Payment in IDR is converted at the exchange rate on the day of payment.",
+    "bookDay": "Book via WhatsApp",
+    "noDeposit": "No deposit required",
+    "payAfter": "Pay after the trip",
+    "freeCancel": "Free cancellation within 24 hours",
+    "waVehicle": "Hello, I would like to rent the {vehicle}.",
+    "waZone": "Hello, I would like to book the {vehicle} for Zone {number}.",
+    "waCustom": "Hello, I would like to ask about a custom route with the {vehicle}."
+  },
+  "servicesPage": {
+    "label": "Our Service",
+    "title": "Everything you need for your trip in Bali",
+    "description": "From airport transfers to honeymoon packages — pick what fits, and we'll take care of the rest.",
+    "learnMore": "View details",
+    "empty": "No services available yet.",
+    "ctaTitle": "Can't find what you're looking for?",
+    "ctaText": "Tell us your plan and we'll help put the trip together.",
+    "ctaButton": "Chat on WhatsApp"
+  },
+  "serviceDetail": {
+    "home": "Home",
+    "breadcrumb": "Our Service",
+    "highlights": "Highlights",
+    "includes": "Included",
+    "excludes": "Not Included",
+    "faq": "Frequently Asked Questions",
+    "photos": "Photos",
+    "bookWhatsapp": "Book via WhatsApp",
+    "askFirst": "Ask First",
+    "viewFleet": "View Fleet & Zone Prices",
+    "noDeposit": "No deposit required",
+    "payAfter": "Pay after the trip",
+    "freeCancel": "Free cancellation within 24 hours",
+    "waMessage": "Hello, I'm interested in the {service} service."
   }
 }

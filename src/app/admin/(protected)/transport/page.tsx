@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Pencil } from "lucide-react";
+import { Plus, Pencil, MapPinned } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { formatIDR } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,11 +17,18 @@ export default async function AdminTransportPage() {
           <h1 className="font-serif text-2xl mb-1">Transport Options</h1>
           <p className="text-black/50">{cars.length} armada</p>
         </div>
-        <Button asChild>
-          <Link href="/admin/transport/new">
-            <Plus className="h-4 w-4" /> Tambah Armada
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline">
+            <Link href="/admin/transport/zones">
+              <MapPinned className="h-4 w-4" /> Kelola Zona
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/admin/transport/new">
+              <Plus className="h-4 w-4" /> Tambah Armada
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="rounded-2xl bg-white border border-black/5 overflow-hidden overflow-x-auto">

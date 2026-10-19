@@ -33,31 +33,91 @@ const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
 const prisma = new PrismaClient();
 
 async function main() {
+  let userId: string | null = null;
+  let isExisting = false;
+
   const { data, error } = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
   });
 
-  if (error || !data.user) {
-    console.error("❌ Gagal membuat admin:", error?.message);
+  if (error) {
+    // Jika user sudah terdaftar di Supabase Auth, perbarui password-nya
+    if (
+      error.message?.toLowerCase().includes("already") ||
+      error.status === 422
+    ) {
+      const { data: listData, error: listError } =
+        await supabaseAdmin.auth.admin.listUsers();
+      if (listError) {
+        console.error("❌ Gagal memeriksa daftar user:", listError.message);
+        process.exit(1);
+      }
+
+      const existingUser = listData.users.find(
+        (u) => u.email?.toLowerCase() === email.toLowerCase()
+      );
+
+      if (!existingUser) {
+        console.error("❌ Gagal membuat admin:", error.message);
+        process.exit(1);
+      }
+
+      const updateRes = await supabaseAdmin.auth.admin.updateUserById(
+        existingUser.id,
+        {
+          password,
+          email_confirm: true,
+        }
+      );
+
+      if (updateRes.error) {
+        console.error(
+          "❌ Gagal memperbarui password user:",
+          updateRes.error.message
+        );
+        process.exit(1);
+      }
+
+      userId = existingUser.id;
+      isExisting = true;
+    } else {
+      console.error("❌ Gagal membuat admin:", error?.message);
+      process.exit(1);
+    }
+  } else if (data.user) {
+    userId = data.user.id;
+  }
+
+  if (!userId) {
+    console.error("❌ User ID tidak valid.");
     process.exit(1);
   }
 
-  await prisma.profile.create({
-    data: {
-      id: data.user.id,
-      email: data.user.email!,
+  await prisma.profile.upsert({
+    where: { id: userId },
+    update: {
+      email,
+      name: name?.trim() || undefined,
+      role: "SUPERADMIN",
+    },
+    create: {
+      id: userId,
+      email,
       name: name?.trim() || "Super Admin",
       role: "SUPERADMIN",
     },
   });
 
-  console.log(`\n✅ Superadmin berhasil dibuat: ${data.user.email}`);
-  console.log("Sekarang kamu bisa login di /admin/login dengan email & password ini.");
-  console.log(
-    "Untuk menambah admin lain berikutnya, gunakan halaman /admin/users (bukan script ini lagi).\n"
-  );
+  if (isExisting) {
+    console.log(`\n✅ Akun lama terdeteksi dan berhasil di-reset: ${email}`);
+    console.log(`🔑 Password baru berhasil diterapkan & role disetel ke SUPERADMIN.`);
+  } else {
+    console.log(`\n✅ Superadmin baru berhasil dibuat: ${email}`);
+  }
+
+  console.log("👉 Sekarang kamu bisa login di /admin/login dengan email & password ini.\n");
 }
 
 main().finally(() => prisma.$disconnect());

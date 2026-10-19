@@ -102,6 +102,18 @@ export function TourForm({
         </div>
       </div>
 
+      <div className="grid sm:grid-cols-2 gap-4 -mt-2">
+        <div>
+          <Label htmlFor="priceUsd">Harga (USD)</Label>
+          <Input id="priceUsd" name="priceUsd" type="number" min={0} defaultValue={defaultValues?.priceUsd ?? ""} />
+          <p className="text-xs text-black/40 mt-1">Tampil saat pengunjung memakai bahasa English. Kosongkan → pengunjung EN melihat harga IDR.</p>
+        </div>
+        <div>
+          <Label htmlFor="originalPriceUsd">Harga Coret USD (opsional)</Label>
+          <Input id="originalPriceUsd" name="originalPriceUsd" type="number" min={0} defaultValue={defaultValues?.originalPriceUsd ?? ""} />
+        </div>
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <Label htmlFor="rating">Rating</Label>

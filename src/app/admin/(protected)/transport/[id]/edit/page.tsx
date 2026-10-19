@@ -9,7 +9,10 @@ export default async function EditTransportPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const car = await prisma.transport.findUnique({ where: { id } });
+  const car = await prisma.transport.findUnique({
+    where: { id },
+    include: { zonePrices: { include: { zone: true } } },
+  });
   if (!car) notFound();
 
   const updateWithId = updateTransportAction.bind(null, id);

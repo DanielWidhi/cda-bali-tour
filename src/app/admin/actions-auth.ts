@@ -20,6 +20,13 @@ export async function loginAction(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    console.error("Login error from Supabase:", error.message, error.status);
+    if (error.message?.toLowerCase().includes("invalid api key")) {
+      return {
+        error:
+          "NEXT_PUBLIC_SUPABASE_ANON_KEY di .env tidak valid (Invalid API key). Harap periksa di Supabase Dashboard > Project Settings > API (anon public key).",
+      };
+    }
     return { error: "Email atau password salah." };
   }
 

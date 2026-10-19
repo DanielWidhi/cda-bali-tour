@@ -12,8 +12,12 @@ import {
   type LocalizedItineraryItem,
   type LocalizedFaqItem,
 } from "@/lib/localization";
+import { resolvePrice } from "@/lib/currency";
 
 export function mapTour(t: PrismaTourPackage, locale: Locale): TourPackage {
+  const main = resolvePrice(t.price, t.priceUsd, locale);
+  // Harga coret harus sama mata uangnya dengan harga utama, kalau tidak persen diskon jadi salah
+  const original = main.currency === "USD" ? t.originalPriceUsd : t.originalPrice;
   return {
     slug: t.slug,
     title: t.title,
@@ -21,8 +25,9 @@ export function mapTour(t: PrismaTourPackage, locale: Locale): TourPackage {
     categoryLabel: t.categoryLabel,
     location: t.location,
     duration: formatDuration(t.durationHours, locale),
-    price: t.price,
-    originalPrice: t.originalPrice ?? undefined,
+    price: main.amount,
+    currency: main.currency,
+    originalPrice: original ?? undefined,
     rating: t.rating,
     reviewCount: t.reviewCount,
     coverImage: t.coverImage,
@@ -38,11 +43,13 @@ export function mapTour(t: PrismaTourPackage, locale: Locale): TourPackage {
 }
 
 export function mapTransport(c: PrismaTransport, locale: Locale): TransportOption {
+  const main = resolvePrice(c.pricePerDay, c.pricePerDayUsd, locale);
   return {
     slug: c.slug,
     name: c.name,
     capacity: formatCapacity(c.capacityMin, c.capacityMax, locale),
-    pricePerDay: c.pricePerDay,
+    pricePerDay: main.amount,
+    currency: main.currency,
     hours: c.hours,
     hoursLabel: formatDuration(c.hours, locale),
     image: c.image,

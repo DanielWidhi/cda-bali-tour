@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
+import { seedServicesAndZones } from "./services-data";
 
 const prisma = new PrismaClient();
 
@@ -162,6 +163,9 @@ async function main() {
       await prisma.galleryImage.create({ data: { url, caption: t.title } });
     }
   }
+
+  console.log("Seeding Our Service & zona...");
+  await seedServicesAndZones(prisma);
 
   console.log("Seed selesai ✅");
 }

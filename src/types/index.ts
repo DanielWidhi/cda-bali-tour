@@ -1,3 +1,5 @@
+import type { Currency } from "@/lib/currency";
+
 export type TourCategory =
   | "sunrise"
   | "day-tour"
@@ -13,8 +15,9 @@ export interface TourPackage {
   categoryLabel: string;
   location: string;
   duration: string; // sudah diformat, misal "5 jam" / "5 hours"
-  price: number;
-  originalPrice?: number;
+  price: number; // sudah sesuai mata uang bahasa aktif
+  currency: Currency;
+  originalPrice?: number; // mata uang sama dengan price
   rating: number;
   reviewCount: number;
   coverImage: string;
@@ -32,7 +35,8 @@ export interface TransportOption {
   slug: string;
   name: string;
   capacity: string; // sudah diformat, misal "4-5 orang" / "4-5 people"
-  pricePerDay: number;
+  pricePerDay: number; // sudah sesuai mata uang bahasa aktif
+  currency: Currency;
   hours: number;
   hoursLabel: string; // sudah diformat, misal "10 jam" / "10 hours"
   image: string;

@@ -4,7 +4,7 @@ import { Star, Clock, MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatIDR } from "@/lib/utils";
+import { formatPrice } from "@/lib/currency";
 import { TourPackage } from "@/types";
 
 export function TourCard({ tour }: { tour: TourPackage }) {
@@ -52,9 +52,9 @@ export function TourCard({ tour }: { tour: TourPackage }) {
       <CardFooter className="flex items-center justify-between border-t border-black/5 pt-4">
         <div>
           {tour.originalPrice && (
-            <p className="text-xs text-black/40 line-through">{formatIDR(tour.originalPrice)}</p>
+            <p className="text-xs text-black/40 line-through">{formatPrice(tour.originalPrice, tour.currency)}</p>
           )}
-          <p className="font-serif text-lg text-[color:var(--color-amber-deep)]">{formatIDR(tour.price)}</p>
+          <p className="font-serif text-lg text-[color:var(--color-amber-deep)]">{formatPrice(tour.price, tour.currency)}</p>
         </div>
         <Button asChild size="sm">
           <Link href={`/tour/${tour.slug}`}>Detail</Link>

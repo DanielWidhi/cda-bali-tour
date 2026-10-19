@@ -1,3 +1,5 @@
+export type NavItem = { labelKey: string; href: string; children?: NavItem[] };
+
 export const siteConfig = {
   companyLegalName: "PT. Cahaya Dimbo Abadi",
   brandName: "CDA Bali Tour",
@@ -20,16 +22,31 @@ export const siteConfig = {
     name: "Daniel Widhi",
     url: "https://daniel.gdpartstudio.my.id",
   },
+  // Menu bisa bertingkat (children di dalam children). Label diambil dari messages (namespace "nav").
   nav: [
     {
-      labelKey: "tourPackages",
-      href: "/tour",
+      labelKey: "ourService",
+      href: "/services",
       children: [
-        { labelKey: "allPackages", href: "/tour" },
-        { labelKey: "sunriseTour", href: "/tour?category=sunrise" },
-        { labelKey: "dayTour", href: "/tour?category=day-tour" },
-        { labelKey: "nusaPenida", href: "/tour?category=nusa-penida" },
-        { labelKey: "adventure", href: "/tour?category=adventure" },
+        { labelKey: "allServices", href: "/services" },
+        { labelKey: "rentCar", href: "/services/rent-car" },
+        { labelKey: "airportTransfer", href: "/services/airport-transfer" },
+        { labelKey: "hotelTransfer", href: "/services/hotel-transfer" },
+        {
+          labelKey: "tourPackages",
+          href: "/tour",
+          children: [
+            { labelKey: "allPackages", href: "/tour" },
+            { labelKey: "sunriseTour", href: "/tour?category=sunrise" },
+            { labelKey: "dayTour", href: "/tour?category=day-tour" },
+            { labelKey: "nusaPenida", href: "/tour?category=nusa-penida" },
+            { labelKey: "adventure", href: "/tour?category=adventure" },
+          ],
+        },
+        { labelKey: "groupTrip", href: "/transport" },
+        { labelKey: "couplePackage", href: "/services/couple-package" },
+        { labelKey: "honeymoonPackage", href: "/services/honeymoon-package" },
+        { labelKey: "activityOrganizer", href: "/services/activity-organizer" },
       ],
     },
     { labelKey: "transport", href: "/transport" },
@@ -37,7 +54,7 @@ export const siteConfig = {
     { labelKey: "aboutUs", href: "/tentang-kami" },
     { labelKey: "testimonials", href: "/testimoni" },
     { labelKey: "contact", href: "/kontak" },
-  ],
+  ] as NavItem[],
 };
 
 export type SiteConfig = typeof siteConfig;

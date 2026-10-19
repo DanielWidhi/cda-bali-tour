@@ -16,8 +16,10 @@ model TourPackage {
   categoryLabel String
   location      String // sengaja 1 bahasa
   durationHours Int // angka murni — satuan "jam"/"hours" ditentukan otomatis oleh locale
-  price         Int
-  originalPrice Int?
+  price         Int // IDR
+  originalPrice Int? // IDR
+  priceUsd         Int? // USD — tampil saat bahasa EN; kosong => fallback ke harga IDR
+  originalPriceUsd Int? // USD (harga coret)
   rating        Float    @default(5)
   reviewCount   Int      @default(0)
   coverImage    String
@@ -45,17 +47,22 @@ model TourPackage {
 }
 
 model Transport {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  name         String // sengaja 1 bahasa
-  capacityMin  Int
-  capacityMax  Int
-  pricePerDay  Int
-  hours        Int
-  image        String
-  published    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String // sengaja 1 bahasa
+  capacityMin    Int
+  capacityMax    Int
+  pricePerDay    Int // IDR
+  pricePerDayUsd Int? // USD — kosong => fallback ke IDR
+  hours          Int
+  image          String
+  gallery        String[] @default([]) // foto tambahan: eksterior, interior, bagasi
+  description    Json? // bilingual { id, en } — ditampilkan di halaman detail
+  luggage        Json? // bilingual { id, en } — info bagasi, misal "3 koper besar"
+  published      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  zonePrices     TransportZonePrice[]
 
   @@map("transport_options")
 }
@@ -116,4 +123,57 @@ model Inquiry {
   createdAt DateTime      @default(now())
 
   @@map("inquiries")
+}
+
+// ===== Zona transport (tetap 4 zona; deskripsi area diisi admin, bilingual) =====
+model TransportZone {
+  id          String               @id @default(cuid())
+  number      Int                  @unique // 1..4 — nama tampil "Zona N" / "Zone N" otomatis mengikuti bahasa
+  description Json // bilingual { id, en } — mencakup daerah mana saja
+  image       String? // foto/peta zona (opsional, diunggah admin)
+  prices      TransportZonePrice[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@map("transport_zones")
+}
+
+// Harga satu kendaraan di satu zona (IDR & USD diinput terpisah oleh admin)
+model TransportZonePrice {
+  id          String        @id @default(cuid())
+  transportId String
+  zoneId      String
+  priceIdr    Int
+  priceUsd    Int?
+  transport   Transport     @relation(fields: [transportId], references: [id], onDelete: Cascade)
+  zone        TransportZone @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+
+  @@unique([transportId, zoneId])
+  @@map("transport_zone_prices")
+}
+
+// ===== Our Service (Rent Car, Airport Transfer, Hotel Transfer, Couple, Honeymoon, dst) =====
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            Json // bilingual { id, en }
+  shortDescription Json // bilingual
+  description      Json // bilingual
+  highlights       Json // [{ id, en }]
+  includes         Json // [{ id, en }]
+  excludes         Json // [{ id, en }]
+  faq              Json // [{ question: {id,en}, answer: {id,en} }]
+  coverImage       String?
+  gallery          String[] @default([])
+  // Kalau diisi, kartu layanan mengarah ke sini (mis. "/tour?category=day-tour")
+  // alih-alih ke halaman detail layanan. Dipakai untuk layanan yang sudah punya halaman sendiri.
+  linkHref         String?
+  // Tampilkan tombol "Lihat armada & harga zona" (menuju /transport) di halaman detail
+  showTransportCta Boolean  @default(false)
+  sortOrder        Int      @default(0)
+  published        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("services")
 }
