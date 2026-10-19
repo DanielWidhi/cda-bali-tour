@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { resolveText, type Locale, type LocalizedText } from "@/lib/localization";
 import { siteConfig } from "@/config/site";
+import { ServiceBanner } from "@/components/sections/service-banner";
 
 export const revalidate = 60;
 
@@ -27,11 +28,19 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
 
   return (
     <div className="mx-auto max-w-7xl px-5 lg:px-8 py-16">
-      <div className="max-w-2xl mb-12" data-aos="fade-up">
+      <div className="max-w-2xl mb-10" data-aos="fade-up">
         <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-amber-deep)]">{t("label")}</span>
         <h1 className="font-serif text-3xl sm:text-4xl mt-3">{t("title")}</h1>
         <p className="text-black/60 mt-3 leading-relaxed">{t("description")}</p>
       </div>
+
+      <ServiceBanner
+        badge={t("bannerBadge")}
+        alt={t("bannerAlt")}
+        hint={t("bannerHint")}
+        closeLabel={t("bannerClose")}
+        whatsappLabel={t("bannerWa")}
+      />
 
       {services.length === 0 ? (
         <p className="text-black/50">{t("empty")}</p>
