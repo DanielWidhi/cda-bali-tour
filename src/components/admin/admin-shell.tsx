@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, Bell, ShieldCheck, UserCog } from "lucide-react";
+import { Menu, X, Bell } from "lucide-react";
 import { AdminSidebarContent } from "./admin-sidebar-content";
 import { AdminFooter } from "./admin-footer";
+import { AdminHeaderProfile } from "./admin-header-profile";
 
 type Profile = { name: string; role: "SUPERADMIN" | "ADMIN" } | null;
 
@@ -48,16 +49,18 @@ export function AdminShell({
       )}
 
       <div className="flex-1 min-w-0 flex flex-col">
-        {/* Header — profil (nama + role, tanpa foto) + lonceng notifikasi inquiry */}
-<header className="flex items-center justify-between gap-4 border-b border-black/5 bg-white px-5 lg:px-10 py-3 sticky top-0 z-10 bg-white/95 backdrop-blur-sm" style={{ backdropFilter: "blur(8px)" }}>
-            <button
-              className="md:hidden p-2 -ml-2"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Buka  "
-            >
-              <Menu  />
-            </button>
-            <div className="flex-1"/>
+        {/* Header — profil (nama + role dengan efek typewriter) + lonceng notifikasi inquiry */}
+        <header
+          className="flex items-center justify-between gap-4 border-b border-black/5 bg-white/95 px-5 lg:px-10 py-3 sticky top-0 z-10 backdrop-blur-sm"
+          style={{ backdropFilter: "blur(8px)" }}
+        >
+          <button
+            className="md:hidden p-2 -ml-2 text-black/70 hover:text-black"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Buka menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
 
           <div className="flex-1" />
 
@@ -76,17 +79,7 @@ export function AdminShell({
 
           {profile && (
             <div className="flex items-center gap-2 pl-3 border-l border-black/10">
-              <div className="text-right leading-tight">
-                <p className="text-sm font-medium">{profile.name}</p>
-                <p className="flex items-center justify-end gap-1 text-xs text-black/50">
-                  {profile.role === "SUPERADMIN" ? (
-                    <ShieldCheck className="h-3 w-3" />
-                  ) : (
-                    <UserCog className="h-3 w-3" />
-                  )}
-                  {profile.role === "SUPERADMIN" ? "Super Admin" : "Admin"}
-                </p>
-              </div>
+              <AdminHeaderProfile name={profile.name} role={profile.role} loop={true} />
             </div>
           )}
         </header>
