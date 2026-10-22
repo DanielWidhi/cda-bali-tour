@@ -211,6 +211,7 @@
     "zonePricingIntro": "Gunakan daftar zona ini sebagai acuan harga untuk airport transfer, hotel transfer, atau sewa mobil dengan tour.",
     "zone": "Zona {number}",
     "bookZone": "Pesan Zona {number}",
+    "viewMap": "Lihat Peta",
     "noZonePrices": "Harga zona untuk armada ini tersedia lewat WhatsApp.",
     "customRouteTitle": "Butuh rute custom?",
     "customRouteText": "Misalnya dari Zona 1 ke Zona 2, atau rute yang melewati beberapa zona. Hubungi kami dan harga akan disesuaikan oleh tim kami lewat WhatsApp.",

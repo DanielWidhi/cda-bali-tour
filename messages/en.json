@@ -211,6 +211,7 @@
     "zonePricingIntro": "Use these zones as a price guide for airport transfers, hotel transfers, or car rental with tour.",
     "zone": "Zone {number}",
     "bookZone": "Book Zone {number}",
+    "viewMap": "View Map",
     "noZonePrices": "Zone prices for this vehicle are available via WhatsApp.",
     "customRouteTitle": "Need a custom route?",
     "customRouteText": "For example from Zone 1 to Zone 2, or a route across several zones. Contact us and our team will adjust the price via WhatsApp.",

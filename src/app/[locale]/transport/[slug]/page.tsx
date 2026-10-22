@@ -6,6 +6,7 @@ import { Users, Luggage, Clock3, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { GalleryLightbox } from "@/components/sections/gallery-lightbox";
+import { ZonePricingCards } from "@/components/sections/zone-pricing-cards";
 import { prisma } from "@/lib/prisma";
 import { mapTransport } from "@/lib/mappers";
 import { formatPrice, resolvePrice } from "@/lib/currency";
@@ -129,37 +130,19 @@ export default async function TransportDetailPage({
             {zones.length === 0 ? (
               <p className="text-sm text-black/50">{t("noZonePrices")}</p>
             ) : (
-              <div className="grid sm:grid-cols-2 gap-4">
-                {zones.map((zone) => (
-                  <div key={zone.number} className="rounded-2xl border border-black/10 bg-white overflow-hidden flex flex-col">
-                    {zone.image && (
-                      <div className="relative aspect-[16/9]">
-                        <Image src={zone.image} alt={t("zone", { number: zone.number })} fill sizes="(max-width: 640px) 100vw, 33vw" quality={70} className="object-cover" />
-                      </div>
-                    )}
-                    <div className="p-5 flex flex-col gap-2 flex-1">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <h3 className="font-serif text-lg">{t("zone", { number: zone.number })}</h3>
-                        <p className="font-serif text-xl text-[color:var(--color-amber-deep)]">
-                          {formatPrice(zone.price.amount, zone.price.currency)}
-                        </p>
-                      </div>
-                      {zone.description && (
-                        <p className="text-sm text-black/60 leading-relaxed whitespace-pre-line flex-1">{zone.description}</p>
-                      )}
-                      <Button asChild size="sm" variant="outline" className="mt-2 w-full">
-                        <a
-                          href={waLink(t("waZone", { vehicle: car.name, number: zone.number }))}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {t("bookZone", { number: zone.number })}
-                        </a>
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ZonePricingCards
+                zones={zones.map((zone) => ({
+                  number: zone.number,
+                  title: t("zone", { number: zone.number }),
+                  priceFormatted: formatPrice(zone.price.amount, zone.price.currency),
+                  description: zone.description,
+                  image: zone.image,
+                  waLink: waLink(t("waZone", { vehicle: car.name, number: zone.number })),
+                  bookLabel: t("bookZone", { number: zone.number }),
+                }))}
+                vehicleName={car.name}
+                zoomLabel={t("viewMap")}
+              />
             )}
 
             {showUsdNote && <p className="text-[11px] text-black/40 mt-3">{t("usdNote")}</p>}

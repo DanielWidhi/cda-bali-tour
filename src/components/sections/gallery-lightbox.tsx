@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -9,7 +10,12 @@ export function GalleryLightbox({
 }: {
   images: { url: string; caption: string | null }[];
 }) {
+  const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const close = useCallback(() => setActiveIndex(null), []);
   const prev = useCallback(
@@ -60,61 +66,64 @@ export function GalleryLightbox({
         ))}
       </div>
 
-      {activeIndex !== null && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 sm:p-10"
-          onClick={close}
-          role="dialog"
-          aria-modal="true"
-        >
-          <button
-            type="button"
+      {mounted &&
+        activeIndex !== null &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 sm:p-10"
             onClick={close}
-            aria-label="Tutup"
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            role="dialog"
+            aria-modal="true"
           >
-            <X className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              prev();
-            }}
-            aria-label="Sebelumnya"
-            className="absolute left-2 sm:left-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <div className="relative w-full max-w-4xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
-            <Image
-              src={images[activeIndex].url}
-              alt={images[activeIndex].caption ?? "Foto galeri CDA Bali Tour"}
-              fill
-              sizes="90vw"
-              quality={80}
-              className="object-contain"
-              priority
-            />
-          </div>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              next();
-            }}
-            aria-label="Selanjutnya"
-            className="absolute right-2 sm:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-          {images[activeIndex].caption && (
-            <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm">
-              {images[activeIndex].caption}
-            </p>
-          )}
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={close}
+              aria-label="Tutup"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                prev();
+              }}
+              aria-label="Sebelumnya"
+              className="absolute left-2 sm:left-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div className="relative w-full max-w-4xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
+              <Image
+                src={images[activeIndex].url}
+                alt={images[activeIndex].caption ?? "Foto galeri CDA Bali Tour"}
+                fill
+                sizes="90vw"
+                quality={80}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                next();
+              }}
+              aria-label="Selanjutnya"
+              className="absolute right-2 sm:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+            {images[activeIndex].caption && (
+              <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm">
+                {images[activeIndex].caption}
+              </p>
+            )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
