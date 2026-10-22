@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { Check, X } from "lucide-react";
+import { Check, X, MessageSquare } from "lucide-react";
 import { Link, redirect } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GalleryLightbox } from "@/components/sections/gallery-lightbox";
+import { ServiceInquiryForm } from "@/components/sections/service-inquiry-form";
 import { prisma } from "@/lib/prisma";
 import {
   resolveText,
@@ -96,6 +97,15 @@ export default async function ServiceDetailPage({
           {description && (
             <section className="mt-8">
               <p className="text-black/70 leading-relaxed whitespace-pre-line">{description}</p>
+              {service.slug === "airport-transfer" && (
+                <div className="lg:hidden mt-5">
+                  <Button asChild size="default" className="bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full w-full sm:w-auto shadow-sm">
+                    <a href="#inquiry-form" className="flex items-center justify-center gap-2">
+                      <MessageSquare className="h-4 w-4" /> {t("inquiryFormTitle")}
+                    </a>
+                  </Button>
+                </div>
+              )}
             </section>
           )}
 
@@ -169,27 +179,35 @@ export default async function ServiceDetailPage({
         </div>
 
         <aside className="lg:col-span-1" data-aos="fade-up" data-aos-delay="150">
-          <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            <Button asChild size="lg" className="w-full mb-3">
-              <a href={waLink} target="_blank" rel="noopener noreferrer">
-                {t("bookWhatsapp")}
-              </a>
-            </Button>
-            {service.showTransportCta && (
-              <Button asChild size="lg" variant="outline" className="w-full mb-3">
-                <Link href="/transport">{t("viewFleet")}</Link>
+          {service.slug === "airport-transfer" ? (
+            <ServiceInquiryForm
+              serviceTitle={title}
+              serviceSlug={service.slug}
+              showTransportCta={service.showTransportCta}
+            />
+          ) : (
+            <div className="sticky top-24 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+              <Button asChild size="lg" className="w-full mb-3">
+                <a href={waLink} target="_blank" rel="noopener noreferrer">
+                  {t("bookWhatsapp")}
+                </a>
               </Button>
-            )}
-            <Button asChild size="lg" variant="outline" className="w-full">
-              <Link href="/kontak">{t("askFirst")}</Link>
-            </Button>
+              {service.showTransportCta && (
+                <Button asChild size="lg" variant="outline" className="w-full mb-3">
+                  <Link href="/transport">{t("viewFleet")}</Link>
+                </Button>
+              )}
+              <Button asChild size="lg" variant="outline" className="w-full">
+                <Link href="/kontak">{t("askFirst")}</Link>
+              </Button>
 
-            <div className="mt-6 pt-6 border-t border-black/10 text-xs text-black/50 flex flex-col gap-1.5">
-              <span>✓ {t("noDeposit")}</span>
-              <span>✓ {t("payAfter")}</span>
-              <span>✓ {t("freeCancel")}</span>
+              <div className="mt-6 pt-6 border-t border-black/10 text-xs text-black/50 flex flex-col gap-1.5">
+                <span>✓ {t("noDeposit")}</span>
+                <span>✓ {t("payAfter")}</span>
+                <span>✓ {t("freeCancel")}</span>
+              </div>
             </div>
-          </div>
+          )}
         </aside>
       </div>
     </div>
